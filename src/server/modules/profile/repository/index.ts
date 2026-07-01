@@ -148,7 +148,7 @@ export class ProfileRepository {
     return UserPreferencesModel.findOneAndUpdate(
       { userId: new mongoose.Types.ObjectId(userId) },
       { $set: updateFields },
-      { new: true, runValidators: true, upsert: true },
+      { returnDocument: 'after', runValidators: true, upsert: true },
     ).exec();
   }
 
