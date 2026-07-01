@@ -40,8 +40,8 @@
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",
     "bullmq": "^5.79.1",
-    "clsx": "^2.1.1",
     "cloudinary": "^2.10.0",
+    "clsx": "^2.1.1",
     "compression": "^1.8.0",
     "connect-redis": "^9.0.0",
     "cookie-parser": "^1.4.7",
@@ -130,8 +130,16 @@
     "vite": "^8.1.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
-    "*.{json,css,md}": ["prettier --write"]
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   },
-  "engines": { "node": ">=20.0.0", "npm": ">=10.0.0" }
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
 }

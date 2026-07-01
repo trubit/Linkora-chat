@@ -2,7 +2,7 @@
   "extends": "./tsconfig.server.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "moduleResolution": "node16",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "types": ["jest", "node", "multer"]
