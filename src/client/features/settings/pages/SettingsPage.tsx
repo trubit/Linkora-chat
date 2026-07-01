@@ -82,6 +82,7 @@ function ChangePasswordSection() {
     );
   };
 
+  const handleFormSubmit = handleSubmit(onSubmit);
   const isLoading = isSubmitting || changePassword.isPending;
 
   return (
@@ -103,7 +104,7 @@ function ChangePasswordSection() {
       )}
       <Box
         component="form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleFormSubmit}
         noValidate
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 420 }}
       >

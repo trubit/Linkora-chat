@@ -41,7 +41,7 @@ jest.mock('../../../logger/index.js', () => ({
 
 import { SessionModel } from '../../../database/models/Session.js';
 import { SessionsService } from '../service/index.js';
-import { AppError } from '../../../middlewares/errorHandler.js';
+
 
 // ---------------------------------------------------------------------------
 // Helpers

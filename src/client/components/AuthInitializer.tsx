@@ -37,6 +37,7 @@ export function AuthInitializer({ children }: Props) {
         logout();
         setInitialized(true);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // intentionally empty — run once on mount only
 
   if (!isInitialized) {

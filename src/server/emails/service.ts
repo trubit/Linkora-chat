@@ -1,4 +1,5 @@
 import nodemailer, { type Transporter, type SendMailOptions } from 'nodemailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
 import { getEnv } from '../config/env.js';
 import { logger } from '../logger/index.js';
 
@@ -33,7 +34,7 @@ function createTransporter(): Transporter {
   return nodemailer.createTransport({
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
-    secure: env.SMTP_SECURE, // true = TLS on 465, false = STARTTLS on 587
+    secure: env.SMTP_SECURE,
     auth: {
       user: env.SMTP_USER,
       pass: env.SMTP_PASS,
@@ -41,12 +42,12 @@ function createTransporter(): Transporter {
     pool: true,
     maxConnections: 5,
     maxMessages: 100,
-    rateLimit: 10, // messages per second
-    family: 4, // force IPv4 — avoids ENETUNREACH on hosts that don't route IPv6
+    rateLimit: 10,
+    family: 4,
     tls: {
       rejectUnauthorized: env.NODE_ENV === 'production',
     },
-  });
+  } as SMTPTransport.Options);
 }
 
 // --------------------------------------------------------------------------

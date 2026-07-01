@@ -5,8 +5,6 @@ import bcrypt from 'bcryptjs';
 // Constants
 // ---------------------------------------------------------------------------
 
-const MAX_LOGIN_ATTEMPTS = 5;
-const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
 // ---------------------------------------------------------------------------
 // Interface
@@ -46,7 +44,7 @@ const userSchema = new Schema<IUser>(
       trim: true,
       minlength: 3,
       maxlength: 30,
-      match: [/^[a-zA-Z0-9_.\-]+$/, 'Username may only contain letters, digits, _, ., and -'],
+      match: [/^[a-zA-Z0-9_.-]+$/, 'Username may only contain letters, digits, _, ., and -'],
     },
     email: {
       type: String,
@@ -90,9 +88,9 @@ const userSchema = new Schema<IUser>(
     timestamps: true,
     // Exclude passwordHash and twoFactorSecret from toJSON/toObject by default
     toJSON: {
-      transform(_doc, ret) {
-        delete ret.passwordHash;
-        delete ret.twoFactorSecret;
+      transform(_doc, ret: Record<string, unknown>) {
+        delete ret['passwordHash'];
+        delete ret['twoFactorSecret'];
         return ret;
       },
     },

@@ -57,6 +57,7 @@ jest.mock('../redis/connection', () => ({
 jest.mock('../routes/index', () => {
   // Provide a minimal Express router stub so path-to-regexp wildcard issues
   // in individual route modules don't block app.ts from loading.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { Router } = require('express');
   const router = Router();
   router.get('/stub', (_req: unknown, res: { json: (v: unknown) => void }) => {

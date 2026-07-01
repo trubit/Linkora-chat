@@ -20,11 +20,12 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-          query: ['@tanstack/react-query'],
-          socket: ['socket.io-client'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) return 'vendor';
+          if (id.includes('@mui') || id.includes('@emotion')) return 'ui';
+          if (id.includes('@tanstack/react-query')) return 'query';
+          if (id.includes('socket.io-client')) return 'socket';
         },
       },
     },

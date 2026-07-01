@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 const E164_REGEX = /^\+[1-9]\d{6,14}$/;
 const OTP_REGEX = /^\d{6}$/;
-const USERNAME_REGEX = /^[a-zA-Z0-9_.\-]+$/;
+const USERNAME_REGEX = /^[a-zA-Z0-9_.-]+$/;
 
 /**
  * Password must be 8–128 characters and contain at least one uppercase letter,

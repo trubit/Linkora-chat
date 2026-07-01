@@ -53,7 +53,7 @@ const envSchema = z.object({
     .default(false),
   LOG_DIR: z.string().default('./logs'),
 
-  COOKIE_SECURE: z.string().transform((v) => v === 'true').default('false'),
+  COOKIE_SECURE: z.string().transform((v) => v === 'true').default(false),
   COOKIE_SAME_SITE: z.enum(['strict', 'lax', 'none']).default('strict'),
   AUTH_RATE_LIMIT_MAX: z.coerce.number().int().default(10),
   OTP_EXPIRY_MINUTES: z.coerce.number().int().default(10),

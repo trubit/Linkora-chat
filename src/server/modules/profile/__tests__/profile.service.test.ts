@@ -108,7 +108,7 @@ function makeService() {
 describe('ProfileService.getProfile', () => {
   it('returns full profile to the owner', async () => {
     const userId = new mongoose.Types.ObjectId();
-    const profile = await createTestProfile({
+    await createTestProfile({
       userId,
       displayName: 'Owner User',
       bio: 'My bio',

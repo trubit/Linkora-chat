@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 import { securityService } from '../service/index.js';
-import type { ApiResponse, PaginationMeta } from '../../../../shared/types/api.js';
+import type { ApiResponse } from '../../../../shared/types/api.js';
 import type {
   AuditLogResponse,
   SecurityLogResponse,

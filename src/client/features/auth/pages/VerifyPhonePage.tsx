@@ -101,6 +101,9 @@ export default function VerifyPhonePage() {
     verifyPhoneMutation.mutate({ phone: sentToPhone, otp: data.otp });
   };
 
+  const handlePhoneSubmit = phoneForm.handleSubmit(onSendOtp);
+  const handleOtpSubmit = otpForm.handleSubmit(onVerify);
+
   const handleResend = () => {
     if (!sentToPhone) return;
     sendOtpMutation.mutate(
@@ -144,7 +147,7 @@ export default function VerifyPhonePage() {
         {!sentToPhone && (
           <Box
             component="form"
-            onSubmit={phoneForm.handleSubmit(onSendOtp)}
+            onSubmit={handlePhoneSubmit}
             noValidate
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
@@ -195,7 +198,7 @@ export default function VerifyPhonePage() {
         {sentToPhone && (
           <Box
             component="form"
-            onSubmit={otpForm.handleSubmit(onVerify)}
+            onSubmit={handleOtpSubmit}
             noValidate
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
