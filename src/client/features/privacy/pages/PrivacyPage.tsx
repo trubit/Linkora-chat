@@ -53,7 +53,7 @@ const REQUEST_FIELDS: SelectField<RequestVisibility>[] = [
 
 function SettingRow<T extends string>({
   field, control, options, isLoading,
-}: { field: SelectField<T>; control: any; options: { value: T; label: string }[]; isLoading: boolean }) {
+}: { field: SelectField<T>; control: ReturnType<typeof useForm<UpdatePrivacyDto>>['control']; options: { value: T; label: string }[]; isLoading: boolean }) {
   return (
     <Box sx={{ display: 'flex', alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', flexDirection: { xs: 'column', sm: 'row' }, gap: 1 }}>
       <Box>
@@ -61,7 +61,7 @@ function SettingRow<T extends string>({
         <Typography variant="caption" color="text.secondary">{field.description}</Typography>
       </Box>
       <Controller
-        name={field.key as any}
+        name={field.key}
         control={control}
         render={({ field: f }) =>
           isLoading ? (

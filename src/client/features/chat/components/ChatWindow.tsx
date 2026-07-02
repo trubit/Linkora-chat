@@ -11,7 +11,6 @@ import {
   Avatar,
   IconButton,
   Skeleton,
-  alpha,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -90,6 +89,7 @@ export default function ChatWindow({
       sendRead(conversationId, lastMsg._id);
       resetUnread(conversationId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversationId, messages.length, sendRead, resetUnread]);
 
   // Intersection observer to load older messages
@@ -285,7 +285,7 @@ export default function ChatWindow({
                 )}
                 <Skeleton
                   variant="rounded"
-                  width={`${40 + Math.random() * 30}%`}
+                  width={`${40 + (i * 13 + 7) % 30}%`}
                   height={40}
                   sx={{ borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.06)' }}
                 />

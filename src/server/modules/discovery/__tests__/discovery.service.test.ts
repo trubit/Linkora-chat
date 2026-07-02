@@ -226,7 +226,7 @@ describe('DiscoveryService.getRecentSearches', () => {
       displayName: 'Grace',
       searchedAt: new Date().toISOString(),
     });
-    lrange: redisClient.lrange.mockResolvedValueOnce([entry]);
+    redisClient.lrange.mockResolvedValueOnce([entry]);
 
     const userId = new mongoose.Types.ObjectId().toString();
     const service = makeService();

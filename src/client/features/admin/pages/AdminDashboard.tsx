@@ -283,8 +283,8 @@ export default function AdminDashboard() {
                   />
                   <Tooltip
                     contentStyle={CHART_TOOLTIP_STYLE}
-                    formatter={(v: number) => [v, 'New users']}
-                    labelFormatter={(l: string) => `Date: ${l}`}
+                    formatter={(v) => [v as number, 'New users'] as [number, string]}
+                    labelFormatter={(l) => `Date: ${String(l)}`}
                     cursor={{ stroke: 'rgba(155,109,255,0.2)' }}
                   />
                   <Line
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
                     </Pie>
                     <Tooltip
                       contentStyle={CHART_TOOLTIP_STYLE}
-                      formatter={(v: number) => [v.toLocaleString(), '']}
+                      formatter={(v) => [(v as number).toLocaleString(), ''] as [string, string]}
                     />
                   </PieChart>
                 </ResponsiveContainer>

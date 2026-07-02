@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import {
   MessageModel,
   type IMessage,
+  type MsgType,
 } from '../../../database/models/Message.js';
 import type { MessageSearchQuery } from '../types/index.js';
 
@@ -13,7 +14,7 @@ export class MessageRepository {
   async create(data: {
     conversationId: string;
     senderId: string;
-    type: string;
+    type: MsgType;
     content: string;
     replyTo?: string;
     mentions?: string[];
