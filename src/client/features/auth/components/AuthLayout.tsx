@@ -1,67 +1,9 @@
 import type { ReactNode } from 'react';
 import { Box, Typography } from '@mui/material';
 import ForumIcon from '@mui/icons-material/Forum';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-
-// ---------------------------------------------------------------------------
-// Decorative chat bubble — used in the left hero panel
-// ---------------------------------------------------------------------------
-
-interface BubbleProps {
-  text: string;
-  sent?: boolean;
-  delay?: number;
-}
-
-function Bubble({ text, sent = false, delay = 0 }: BubbleProps) {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: sent ? 'flex-end' : 'flex-start',
-        mb: 1.5,
-        '@keyframes slideUp': {
-          from: { opacity: 0, transform: 'translateY(14px)' },
-          to:   { opacity: 1, transform: 'translateY(0)' },
-        },
-        animation: `slideUp 0.55s cubic-bezier(.22,.68,0,1.2) ${delay}s both`,
-      }}
-    >
-      <Box
-        sx={{
-          maxWidth: '78%',
-          px: 2,
-          py: 1,
-          borderRadius: sent ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-          bgcolor: sent ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.1)',
-          backdropFilter: 'blur(12px)',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.14)',
-        }}
-      >
-        <Typography
-          variant="body2"
-          sx={{
-            color: sent ? '#0a1929' : 'rgba(255,255,255,0.92)',
-            fontWeight: 500,
-            fontSize: '0.8125rem',
-            lineHeight: 1.5,
-          }}
-        >
-          {text}
-        </Typography>
-        {sent && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.25 }}>
-            <DoneAllIcon sx={{ fontSize: 13, color: '#25D366' }} />
-          </Box>
-        )}
-      </Box>
-    </Box>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// AuthLayout
-// ---------------------------------------------------------------------------
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import BoltIcon from '@mui/icons-material/Bolt';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -69,7 +11,11 @@ interface AuthLayoutProps {
   subtitle?: string;
 }
 
-const FEATURES = ['End-to-end encrypted', 'Real-time sync', 'Cross-platform'];
+const FEATURES = [
+  { Icon: ShieldOutlinedIcon, text: 'End-to-end encrypted by default' },
+  { Icon: BoltIcon,           text: 'Real-time sync across all your devices' },
+  { Icon: GroupsIcon,         text: 'Groups, channels & direct messages' },
+];
 
 export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
   return (
@@ -85,33 +31,30 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           position: 'sticky',
           top: 0,
           flexShrink: 0,
-          background: 'linear-gradient(155deg, #07101C 0%, #0D1B29 30%, #0A2020 65%, #071A16 100%)',
+          background: 'linear-gradient(155deg, #07101C 0%, #0B1E30 40%, #092019 75%, #071A16 100%)',
           overflow: 'hidden',
         }}
       >
-        {/* Ambient glow layers */}
+        {/* Ambient glow */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
             background: `
-              radial-gradient(ellipse at 20% 10%,  rgba(16,196,160,0.22) 0%, transparent 55%),
-              radial-gradient(ellipse at 80% 90%,  rgba(232,120,48,0.12) 0%, transparent 55%),
-              radial-gradient(ellipse at 55% 50%,  rgba(16,196,160,0.07) 0%, transparent 65%)
+              radial-gradient(ellipse at 20% 18%, rgba(16,196,160,0.22) 0%, transparent 52%),
+              radial-gradient(ellipse at 82% 85%, rgba(232,120,48,0.10) 0%, transparent 50%),
+              radial-gradient(ellipse at 58% 48%, rgba(16,196,160,0.06) 0%, transparent 62%)
             `,
           }}
         />
 
-        {/* Grid lines */}
+        {/* Dot grid */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
-            `,
-            backgroundSize: '48px 48px',
+            backgroundImage: 'radial-gradient(rgba(16,196,160,0.16) 1px, transparent 1px)',
+            backgroundSize: '28px 28px',
           }}
         />
 
@@ -129,85 +72,154 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           }}
         >
           {/* Brand mark */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 7 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 9 }}>
             <Box
               sx={{
-                width: 44,
-                height: 44,
-                borderRadius: 2,
+                width: 42,
+                height: 42,
+                borderRadius: '11px',
                 background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 0 0 10px rgba(16,196,160,0.14), 0 4px 20px rgba(16,196,160,0.35)',
+                boxShadow: '0 0 0 8px rgba(16,196,160,0.12), 0 4px 20px rgba(16,196,160,0.35)',
               }}
             >
-              <ForumIcon sx={{ color: '#fff', fontSize: 22 }} />
+              <ForumIcon sx={{ color: '#fff', fontSize: 20 }} />
             </Box>
             <Typography
-              variant="h6"
-              sx={{ color: '#fff', fontWeight: 800, letterSpacing: '-0.5px' }}
+              sx={{
+                color: '#fff',
+                fontWeight: 800,
+                fontSize: '1.0625rem',
+                letterSpacing: '-0.5px',
+              }}
             >
               Truson-Chat
             </Typography>
           </Box>
 
+          {/* ── Signal rings illustration ─── */}
+          <Box sx={{ position: 'relative', width: 170, height: 170, mb: 5 }}>
+            {/* Expanding ping rings */}
+            {[0, 1, 2].map((i) => (
+              <Box
+                key={`ping-${i}`}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: `${56 + i * 46}px`,
+                  height: `${56 + i * 46}px`,
+                  borderRadius: '50%',
+                  border: `1.5px solid rgba(16,196,160,${0.5 - i * 0.12})`,
+                  '@keyframes expand-out': {
+                    '0%': {
+                      transform: 'translate(-50%, -50%) scale(0.8)',
+                      opacity: 0.8,
+                    },
+                    '100%': {
+                      transform: 'translate(-50%, -50%) scale(1.5)',
+                      opacity: 0,
+                    },
+                  },
+                  animation: `expand-out 3s cubic-bezier(0.35, 0, 0.65, 1) ${i * 1}s infinite`,
+                }}
+              />
+            ))}
+            {/* Static rings */}
+            {[48, 88, 130].map((size, i) => (
+              <Box
+                key={`ring-${i}`}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: size,
+                  height: size,
+                  borderRadius: '50%',
+                  border: `1px solid rgba(16,196,160,${0.22 - i * 0.05})`,
+                }}
+              />
+            ))}
+            {/* Central node */}
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 24,
+                height: 24,
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #10C4A0, #0D9E80)',
+                boxShadow: '0 0 0 5px rgba(16,196,160,0.2), 0 0 28px rgba(16,196,160,0.55)',
+                zIndex: 2,
+              }}
+            />
+          </Box>
+
           {/* Headline */}
           <Typography
+            component="h1"
             sx={{
               color: '#fff',
               fontWeight: 800,
-              fontSize: { md: '1.85rem', lg: '2.25rem' },
+              fontSize: { md: '1.8rem', lg: '2.15rem' },
               lineHeight: 1.15,
-              letterSpacing: '-0.5px',
-              mb: 2,
+              letterSpacing: '-0.6px',
+              mb: 1.75,
             }}
           >
-            Stay close with
+            Built for the way
             <br />
-            everyone you{' '}
+            people actually{' '}
             <Box component="span" sx={{ color: '#10C4A0' }}>
-              love
+              connect.
             </Box>
           </Typography>
 
           <Typography
             variant="body2"
             sx={{
-              color: 'rgba(255,255,255,0.45)',
+              color: 'rgba(255,255,255,0.42)',
               lineHeight: 1.85,
               mb: 6,
-              maxWidth: 300,
+              maxWidth: 310,
             }}
           >
-            Real-time messaging, group chats, voice notes, and more — all secured end-to-end.
+            Fast, private messaging with real-time sync — for individuals, teams, and every conversation in between.
           </Typography>
 
-          {/* Chat preview */}
-          <Box sx={{ maxWidth: 300 }}>
-            <Bubble text="Hey! Are you joining tonight? 🎉" delay={0.3} />
-            <Bubble text="Of course! Can't wait 🙌" sent delay={0.6} />
-            <Bubble text="Great, see you at 8 PM 😊" delay={0.9} />
-          </Box>
-
-          {/* Feature pills */}
-          <Box sx={{ display: 'flex', gap: 1, mt: 5, flexWrap: 'wrap' }}>
-            {FEATURES.map((f) => (
-              <Box
-                key={f}
-                sx={{
-                  px: 1.5,
-                  py: 0.5,
-                  borderRadius: 10,
-                  bgcolor: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                }}
-              >
-                <Typography
-                  variant="caption"
-                  sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}
+          {/* Feature list */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+            {FEATURES.map(({ Icon, text }) => (
+              <Box key={text} sx={{ display: 'flex', alignItems: 'center', gap: 1.75 }}>
+                <Box
+                  sx={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: '9px',
+                    bgcolor: 'rgba(16,196,160,0.1)',
+                    border: '1px solid rgba(16,196,160,0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
                 >
-                  {f}
+                  <Icon sx={{ fontSize: 16, color: '#10C4A0' }} />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: 13.5,
+                    color: 'rgba(255,255,255,0.58)',
+                    fontWeight: 500,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {text}
                 </Typography>
               </Box>
             ))}
@@ -253,7 +265,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           }}
         />
 
-        {/* Mobile top bar */}
+        {/* Mobile bar */}
         <Box
           sx={{
             display: { xs: 'flex', md: 'none' },
@@ -270,7 +282,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
             sx={{
               width: 36,
               height: 36,
-              borderRadius: 1.5,
+              borderRadius: '9px',
               background: 'linear-gradient(135deg, #10C4A0, #0D9E80)',
               display: 'flex',
               alignItems: 'center',
@@ -307,22 +319,21 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
               borderRadius: { xs: 4, sm: 5 },
               bgcolor: (theme) =>
                 theme.palette.mode === 'dark'
-                  ? 'rgba(255,255,255,0.025)'
-                  : 'rgba(255,255,255,0.85)',
+                  ? 'rgba(255,255,255,0.028)'
+                  : 'rgba(255,255,255,0.88)',
               border: (theme) =>
                 theme.palette.mode === 'dark'
                   ? '1px solid rgba(143,168,189,0.13)'
-                  : '1px solid rgba(16,196,160,0.15)',
-              backdropFilter: 'blur(20px)',
+                  : '1px solid rgba(16,196,160,0.14)',
+              backdropFilter: 'blur(24px)',
               boxShadow: (theme) =>
                 theme.palette.mode === 'dark'
-                  ? '0 8px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(16,196,160,0.06)'
-                  : '0 8px 48px rgba(16,196,160,0.1), 0 2px 16px rgba(0,0,0,0.06)',
+                  ? '0 8px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(16,196,160,0.07)'
+                  : '0 8px 48px rgba(16,196,160,0.1), 0 2px 20px rgba(0,0,0,0.06)',
               px: { xs: 3, sm: 5 },
               py: { xs: 4, sm: 5 },
             }}
           >
-            {/* Form header */}
             <Box sx={{ mb: 4 }}>
               <Typography
                 variant="h4"

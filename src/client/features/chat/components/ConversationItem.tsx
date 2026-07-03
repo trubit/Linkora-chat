@@ -5,9 +5,8 @@ import type { ConversationWithMeta } from '@/store/conversationStore';
 import { usePresenceStore } from '@/store/presenceStore';
 
 const C = {
-  panel:     '#111B21',
-  panelHdr:  '#1F2C34',
-  border:    'rgba(134,150,160,0.15)',
+  panel:     '#0C1722',
+  border:    'rgba(134,150,160,0.12)',
   accent:    '#10C4A0',
   accentDark:'#0D9E80',
   txt1:      '#E9EDEF',
@@ -114,12 +113,12 @@ export default function ConversationItem({
         py: 1.25,
         cursor: 'pointer',
         position: 'relative',
-        transition: 'background 0.15s',
-        bgcolor: isActive ? 'rgba(16,196,160,0.1)' : 'transparent',
+        transition: 'background 0.18s',
+        bgcolor: isActive ? 'rgba(16,196,160,0.09)' : 'transparent',
         '&:hover': {
           bgcolor: isActive
-            ? 'rgba(16,196,160,0.13)'
-            : 'rgba(255,255,255,0.03)',
+            ? 'rgba(16,196,160,0.12)'
+            : 'rgba(255,255,255,0.025)',
         },
         ...(isActive && {
           '&::before': {
@@ -129,8 +128,9 @@ export default function ConversationItem({
             top: '15%',
             height: '70%',
             width: 3,
-            borderRadius: '0 3px 3px 0',
-            bgcolor: C.accent,
+            borderRadius: '0 4px 4px 0',
+            background: 'linear-gradient(180deg, #10C4A0 0%, #0D9E80 100%)',
+            boxShadow: '2px 0 8px rgba(16,196,160,0.4)',
           },
         }),
       }}
@@ -141,9 +141,9 @@ export default function ConversationItem({
           src={avatarSrc}
           alt={name}
           sx={{
-            width: 42,
-            height: 42,
-            fontSize: 16,
+            width: 46,
+            height: 46,
+            fontSize: 17,
             fontWeight: 700,
             background: `linear-gradient(135deg, ${C.accentDark} 0%, ${C.accent} 100%)`,
           }}
@@ -156,12 +156,12 @@ export default function ConversationItem({
               position: 'absolute',
               bottom: 1,
               right: 1,
-              width: 10,
-              height: 10,
+              width: 11,
+              height: 11,
               borderRadius: '50%',
               bgcolor: C.badge,
-              border: '2px solid #111B21',
-              boxShadow: `0 0 6px ${C.badge}`,
+              border: `2px solid ${C.panel}`,
+              boxShadow: `0 0 8px ${C.badge}`,
             }}
           />
         )}

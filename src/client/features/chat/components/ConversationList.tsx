@@ -20,15 +20,15 @@ import ConversationItem from './ConversationItem';
 import NewConversationDialog from './NewConversationDialog';
 
 const C = {
-  panel:     '#111B21',
-  panelHdr:  '#1F2C34',
-  border:    'rgba(134,150,160,0.15)',
+  panel:     '#0C1722',
+  panelHdr:  '#0E1B2A',
+  border:    'rgba(134,150,160,0.12)',
   accent:    '#10C4A0',
-  accentGlow:'rgba(16,196,160,0.14)',
+  accentGlow:'rgba(16,196,160,0.12)',
   txt1:      '#E9EDEF',
   txt2:      '#8696A0',
   txt3:      '#567390',
-  searchBg:  'rgba(16,196,160,0.06)',
+  searchBg:  'rgba(16,196,160,0.05)',
 } as const;
 
 interface ConversationListProps {
@@ -83,7 +83,7 @@ export default function ConversationList({
           px: 2.5,
           pt: 2.5,
           pb: 1.5,
-          bgcolor: C.panelHdr,
+          background: `linear-gradient(180deg, #121F2F 0%, ${C.panelHdr} 100%)`,
           borderBottom: `1px solid ${C.border}`,
           display: 'flex',
           flexDirection: 'column',
@@ -98,16 +98,32 @@ export default function ConversationList({
             justifyContent: 'space-between',
           }}
         >
-          <Typography
-            sx={{
-              fontSize: 20,
-              fontWeight: 700,
-              color: C.txt1,
-              letterSpacing: '-0.3px',
-            }}
-          >
-            Messages
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <Box
+              sx={{
+                width: 30,
+                height: 30,
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 8px rgba(16,196,160,0.35)',
+              }}
+            >
+              <ChatBubbleIcon sx={{ fontSize: 14, color: '#fff' }} />
+            </Box>
+            <Typography
+              sx={{
+                fontSize: 17,
+                fontWeight: 800,
+                color: C.txt1,
+                letterSpacing: '-0.4px',
+              }}
+            >
+              Messages
+            </Typography>
+          </Box>
           <Tooltip title="New conversation">
             <IconButton
               size="small"
@@ -115,7 +131,8 @@ export default function ConversationList({
               sx={{
                 color: C.txt2,
                 borderRadius: '10px',
-                '&:hover': { color: C.txt1, bgcolor: 'rgba(255,255,255,0.06)' },
+                transition: 'all 0.15s',
+                '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.09)' },
               }}
             >
               <AddCommentIcon sx={{ fontSize: 19 }} />

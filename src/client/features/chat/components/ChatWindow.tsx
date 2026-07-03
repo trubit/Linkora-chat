@@ -16,9 +16,11 @@ import {
   Badge,
   Fab,
 } from '@mui/material';
-import MoreVertIcon       from '@mui/icons-material/MoreVert';
-import ArrowBackIcon      from '@mui/icons-material/ArrowBack';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MoreVertIcon            from '@mui/icons-material/MoreVert';
+import ArrowBackIcon           from '@mui/icons-material/ArrowBack';
+import KeyboardArrowDownIcon   from '@mui/icons-material/KeyboardArrowDown';
+import PhoneOutlinedIcon       from '@mui/icons-material/PhoneOutlined';
+import VideocamOutlinedIcon    from '@mui/icons-material/VideocamOutlined';
 import { useNavigate }    from 'react-router-dom';
 import { useAuthStore }         from '@/store/authStore';
 import { useConversationStore } from '@/store/conversationStore';
@@ -33,19 +35,17 @@ import { ROUTES } from '@/routes/index';
 
 const EMPTY_MESSAGES: Message[] = [];
 
-// WhatsApp dark-mode palette for the chat window
 const C = {
-  panel:      '#111B21',   // sidebar (not used here, kept for reference)
-  panelHdr:   '#1F2C34',   // header bar — matches WhatsApp dark header
-  main:       '#0B141A',   // chat area background — WhatsApp dark
-  border:     'rgba(134,150,160,0.15)',
-  accent:     '#00A884',   // WhatsApp green (FAB, online dot)
-  accentDark: '#008069',
+  panelHdr:   '#0E1E2B',   // header bar — premium dark blue
+  main:       '#08111A',   // chat area — deep midnight
+  border:     'rgba(134,150,160,0.12)',
+  accent:     '#10C4A0',
+  accentDark: '#0D9E80',
   teal:       '#53BDEB',   // blue read-ticks
   txt1:       '#E9EDEF',
   txt2:       '#8696A0',
-  txt3:       '#8696A0',
-  badge:      '#00A884',   // online indicator
+  txt3:       '#567390',
+  badge:      '#10C4A0',
 } as const;
 
 function formatDateLabel(iso: string): string {
@@ -266,8 +266,9 @@ export default function ChatWindow({
         sx={{
           height: 64,
           flexShrink: 0,
-          bgcolor: C.panelHdr,
+          background: `linear-gradient(180deg, ${C.panelHdr} 0%, rgba(14,30,43,0.98) 100%)`,
           borderBottom: `1px solid ${C.border}`,
+          backdropFilter: 'blur(12px)',
           display: 'flex',
           alignItems: 'center',
           px: 2,
@@ -282,35 +283,58 @@ export default function ChatWindow({
           <ArrowBackIcon sx={{ fontSize: 20 }} />
         </IconButton>
 
-        <Avatar
+        {/* Avatar with gradient ring when online */}
+        <Box
           sx={{
-            width: 38, height: 38,
-            fontSize: 14, fontWeight: 700,
-            bgcolor: '#2A3942',
+            position: 'relative',
             flexShrink: 0,
+            p: '2px',
+            borderRadius: '50%',
+            background: isOnline
+              ? 'linear-gradient(135deg, #10C4A0, #0D9E80)'
+              : 'transparent',
+            boxShadow: isOnline ? '0 0 12px rgba(16,196,160,0.4)' : 'none',
           }}
         >
-          {convName.charAt(0).toUpperCase()}
-        </Avatar>
+          <Avatar
+            sx={{
+              width: 40,
+              height: 40,
+              fontSize: 15,
+              fontWeight: 700,
+              bgcolor: '#1A2E3A',
+              border: `2px solid ${C.panelHdr}`,
+            }}
+          >
+            {convName.charAt(0).toUpperCase()}
+          </Avatar>
+        </Box>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography sx={{ fontSize: 14, fontWeight: 600, color: C.txt1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <Typography sx={{ fontSize: 14.5, fontWeight: 700, color: C.txt1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.2px' }}>
             {convName}
           </Typography>
-          {otherPresence && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: isOnline ? C.badge : C.txt3 }} />
-              <Typography sx={{ fontSize: 11.5, color: isOnline ? C.badge : C.txt3 }}>
-                {isOnline
-                  ? 'Online'
-                  : otherPresence.lastSeen
-                    ? `Last seen ${new Date(otherPresence.lastSeen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-                    : 'Offline'}
-              </Typography>
-            </Box>
+          {otherPresence ? (
+            <Typography sx={{ fontSize: 11.5, color: isOnline ? C.accent : C.txt3, fontWeight: isOnline ? 600 : 400 }}>
+              {isOnline
+                ? '● Online'
+                : otherPresence.lastSeen
+                  ? `Last seen ${new Date(otherPresence.lastSeen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                  : 'Offline'}
+            </Typography>
+          ) : (
+            <Typography sx={{ fontSize: 11.5, color: C.txt3 }}>
+              {conversation?.type === 'group' ? `${conversation.participants?.length ?? 0} members` : ''}
+            </Typography>
           )}
         </Box>
 
+        <IconButton size="small" sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}>
+          <PhoneOutlinedIcon sx={{ fontSize: 19 }} />
+        </IconButton>
+        <IconButton size="small" sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}>
+          <VideocamOutlinedIcon sx={{ fontSize: 20 }} />
+        </IconButton>
         <IconButton size="small" sx={{ color: C.txt2, '&:hover': { color: C.txt1 } }}>
           <MoreVertIcon sx={{ fontSize: 20 }} />
         </IconButton>
@@ -331,9 +355,10 @@ export default function ChatWindow({
             overflow: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            // Scrollbar styling
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
             '&::-webkit-scrollbar': { width: 4 },
-            '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 4 },
+            '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(255,255,255,0.07)', borderRadius: 4 },
           }}
         >
           {isLoading && messages.length === 0 ? (
@@ -414,14 +439,15 @@ export default function ChatWindow({
                 size="small"
                 onClick={scrollToBottom}
                 sx={{
-                  width: 36,
-                  height: 36,
-                  bgcolor: '#1F2C34',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
-                  '&:hover': { bgcolor: '#2A3942' },
+                  width: 38,
+                  height: 38,
+                  bgcolor: C.accent,
+                  boxShadow: '0 4px 16px rgba(16,196,160,0.45)',
+                  '&:hover': { bgcolor: C.accentDark, transform: 'scale(1.08)' },
+                  transition: 'all 0.2s',
                 }}
               >
-                <KeyboardArrowDownIcon sx={{ color: C.txt2, fontSize: 20 }} />
+                <KeyboardArrowDownIcon sx={{ color: '#fff', fontSize: 20 }} />
               </Fab>
             </Badge>
           </Box>
@@ -430,7 +456,7 @@ export default function ChatWindow({
 
       {/* ── Typing indicator ─────────────────────────────────────────────── */}
       {user && (
-        <Box sx={{ px: 2, minHeight: 28, bgcolor: '#111B21' }}>
+        <Box sx={{ px: 2, minHeight: 28, bgcolor: '#0A1722' }}>
           <TypingIndicator conversationId={conversationId} currentUserId={user._id} />
         </Box>
       )}

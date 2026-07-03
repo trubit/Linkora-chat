@@ -16,18 +16,21 @@ const ImageViewer = lazy(() =>
   import('@/features/media/components/ImageViewer').then((m) => ({ default: m.ImageViewer })),
 );
 
-// WhatsApp dark-mode palette
 const WA = {
-  sentBg:   '#005C4B',
-  rcvdBg:   '#1F2C34',
-  text:     '#E9EDEF',
-  timeTxt:  'rgba(233,237,239,0.55)',
-  tickGray: '#8696A0',
-  tickBlue: '#53BDEB',
-  green:    '#00A884',
-  txt2:     '#8696A0',
-  actionBg: '#182229',
-  border:   'rgba(134,150,160,0.18)',
+  sentBg:     '#0D3D2E',   // premium dark teal (richer than WA green)
+  sentBorder: 'rgba(16,196,160,0.14)',
+  sentShadow: '0 2px 10px rgba(16,196,160,0.12), 0 1px 3px rgba(0,0,0,0.25)',
+  rcvdBg:     '#12202D',   // premium blue-dark (cooler than WA dark)
+  rcvdBorder: 'rgba(134,150,160,0.1)',
+  rcvdShadow: '0 1px 4px rgba(0,0,0,0.2)',
+  text:       '#E9EDEF',
+  timeTxt:    'rgba(233,237,239,0.52)',
+  tickGray:   '#8696A0',
+  tickBlue:   '#53BDEB',
+  green:      '#10C4A0',
+  txt2:       '#8696A0',
+  actionBg:   '#0E1D28',
+  border:     'rgba(134,150,160,0.14)',
 } as const;
 
 const QUICK_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
@@ -233,10 +236,11 @@ export default function MessageBubble({
     : null;
 
   const bubbleBg      = isMine ? WA.sentBg : WA.rcvdBg;
-  // WhatsApp: first message in a group has 0-radius at the tail corner; rest are fully rounded
+  const bubbleBorder  = `1px solid ${isMine ? WA.sentBorder : WA.rcvdBorder}`;
+  const bubbleShadow  = isMine ? WA.sentShadow : WA.rcvdShadow;
   const borderRadius  = showAvatar
-    ? (isMine ? '7.5px 0 7.5px 7.5px' : '0 7.5px 7.5px 7.5px')
-    : '7.5px';
+    ? (isMine ? '8px 2px 8px 8px' : '2px 8px 8px 8px')
+    : '8px';
 
   return (
     <Box
@@ -380,19 +384,19 @@ export default function MessageBubble({
                   sx={{
                     position: 'absolute',
                     top: 0,
-                    ...(isMine ? { right: -8 } : { left: -8 }),
-                    width: 8,
-                    height: 13,
+                    ...(isMine ? { right: -7 } : { left: -7 }),
+                    width: 7,
+                    height: 12,
                     bgcolor: bubbleBg,
                     clipPath: isMine
-                      ? 'polygon(0 0, 100% 0, 0 100%)'   // right-pointing tail
-                      : 'polygon(0 0, 100% 0, 100% 100%)', // left-pointing tail
+                      ? 'polygon(0 0, 100% 0, 0 100%)'
+                      : 'polygon(0 0, 100% 0, 100% 100%)',
                   }}
                 />
               )}
 
               {/* Bubble body */}
-              <Box sx={{ bgcolor: bubbleBg, borderRadius, overflow: 'hidden' }}>
+              <Box sx={{ bgcolor: bubbleBg, borderRadius, border: bubbleBorder, boxShadow: bubbleShadow, overflow: 'hidden' }}>
 
                 {/* Reply preview — inside the bubble (WhatsApp style) */}
                 {replyMsg && (
