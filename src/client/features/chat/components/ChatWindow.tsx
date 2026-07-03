@@ -1,9 +1,11 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useCallback,
   useMemo,
+  Fragment,
 } from 'react';
 import {
   Box,
@@ -11,46 +13,85 @@ import {
   Avatar,
   IconButton,
   Skeleton,
+  Badge,
+  Fab,
 } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
+import MoreVertIcon       from '@mui/icons-material/MoreVert';
+import ArrowBackIcon      from '@mui/icons-material/ArrowBack';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useNavigate }    from 'react-router-dom';
+import { useAuthStore }         from '@/store/authStore';
 import { useConversationStore } from '@/store/conversationStore';
-import { useMessageStore } from '@/store/messageStore';
-import { usePresenceStore } from '@/store/presenceStore';
-import { useMessages } from '../queries/index';
-import MessageBubble from './MessageBubble';
+import { useMessageStore }      from '@/store/messageStore';
+import { usePresenceStore }     from '@/store/presenceStore';
+import { useMessages }          from '../queries/index';
+import MessageBubble   from './MessageBubble';
 import MessageComposer from './MessageComposer';
 import TypingIndicator from './TypingIndicator';
-import type { Message } from '@shared/types';
+import type { Message, MessageMedia } from '@shared/types';
 import { ROUTES } from '@/routes/index';
 
+const EMPTY_MESSAGES: Message[] = [];
+
+// WhatsApp dark-mode palette for the chat window
 const C = {
-  panel: '#080C18',
-  panelHdr: '#0B1022',
-  main: '#060914',
-  border: 'rgba(139,92,246,0.12)',
-  accent: '#9B6DFF',
-  accentDark: '#7C3AED',
-  teal: '#22D3EE',
-  txt1: '#F1F5F9',
-  txt2: '#94A3B8',
-  txt3: '#475569',
-  badge: '#10B981',
+  panel:      '#111B21',   // sidebar (not used here, kept for reference)
+  panelHdr:   '#1F2C34',   // header bar — matches WhatsApp dark header
+  main:       '#0B141A',   // chat area background — WhatsApp dark
+  border:     'rgba(134,150,160,0.15)',
+  accent:     '#00A884',   // WhatsApp green (FAB, online dot)
+  accentDark: '#008069',
+  teal:       '#53BDEB',   // blue read-ticks
+  txt1:       '#E9EDEF',
+  txt2:       '#8696A0',
+  txt3:       '#8696A0',
+  badge:      '#00A884',   // online indicator
 } as const;
 
+function formatDateLabel(iso: string): string {
+  const d         = new Date(iso);
+  const today     = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  if (d.toDateString() === today.toDateString())     return 'Today';
+  if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+function DateDivider({ label }: { label: string }) {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', py: 1.25 }}>
+      <Box
+        sx={{
+          px: 1.5,
+          py: 0.375,
+          bgcolor: '#182229',
+          borderRadius: '6px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.35)',
+        }}
+      >
+        <Typography sx={{ fontSize: '0.6875rem', color: '#8696A0', fontWeight: 500 }}>
+          {label}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
 interface ChatWindowProps {
-  conversationId: string;
-  sendMessage: (payload: {
+  conversationId:     string;
+  sendMessage:        (payload: {
     conversationId: string;
-    type: 'text';
+    type:    import('@shared/types').MessageType;
     content: string;
     replyTo?: string;
+    media?:  import('@shared/types').MessageMedia[];
   }) => Promise<{ success: boolean; message?: Message; error?: string }>;
-  sendTypingStart: (conversationId: string) => void;
-  sendTypingStop: (conversationId: string) => void;
-  sendRead: (conversationId: string, messageId: string) => void;
+  sendTypingStart:    (conversationId: string) => void;
+  sendTypingStop:     (conversationId: string) => void;
+  sendRead:           (conversationId: string, messageId: string) => void;
+  sendDeleteMessage:  (messageId: string) => Promise<{ success: boolean; error?: string }>;
+  sendReactToMessage: (messageId: string, emoji: string, conversationId: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 export default function ChatWindow({
@@ -59,123 +100,168 @@ export default function ChatWindow({
   sendTypingStart,
   sendTypingStop,
   sendRead,
+  sendDeleteMessage,
+  sendReactToMessage,
 }: ChatWindowProps) {
-  const navigate = useNavigate();
-  const user = useAuthStore((s) => s.user);
-  const { conversations, resetUnread } = useConversationStore();
-  const messages = useMessageStore((s) => s.messages[conversationId] ?? []);
-  const presences = usePresenceStore((s) => s.presences);
+  const navigate     = useNavigate();
+  const user         = useAuthStore((s) => s.user);
+  const conversation = useConversationStore((s) => s.conversations.get(conversationId));
+  const resetUnread  = useConversationStore((s) => s.resetUnread);
+  const messages     = useMessageStore((s) => s.messages[conversationId] ?? EMPTY_MESSAGES);
+  const presencesRef = usePresenceStore((s) => s.presences);
 
-  const conversation = conversations.get(conversationId);
+  const [replyTo,     setReplyTo]     = useState<Message | null>(null);
+  const [newMsgCount, setNewMsgCount] = useState(0);
+  const [isAtBottom,  setIsAtBottom]  = useState(true);
 
-  const [replyTo, setReplyTo] = useState<Message | null>(null);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef       = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
-  const topSentinelRef = useRef<HTMLDivElement>(null);
+  const topSentinelRef       = useRef<HTMLDivElement>(null);
+  const isAtBottomRef        = useRef(true);
+  // Tracks which conversation's initial scroll we have already done
+  const initialConvRef       = useRef<string>('');
 
-  // Load messages
   const { isLoading, fetchNextPage, hasNextPage } = useMessages(conversationId);
 
-  // Scroll to bottom on new messages
+  // ── Reset per-conversation state ──────────────────────────────────────────
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages.length]);
+    isAtBottomRef.current = true;
+    setIsAtBottom(true);
+    setNewMsgCount(0);
+    setReplyTo(null);
+  }, [conversationId]);
 
-  // Mark as read when conversation is open
+  // ── Track scroll position ─────────────────────────────────────────────────
+  const handleScroll = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 120;
+    isAtBottomRef.current = atBottom;
+    setIsAtBottom(atBottom);
+    if (atBottom) setNewMsgCount(0);
+  }, []);
+
+  // ── Initial jump to bottom (synchronous, before paint, once per conversation)
+  useLayoutEffect(() => {
+    if (messages.length === 0) return;
+    if (initialConvRef.current === conversationId) return; // already done
+    initialConvRef.current = conversationId;
+    isAtBottomRef.current  = true;
+    setIsAtBottom(true);
+    setNewMsgCount(0);
+    const el = messagesContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight; // instant scroll — no rAF needed here
+  }, [messages.length, conversationId]);
+
+  // ── Scroll when new messages arrive on an already-open conversation ────────
   useEffect(() => {
-    if (messages.length > 0) {
-      const lastMsg = messages[messages.length - 1];
-      sendRead(conversationId, lastMsg._id);
-      resetUnread(conversationId);
+    if (messages.length === 0) return;
+    if (initialConvRef.current !== conversationId) return; // still on initial load
+
+    const lastMsg = messages[messages.length - 1];
+    const isMyMsg = lastMsg?.senderId === user?._id;
+    if (isAtBottomRef.current || isMyMsg) {
+      // Smooth-scroll to bottom so the user sees the new message land
+      requestAnimationFrame(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      });
+      setNewMsgCount(0);
+      setIsAtBottom(true);
+      isAtBottomRef.current = true;
+    } else {
+      setNewMsgCount((c) => c + 1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversationId, messages.length, sendRead, resetUnread]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages.length, conversationId]);
 
-  // Intersection observer to load older messages
+  // ── Mark as read whenever the open conversation gets new messages ─────────
   useEffect(() => {
-    const sentinel = topSentinelRef.current;
-    if (!sentinel) return;
+    if (messages.length === 0) return;
+    const lastMsg = messages[messages.length - 1];
+    sendRead(conversationId, lastMsg._id);
+    resetUnread(conversationId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationId, messages.length]);
 
+  // ── Infinite scroll — load older messages when sentinel enters viewport ───
+  useEffect(() => {
+    const sentinel  = topSentinelRef.current;
+    const container = messagesContainerRef.current;
+    if (!sentinel || !container) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting && hasNextPage) {
-          void fetchNextPage();
-        }
-      },
-      { threshold: 0.1 },
+      (entries) => { if (entries[0]?.isIntersecting && hasNextPage) void fetchNextPage(); },
+      { root: container, threshold: 0.1 },
     );
-
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [hasNextPage, fetchNextPage]);
 
+  const scrollToBottom = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+    setNewMsgCount(0);
+    setIsAtBottom(true);
+    isAtBottomRef.current = true;
+  }, []);
+
+  // ── Message actions ───────────────────────────────────────────────────────
   const handleSend = useCallback(
-    async (content: string, replyToId?: string) => {
-      await sendMessage({
-        conversationId,
-        type: 'text',
-        content,
-        replyTo: replyToId,
-      });
+    async (content: string, replyToId?: string, media?: MessageMedia[], type?: string) => {
+      await sendMessage({ conversationId, type: (type ?? 'text') as import('@shared/types').MessageType, content, replyTo: replyToId, media });
       setReplyTo(null);
     },
     [conversationId, sendMessage],
   );
 
-  const handleReact = useCallback(
-    (_messageId: string, _emoji: string) => {
-      // React via socket — extend later
-    },
-    [],
-  );
-
   const handleDelete = useCallback(
-    (_messageId: string) => {
-      // Delete via socket — extend later
-    },
-    [],
+    async (messageId: string) => { await sendDeleteMessage(messageId); },
+    [sendDeleteMessage],
   );
 
-  // Determine conversation display name
+  const handleReact = useCallback(
+    async (messageId: string, emoji: string) => {
+      await sendReactToMessage(messageId, emoji, conversationId);
+    },
+    [sendReactToMessage, conversationId],
+  );
+
+  // ── Derived values ────────────────────────────────────────────────────────
   const convName = useMemo(() => {
     if (!conversation) return 'Chat';
-    return conversation.metadata.name ?? 'Direct Message';
-  }, [conversation]);
+    if (conversation.metadata.name) return conversation.metadata.name;
+    if (conversation.type === 'direct') {
+      const otherId = conversation.participants?.find((p) => p !== user?._id);
+      const profile = conversation.memberProfiles?.find((pr) => pr.userId === otherId);
+      return profile?.displayName ?? profile?.username ?? 'Direct Message';
+    }
+    return 'Chat';
+  }, [conversation, user?._id]);
 
-  // Get other user's ID for presence (direct conversations)
   const otherUserId = useMemo(() => {
     if (!conversation || conversation.type !== 'direct') return null;
-    return (
-      conversation.participants?.find((p) => p !== user?._id) ?? null
-    );
-  }, [conversation, user]);
+    return conversation.participants?.find((p) => p !== user?._id) ?? null;
+  }, [conversation, user?._id]);
 
-  const otherPresence = otherUserId ? presences[otherUserId] : null;
-  const isOnline = otherPresence?.status === 'online';
+  const otherPresence = otherUserId ? presencesRef[otherUserId] : null;
+  const isOnline      = otherPresence?.status === 'online';
 
-  // Group messages by sender for avatar display
+  // Group messages: avatar visibility + date separator
   const groupedMessages = useMemo(() => {
     return messages.map((msg, idx) => {
-      const prev = messages[idx - 1];
-      const showAvatar =
-        !prev ||
-        prev.senderId !== msg.senderId ||
+      const prev       = messages[idx - 1];
+      const showAvatar = !prev || prev.senderId !== msg.senderId ||
         new Date(msg.createdAt).getTime() - new Date(prev.createdAt).getTime() > 60_000 * 5;
-      return { msg, showAvatar };
+      const showDateSep = !prev ||
+        new Date(msg.createdAt).toDateString() !== new Date(prev.createdAt).toDateString();
+      return { msg, showAvatar, showDateSep };
     });
   }, [messages]);
 
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        bgcolor: C.main,
-      }}
-    >
-      {/* Header */}
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: C.main }}>
+
+      {/* ── Header ───────────────────────────────────────────────────────── */}
       <Box
         sx={{
           height: 64,
@@ -188,27 +274,19 @@ export default function ChatWindow({
           gap: 1.5,
         }}
       >
-        {/* Back button (mobile) */}
         <IconButton
           size="small"
           onClick={() => navigate(ROUTES.CHAT)}
-          sx={{
-            color: C.txt2,
-            display: { md: 'none' },
-            '&:hover': { color: C.txt1 },
-          }}
+          sx={{ color: C.txt2, display: { md: 'none' }, '&:hover': { color: C.txt1 } }}
         >
           <ArrowBackIcon sx={{ fontSize: 20 }} />
         </IconButton>
 
-        {/* Avatar + info */}
         <Avatar
           sx={{
-            width: 38,
-            height: 38,
-            fontSize: 14,
-            fontWeight: 700,
-            background: `linear-gradient(135deg, ${C.accentDark} 0%, ${C.accent} 100%)`,
+            width: 38, height: 38,
+            fontSize: 14, fontWeight: 700,
+            bgcolor: '#2A3942',
             flexShrink: 0,
           }}
         >
@@ -216,28 +294,12 @@ export default function ChatWindow({
         </Avatar>
 
         <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            sx={{
-              fontSize: 14,
-              fontWeight: 600,
-              color: C.txt1,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
+          <Typography sx={{ fontSize: 14, fontWeight: 600, color: C.txt1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {convName}
           </Typography>
           {otherPresence && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: isOnline ? C.badge : C.txt3,
-                }}
-              />
+              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: isOnline ? C.badge : C.txt3 }} />
               <Typography sx={{ fontSize: 11.5, color: isOnline ? C.badge : C.txt3 }}>
                 {isOnline
                   ? 'Online'
@@ -254,94 +316,126 @@ export default function ChatWindow({
         </IconButton>
       </Box>
 
-      {/* Messages */}
-      <Box
-        ref={messagesContainerRef}
-        sx={{
-          flex: 1,
-          overflow: 'auto',
-          py: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {/* Top sentinel for infinite scroll */}
-        <Box ref={topSentinelRef} sx={{ height: 1 }} />
+      {/* ── Messages area ─────────────────────────────────────────────────── */}
+      {/*
+        The outer wrapper is relative so the scroll-to-bottom FAB can float
+        over the message list without affecting the layout.
+      */}
+      <Box sx={{ flex: 1, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
-        {isLoading && messages.length === 0 ? (
-          // Skeleton loading
-          <Box sx={{ px: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Box
-                key={i}
-                sx={{
-                  display: 'flex',
-                  justifyContent: i % 2 === 0 ? 'flex-start' : 'flex-end',
-                  gap: 1,
-                }}
-              >
-                {i % 2 === 0 && (
-                  <Skeleton variant="circular" width={28} height={28} sx={{ bgcolor: 'rgba(255,255,255,0.06)' }} />
-                )}
-                <Skeleton
-                  variant="rounded"
-                  width={`${40 + (i * 13 + 7) % 30}%`}
-                  height={40}
-                  sx={{ borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.06)' }}
-                />
-              </Box>
-            ))}
-          </Box>
-        ) : messages.length === 0 ? (
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 1,
-              py: 4,
-            }}
-          >
-            <Typography sx={{ fontSize: 13.5, color: C.txt3 }}>
-              No messages yet. Say hello! 👋
-            </Typography>
-          </Box>
-        ) : (
-          groupedMessages.map(({ msg, showAvatar }) => (
-            <MessageBubble
-              key={msg._id}
-              message={msg}
-              isMine={msg.senderId === user?._id}
-              showAvatar={showAvatar}
-              onReply={setReplyTo}
-              onReact={handleReact}
-              onDelete={msg.senderId === user?._id ? handleDelete : undefined}
-            />
-          ))
-        )}
-
-        <Box ref={messagesEndRef} />
-      </Box>
-
-      {/* Typing indicator */}
-      {user && (
         <Box
+          ref={messagesContainerRef}
+          onScroll={handleScroll}
           sx={{
-            px: 2,
-            minHeight: 28,
-            bgcolor: C.main,
+            flex: 1,
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            // Scrollbar styling
+            '&::-webkit-scrollbar': { width: 4 },
+            '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(255,255,255,0.08)', borderRadius: 4 },
           }}
         >
-          <TypingIndicator
-            conversationId={conversationId}
-            currentUserId={user._id}
-          />
+          {isLoading && messages.length === 0 ? (
+            /* Skeleton placeholders while the first page loads */
+            <Box sx={{ px: 2, py: 1, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              {Array.from({ length: 7 }).map((_, i) => (
+                <Box key={i} sx={{ display: 'flex', justifyContent: i % 2 === 0 ? 'flex-start' : 'flex-end', gap: 1, alignItems: 'flex-end' }}>
+                  {i % 2 === 0 && <Skeleton variant="circular" width={28} height={28} sx={{ bgcolor: 'rgba(255,255,255,0.06)', flexShrink: 0 }} />}
+                  <Skeleton variant="rounded" width={`${38 + (i * 17 + 5) % 28}%`} height={36 + (i % 3) * 8} sx={{ borderRadius: '12px', bgcolor: 'rgba(255,255,255,0.06)' }} />
+                </Box>
+              ))}
+            </Box>
+          ) : (
+            <>
+              {/*
+                KEY TRICK: This spacer grows to fill all available space when
+                there are few messages, pushing them to the bottom — exactly
+                like WhatsApp. When messages overflow the container the spacer
+                collapses to zero and messages fill the scroll area normally.
+              */}
+              <Box sx={{ flex: 1 }} />
+
+              {/* Sentinel — observed relative to the scroll container so that
+                  loading-more only triggers when the user actually scrolls up
+                  to the top, not just because the page fits on screen. */}
+              <Box ref={topSentinelRef} sx={{ height: 2 }} />
+
+              {messages.length === 0 ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 6 }}>
+                  <Typography sx={{ fontSize: 13.5, color: C.txt3 }}>
+                    No messages yet. Say hello! 👋
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ pb: 1 }}>
+                  {groupedMessages.map(({ msg, showAvatar, showDateSep }) => (
+                    <Fragment key={msg._id}>
+                      {showDateSep && <DateDivider label={formatDateLabel(msg.createdAt)} />}
+                      <MessageBubble
+                        message={msg}
+                        isMine={msg.senderId === user?._id}
+                        showAvatar={showAvatar}
+                        onReply={setReplyTo}
+                        onReact={handleReact}
+                        onDelete={msg.senderId === user?._id ? handleDelete : undefined}
+                      />
+                    </Fragment>
+                  ))}
+                </Box>
+              )}
+
+              {/* Invisible anchor — scrollIntoView snaps here */}
+              <Box ref={messagesEndRef} sx={{ height: 0 }} />
+            </>
+          )}
+        </Box>
+
+        {/* Scroll-to-bottom FAB — shows whenever the user has scrolled up */}
+        {(!isAtBottom || newMsgCount > 0) && (
+          <Box sx={{ position: 'absolute', bottom: 16, right: 16, zIndex: 10 }}>
+            <Badge
+              badgeContent={newMsgCount > 0 ? newMsgCount : undefined}
+              max={99}
+              sx={{
+                '& .MuiBadge-badge': {
+                  bgcolor: C.accent,
+                  color: '#fff',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  minWidth: 18,
+                  height: 18,
+                  top: 2,
+                  right: 2,
+                },
+              }}
+            >
+              <Fab
+                size="small"
+                onClick={scrollToBottom}
+                sx={{
+                  width: 36,
+                  height: 36,
+                  bgcolor: '#1F2C34',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+                  '&:hover': { bgcolor: '#2A3942' },
+                }}
+              >
+                <KeyboardArrowDownIcon sx={{ color: C.txt2, fontSize: 20 }} />
+              </Fab>
+            </Badge>
+          </Box>
+        )}
+      </Box>
+
+      {/* ── Typing indicator ─────────────────────────────────────────────── */}
+      {user && (
+        <Box sx={{ px: 2, minHeight: 28, bgcolor: '#111B21' }}>
+          <TypingIndicator conversationId={conversationId} currentUserId={user._id} />
         </Box>
       )}
 
-      {/* Composer */}
+      {/* ── Composer ─────────────────────────────────────────────────────── */}
       <MessageComposer
         conversationId={conversationId}
         onSend={handleSend}
@@ -354,6 +448,3 @@ export default function ChatWindow({
     </Box>
   );
 }
-
-
-
