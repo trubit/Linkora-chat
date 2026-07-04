@@ -638,7 +638,7 @@ export async function setupSocketServer(
       try {
         await socket.join(`channel:${payload.channelId}`);
         callback?.({ success: true });
-      } catch (err) {
+      } catch {
         callback?.({ success: false, error: 'Failed to join channel room' });
       }
     });

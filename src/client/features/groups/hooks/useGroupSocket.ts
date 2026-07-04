@@ -6,7 +6,6 @@ import type { GroupMessage, GroupMemberSummary } from '@shared/types';
 
 export function useGroupSocket(groupId: string | null) {
   const isConnected = useSocketStore((s) => s.isConnected);
-  const store       = useGroupStore();
 
   useEffect(() => {
     const socket = getChatSocket();
@@ -17,23 +16,25 @@ export function useGroupSocket(groupId: string | null) {
 
     const onMessage = (msg: GroupMessage) => {
       if (msg.groupId !== groupId) return;
-      store.upsertMessage(groupId, msg);
-      store.updateLastMessage(groupId, msg.createdAt);
+      const gs = useGroupStore.getState();
+      gs.upsertMessage(groupId, msg);
+      gs.updateLastMessage(groupId, msg.createdAt);
       // Unread increment is handled by the global listener in useChatSocket
     };
     const onMsgUpdated   = (msg: Partial<GroupMessage> & { _id: string; groupId: string }) => {
       if (msg.groupId === groupId) {
-        const existing = store.messages.get(groupId)?.find((m) => m._id === msg._id);
-        if (existing) store.upsertMessage(groupId, { ...existing, ...msg });
+        const gs = useGroupStore.getState();
+        const existing = gs.messages.get(groupId)?.find((m) => m._id === msg._id);
+        if (existing) gs.upsertMessage(groupId, { ...existing, ...msg });
       }
     };
     const onMsgDeleted   = ({ groupId: gid, messageId }: { groupId: string; messageId: string }) => {
-      if (gid === groupId) store.deleteMessage(groupId, messageId);
+      if (gid === groupId) useGroupStore.getState().deleteMessage(groupId, messageId);
     };
-    const onTypingStart  = ({ userId }: { groupId: string; userId: string }) => store.setTyping(groupId, userId, true);
-    const onTypingStop   = ({ userId }: { groupId: string; userId: string }) => store.setTyping(groupId, userId, false);
-    const onMemberJoined = ({ member }: { groupId: string; member: GroupMemberSummary }) => store.upsertMember(groupId, member);
-    const onMemberLeft   = ({ userId }: { groupId: string; userId: string }) => store.removeMember(groupId, userId);
+    const onTypingStart  = ({ userId }: { groupId: string; userId: string }) => useGroupStore.getState().setTyping(groupId, userId, true);
+    const onTypingStop   = ({ userId }: { groupId: string; userId: string }) => useGroupStore.getState().setTyping(groupId, userId, false);
+    const onMemberJoined = ({ member }: { groupId: string; member: GroupMemberSummary }) => useGroupStore.getState().upsertMember(groupId, member);
+    const onMemberLeft   = ({ userId }: { groupId: string; userId: string }) => useGroupStore.getState().removeMember(groupId, userId);
 
     socket.on('group:message:new',     onMessage);
     socket.on('group:message:updated', onMsgUpdated);
