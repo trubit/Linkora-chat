@@ -24,7 +24,6 @@ export function LocationCard({
   address?: string;
 }) {
   const mapUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
-  const staticImg = `https://staticmap.openstreetmap.de/staticmap.php?center=${latitude},${longitude}&zoom=15&size=280x140&markers=${latitude},${longitude}`;
 
   return (
     <Box
@@ -36,32 +35,20 @@ export function LocationCard({
         maxWidth: 280,
       }}
     >
-      {/* Map image */}
+      {/* Map placeholder — external static tile services are unreliable; use icon */}
       <Box
         sx={{
           width: '100%',
           height: 140,
-          position: 'relative',
           bgcolor: 'rgba(255,255,255,0.04)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <Box
-          component="img"
-          src={staticImg}
-          alt="Map"
-          sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          onError={(e) => {
-            // Hide broken image icon on error
-            (e.currentTarget as HTMLImageElement).style.display = 'none';
-          }}
-        />
         <MapIcon
           sx={{
-            position: 'absolute',
-            fontSize: 32,
+            fontSize: 40,
             color: C.accent,
             filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
           }}

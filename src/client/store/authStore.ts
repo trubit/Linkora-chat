@@ -35,6 +35,7 @@ interface AuthActions {
   login: (authResponse: AuthResponse) => void;
   setUser: (user: AuthUser | null) => void;
   setToken: (token: string | null) => void;
+  setTokens: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
@@ -70,6 +71,8 @@ export const useAuthStore = create<AuthStore>()(
         }),
 
       setToken: (accessToken) => set({ accessToken }),
+
+      setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
 
       logout: () =>
         set({

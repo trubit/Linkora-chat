@@ -107,16 +107,20 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const response = await api.post<{ data: { accessToken: string } }>(
-        '/auth/refresh',
-        {},
-        {
-          withCredentials: true,
-        },
-      );
-      const { accessToken } = response.data.data;
+      const { refreshToken } = useAuthStore.getState();
+      if (!refreshToken) {
+        useAuthStore.getState().logout();
+        isRefreshing = false;
+        return Promise.reject(error);
+      }
 
-      useAuthStore.getState().setToken(accessToken);
+      const response = await api.post<{
+        success: boolean;
+        data: { accessToken: string; refreshToken: string; expiresIn: number };
+      }>('/auth/refresh', { refreshToken }, { withCredentials: true });
+      const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+
+      useAuthStore.getState().setTokens(accessToken, newRefreshToken);
       onTokenRefreshed(accessToken);
 
       if (originalRequest.headers) {
