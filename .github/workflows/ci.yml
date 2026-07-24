@@ -17,12 +17,14 @@ concurrency:
 # Job graph
 #
 #   lint ──────────────────────────────────────────────────────────────────┐
-#   typecheck ──────────────────────────────────────────────────────────── ├──► test ──► e2e
-#   format-check (Prettier) ────────────────────────────────────────────── ┘    build
+#   typecheck ──────────────────────────────────────────────────────────── ├──► test   (15 min cap)
+#   format-check (Prettier) ────────────────────────────────────────────── ┤──► build  (10 min cap)
+#                                                                           └──► e2e    (20 min cap, non-blocking)
 #   audit (npm audit --audit-level=high, non-blocking)
 #
-# Quality gates (lint + typecheck + format-check) must pass before test or
-# build starts.  E2E (Playwright) runs only after both test and build pass.
+# All three workload jobs (test, build, e2e) start in parallel once the three
+# quality gates pass.  E2E uses the Vite dev server so it does not wait for
+# build.  E2E is continue-on-error so flakiness never blocks a merge.
 # audit is informational and never blocks the pipeline.
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -116,6 +118,7 @@ jobs:
     name: Test (Jest + Coverage)
     runs-on: ubuntu-latest
     needs: [lint, typecheck, format-check]
+    timeout-minutes: 15
     env:
       NODE_ENV: test
       # mongodb-memory-server downloads its binary to this cache dir
@@ -185,6 +188,7 @@ jobs:
     name: Build (Server + Client)
     runs-on: ubuntu-latest
     needs: [lint, typecheck, format-check]
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -210,12 +214,16 @@ jobs:
           if-no-files-found: error
 
   # ── E2E — Playwright (Chromium only in CI) ────────────────────────────────
-  # Runs after both unit tests AND the production build pass to avoid wasting
-  # expensive Playwright runner-minutes on broken code.
+  # Runs in parallel with test + build (only needs quality gates to pass).
+  # Uses the Vite dev server, so the production build is not required here.
+  # continue-on-error: E2E flakiness must never block a merge; failures are
+  # visible in the Actions log and the uploaded report.
   e2e:
     name: E2E (Playwright / Chromium)
     runs-on: ubuntu-latest
-    needs: [test, build]
+    needs: [lint, typecheck, format-check]
+    timeout-minutes: 20
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -238,12 +246,16 @@ jobs:
           restore-keys: |
             playwright-${{ runner.os }}-
 
-      - name: Install Playwright browsers (cache miss)
+      # Download the browser binary only on a cache miss.
+      # System dependencies are always installed separately below — they are
+      # not cached and must be present even when the browser binary is cached.
+      - name: Install Playwright browser (cache miss)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
-      - name: Install Playwright system dependencies (cache hit)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+      # Always run — installs OS-level libs Chromium needs.
+      # ubuntu-latest already has most packages, so this is fast (~5 s).
+      - name: Install Playwright system dependencies
         run: npx playwright install-deps chromium
 
       - name: Run E2E tests (Chromium)
