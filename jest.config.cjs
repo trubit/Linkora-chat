@@ -122,10 +122,6 @@ module.exports = {
   // PASS/FAIL results are still shown — only per-test console noise is silenced.
   silent: true,
 
-  // Force Jest to exit after all tests complete so supertest/Express open
-  // handles don't keep the process alive indefinitely.
-  forceExit: true,
-
   collectCoverageFrom: [
     'src/server/**/*.ts',
     'src/client/**/*.{ts,tsx}',

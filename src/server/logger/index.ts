@@ -32,12 +32,16 @@ const developmentFormat = combine(
 function buildTransports(): winston.transport[] {
   const env = getEnv();
   const isProd = env.NODE_ENV === 'production';
+  const isTest = env.NODE_ENV === 'test';
 
   const transports: winston.transport[] = [
     new winston.transports.Console({
       format: isProd ? productionFormat : developmentFormat,
-      handleExceptions: true,
-      handleRejections: true,
+      // In test environments Jest owns exception/rejection handling.
+      // Enabling these here creates an internal stream that keeps the event
+      // loop alive and triggers Jest's "Force exiting" warning.
+      handleExceptions: !isTest,
+      handleRejections: !isTest,
     }),
   ];
 
