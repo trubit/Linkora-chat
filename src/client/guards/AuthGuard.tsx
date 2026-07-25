@@ -17,9 +17,9 @@ function VerificationBanner() {
     <Collapse in={!dismissed} unmountOnExit>
       <Box
         sx={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1300,
+          position: 'relative',
+          flexShrink: 0,
+          zIndex: 100,
           '@keyframes slideDown': {
             from: { opacity: 0, transform: 'translateY(-100%)' },
             to: { opacity: 1, transform: 'translateY(0)' },
@@ -184,9 +184,21 @@ export function AuthGuard() {
   const showBanner = user !== null && !user.emailVerified;
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100dvh',
+        maxHeight: '100dvh',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+      }}
+    >
       {showBanner && <VerificationBanner />}
-      <Outlet />
-    </>
+      <Box sx={{ flex: 1, minHeight: 0, width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <Outlet />
+      </Box>
+    </Box>
   );
 }

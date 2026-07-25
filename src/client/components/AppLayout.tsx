@@ -23,13 +23,18 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import BlockIcon from '@mui/icons-material/Block';
 import LockIcon from '@mui/icons-material/Lock';
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 import { useAuthStore } from '@/store/authStore';
+import { useSearchStore } from '@/store/searchStore';
 import { useLogout } from '@/features/auth/queries';
 import { LinkoraLogo } from '@/components/LinkoraLogo';
 import { ROUTES } from '@/routes/index';
 import ShieldIcon from '@mui/icons-material/Shield';
 import ConversationList from '@/features/chat/components/ConversationList';
 import { useChatSocket } from '@/features/chat/hooks/useChatSocket';
+import { NotificationBell } from '@/features/notifications/components/NotificationBell';
+import { GlobalSearch } from '@/features/search/components/GlobalSearch';
+import { StatusFeed } from '@/features/status/components/StatusFeed';
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
 
@@ -143,7 +148,13 @@ function NavDot({
 
 // ─── Icon strip ───────────────────────────────────────────────────────────────
 
-function IconStrip({ onNav }: { onNav: (p: string) => void }) {
+function IconStrip({
+  onNav,
+  onSearchOpen,
+}: {
+  onNav: (p: string) => void;
+  onSearchOpen: () => void;
+}) {
   const location = useLocation();
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
@@ -182,7 +193,7 @@ function IconStrip({ onNav }: { onNav: (p: string) => void }) {
         <ChatBubbleIcon sx={{ fontSize: 17, color: '#fff' }} />
       </Box>
 
-      {/* Primary */}
+      {/* Primary nav */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
         {PRIMARY_NAV.map((it) => (
           <NavDot
@@ -192,10 +203,37 @@ function IconStrip({ onNav }: { onNav: (p: string) => void }) {
             onClick={() => onNav(it.path)}
           />
         ))}
+
+        {/* Search — opens GlobalSearch dialog */}
+        <Tooltip title="Search" placement="right">
+          <Box
+            onClick={onSearchOpen}
+            sx={{
+              width: 44,
+              height: 44,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '14px',
+              cursor: 'pointer',
+              mb: 0.5,
+              color: C.icon,
+              transition: 'all 0.18s ease',
+              '&:hover': { color: C.iconHover, bgcolor: 'rgba(255,255,255,0.06)' },
+            }}
+          >
+            <SearchIcon sx={{ fontSize: 21 }} />
+          </Box>
+        </Tooltip>
       </Box>
 
       {/* Secondary */}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        {/* Notification bell — self-contained with its own drawer */}
+        <Box sx={{ mb: 0.5 }}>
+          <NotificationBell />
+        </Box>
+
         {SECONDARY_NAV.map((it) => (
           <NavDot
             key={it.path}
@@ -262,14 +300,13 @@ function IconStrip({ onNav }: { onNav: (p: string) => void }) {
   );
 }
 
-// ─── Chat list panel wrapper (uses real ConversationList) ─────────────────────
+// ─── Chat list panel wrapper (uses real ConversationList + StatusFeed) ──────────
 
 function ChatListPanel() {
   const navigate = useNavigate();
   const convMatch = useMatch('/chat/:id');
   const groupMatch = useMatch('/chat/g/:groupId');
 
-  // Active id: conversation id as-is, group id prefixed with "g:" so GroupRow can match
   const activeId =
     convMatch?.params.id ?? (groupMatch?.params.groupId ? `g:${groupMatch.params.groupId}` : null);
 
@@ -277,6 +314,7 @@ function ChatListPanel() {
     <ConversationList
       onConversationSelect={(convId) => navigate(`${ROUTES.CHAT}/${convId}`)}
       activeId={activeId}
+      headerSlot={<StatusFeed />}
     />
   );
 }
@@ -371,6 +409,7 @@ function ChatWelcome() {
 function DesktopLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const openSearch = useSearchStore((s) => s.openSearch);
 
   const isChat =
     location.pathname === ROUTES.CHAT || location.pathname.startsWith(ROUTES.CHAT + '/');
@@ -378,9 +417,15 @@ function DesktopLayout() {
     location.pathname.startsWith(ROUTES.CHAT + '/') && location.pathname !== ROUTES.CHAT;
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden', bgcolor: C.main }}>
+    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', overflow: 'hidden', bgcolor: C.main }}>
+      {/* Global search dialog — opens via store, manages its own state */}
+      <GlobalSearch />
+
       {/* Icon strip — always visible */}
-      <IconStrip onNav={(p) => navigate(p)} />
+      <IconStrip
+        onNav={(p) => navigate(p)}
+        onSearchOpen={openSearch}
+      />
 
       {isChat ? (
         <>
@@ -389,7 +434,7 @@ function DesktopLayout() {
             sx={{
               width: PANEL_W,
               minWidth: PANEL_W,
-              height: '100%',
+              flexShrink: 0,
               bgcolor: C.panel,
               borderRight: `1px solid ${C.border}`,
               display: 'flex',
@@ -405,7 +450,7 @@ function DesktopLayout() {
             component="main"
             sx={{
               flex: 1,
-              height: '100%',
+              minWidth: 0,
               overflow: 'hidden',
               bgcolor: C.main,
               display: 'flex',
@@ -421,7 +466,7 @@ function DesktopLayout() {
           component="main"
           sx={{
             flex: 1,
-            height: '100%',
+            minWidth: 0,
             overflow: 'auto',
             bgcolor: C.main,
           }}
@@ -439,10 +484,14 @@ function MobileLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const openSearch = useSearchStore((s) => s.openSearch);
   const isActive = (p: string) => location.pathname === p || location.pathname.startsWith(p + '/');
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', bgcolor: C.main }}>
+    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', flexDirection: 'column', bgcolor: C.main }}>
+      {/* Global search dialog — opens via store, manages its own state */}
+      <GlobalSearch />
+
       {/* Top bar */}
       <Box
         sx={{
@@ -467,6 +516,13 @@ function MobileLayout() {
           <MenuIcon />
         </IconButton>
         <LinkoraLogo size={26} showWordmark wordmarkColor={C.txt1} wordmarkSize="1rem" />
+        <Box sx={{ flex: 1 }} />
+        {/* Search icon */}
+        <IconButton size="small" onClick={openSearch} sx={{ color: C.icon }}>
+          <SearchIcon />
+        </IconButton>
+        {/* Notification bell — self-contained with its own drawer */}
+        <NotificationBell />
       </Box>
 
       {/* Page content */}
