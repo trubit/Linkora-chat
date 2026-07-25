@@ -417,7 +417,7 @@ function DesktopLayout() {
     location.pathname.startsWith(ROUTES.CHAT + '/') && location.pathname !== ROUTES.CHAT;
 
   return (
-    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', overflow: 'hidden', bgcolor: C.main }}>
+    <Box sx={{ width: '100%', height: '100%', maxHeight: '100%', display: 'flex', overflow: 'hidden', bgcolor: C.main }}>
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 
@@ -488,7 +488,7 @@ function MobileLayout() {
   const isActive = (p: string) => location.pathname === p || location.pathname.startsWith(p + '/');
 
   return (
-    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', flexDirection: 'column', bgcolor: C.main }}>
+    <Box sx={{ width: '100%', height: '100%', maxHeight: '100%', display: 'flex', flexDirection: 'column', bgcolor: C.main }}>
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 

@@ -280,7 +280,7 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <Box sx={{ display: 'flex', width: '100%', height: '100dvh', maxHeight: '100dvh', bgcolor: C.bg, overflow: 'hidden' }}>
+    <Box sx={{ display: 'flex', width: '100%', height: '100%', maxHeight: '100%', bgcolor: C.bg, overflow: 'hidden' }}>
       {/* Desktop sidebar */}
       <Box
         component="aside"
