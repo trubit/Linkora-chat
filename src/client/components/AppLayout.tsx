@@ -105,43 +105,45 @@ function NavDot({
 }) {
   return (
     <Tooltip title={item.label} placement="right">
-      <Box
-        onClick={onClick}
-        sx={{
-          width: 44,
-          height: 44,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '14px',
-          cursor: 'pointer',
-          mb: 0.5,
-          color: active ? C.accent : C.icon,
-          bgcolor: active ? C.accentGlow : 'transparent',
-          transition: 'all 0.18s ease',
-          position: 'relative',
-          '&:hover': {
-            color: active ? C.accent : C.iconHover,
-            bgcolor: active ? C.accentGlow : 'rgba(255,255,255,0.06)',
-          },
-          ...(active && {
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              left: -10,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: 3,
-              height: 22,
-              borderRadius: '0 3px 3px 0',
-              bgcolor: C.accent,
-              boxShadow: `0 0 12px ${C.accent}, 0 0 24px ${alpha(C.accent, 0.4)}`,
+      <span>
+        <Box
+          onClick={onClick}
+          sx={{
+            width: 44,
+            height: 44,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '14px',
+            cursor: 'pointer',
+            mb: 0.5,
+            color: active ? C.accent : C.icon,
+            bgcolor: active ? C.accentGlow : 'transparent',
+            transition: 'all 0.18s ease',
+            position: 'relative',
+            '&:hover': {
+              color: active ? C.accent : C.iconHover,
+              bgcolor: active ? C.accentGlow : 'rgba(255,255,255,0.06)',
             },
-          }),
-        }}
-      >
-        {item.icon}
-      </Box>
+            ...(active && {
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                left: -10,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 3,
+                height: 22,
+                borderRadius: '0 3px 3px 0',
+                bgcolor: C.accent,
+                boxShadow: `0 0 12px ${C.accent}, 0 0 24px ${alpha(C.accent, 0.4)}`,
+              },
+            }),
+          }}
+        >
+          {item.icon}
+        </Box>
+      </span>
     </Tooltip>
   );
 }
@@ -173,6 +175,10 @@ function IconStrip({
         alignItems: 'center',
         py: 1.5,
         zIndex: 10,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        flexShrink: 0,
+        '&::-webkit-scrollbar': { width: 0, display: 'none' },
       }}
     >
       {/* Logo */}
@@ -487,88 +493,105 @@ function MobileLayout() {
   const openSearch = useSearchStore((s) => s.openSearch);
   const isActive = (p: string) => location.pathname === p || location.pathname.startsWith(p + '/');
 
+  const inConversation =
+    (location.pathname.startsWith('/chat/') && location.pathname !== '/chat') ||
+    location.pathname.startsWith('/chat/g/');
+
   return (
-    <Box sx={{ width: '100%', height: '100%', maxHeight: '100%', display: 'flex', flexDirection: 'column', bgcolor: C.main }}>
+    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', flexDirection: 'column', bgcolor: C.main, overflow: 'hidden' }}>
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 
-      {/* Top bar */}
-      <Box
-        sx={{
-          height: 52,
-          bgcolor: C.strip,
-          borderBottom: `1px solid ${C.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          px: 1.5,
-          gap: 1,
-          flexShrink: 0,
-        }}
-      >
-        <IconButton
-          size="small"
-          onClick={(e) => {
-            (e.currentTarget as HTMLElement).blur();
-            setDrawerOpen(true);
+      {/* Top bar — hidden inside active conversation for 100% full-screen mobile chat */}
+      {!inConversation && (
+        <Box
+          sx={{
+            height: 'calc(52px + env(safe-area-inset-top, 0px))',
+            pt: 'env(safe-area-inset-top, 0px)',
+            bgcolor: C.strip,
+            borderBottom: `1px solid ${C.border}`,
+            display: 'flex',
+            alignItems: 'center',
+            px: 1.5,
+            gap: 1,
+            flexShrink: 0,
           }}
-          sx={{ color: C.icon }}
         >
-          <MenuIcon />
-        </IconButton>
-        <LinkoraLogo size={26} showWordmark wordmarkColor={C.txt1} wordmarkSize="1rem" />
-        <Box sx={{ flex: 1 }} />
-        {/* Search icon */}
-        <IconButton size="small" onClick={openSearch} sx={{ color: C.icon }}>
-          <SearchIcon />
-        </IconButton>
-        {/* Notification bell — self-contained with its own drawer */}
-        <NotificationBell />
-      </Box>
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              (e.currentTarget as HTMLElement).blur();
+              setDrawerOpen(true);
+            }}
+            sx={{ color: C.icon, width: 40, height: 40 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <LinkoraLogo size={26} showWordmark wordmarkColor={C.txt1} wordmarkSize="1rem" />
+          <Box sx={{ flex: 1 }} />
+          {/* Search icon */}
+          <IconButton size="small" onClick={openSearch} sx={{ color: C.icon, width: 40, height: 40 }}>
+            <SearchIcon />
+          </IconButton>
+          {/* Notification bell — self-contained with its own drawer */}
+          <NotificationBell />
+        </Box>
+      )}
 
       {/* Page content */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
         <Outlet />
       </Box>
 
-      {/* Bottom tab bar */}
-      <Box
-        sx={{
-          height: 58,
-          bgcolor: C.strip,
-          borderTop: `1px solid ${C.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          px: 0.5,
-        }}
-      >
-        {[...PRIMARY_NAV, SECONDARY_NAV[3]].map((it) => {
-          const active = isActive(it.path);
-          return (
-            <Box
-              key={it.path}
-              onClick={() => navigate(it.path)}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 0.2,
-                px: 1.5,
-                py: 0.5,
-                borderRadius: '10px',
-                cursor: 'pointer',
-                color: active ? C.accent : C.icon,
-                transition: 'all 0.15s',
-              }}
-            >
-              {it.icon}
-              <Typography sx={{ fontSize: 9.5, fontWeight: active ? 600 : 400, color: 'inherit' }}>
-                {it.label}
-              </Typography>
-            </Box>
-          );
-        })}
-      </Box>
+      {/* Bottom tab bar — hidden inside active conversation for 100% full-screen mobile chat */}
+      {!inConversation && (
+        <Box
+          sx={{
+            height: 'calc(58px + env(safe-area-inset-bottom, 0px))',
+            pb: 'env(safe-area-inset-bottom, 0px)',
+            bgcolor: C.strip,
+            borderTop: `1px solid ${C.border}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            px: 0.5,
+            flexShrink: 0,
+            zIndex: 1100,
+            position: 'relative',
+          }}
+        >
+          {[...PRIMARY_NAV, SECONDARY_NAV[3]].map((it) => {
+            const active = isActive(it.path);
+            return (
+              <Box
+                key={it.path}
+                onClick={() => navigate(it.path)}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 0.2,
+                  flex: 1,
+                  px: 0.5,
+                  py: 0.5,
+                  minHeight: 44,
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  color: active ? C.accent : C.icon,
+                  transition: 'all 0.15s',
+                  '&:active': { transform: 'scale(0.95)' },
+                }}
+              >
+                {it.icon}
+                <Typography sx={{ fontSize: 9.5, fontWeight: active ? 600 : 400, color: 'inherit' }}>
+                  {it.label}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
+      )}
 
       {/* Drawer */}
       <Drawer

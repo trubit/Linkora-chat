@@ -209,11 +209,13 @@ function GroupRow({
 interface ConversationListProps {
   onConversationSelect: (id: string) => void;
   activeId: string | null;
+  headerSlot?: React.ReactNode;
 }
 
 export default function ConversationList({
   onConversationSelect,
   activeId,
+  headerSlot,
 }: ConversationListProps) {
   const [tab, setTab] = useState(0);
   const [search, setSearch] = useState('');
@@ -289,7 +291,7 @@ export default function ConversationList({
   const isLoading = convLoading || groupLoading;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
       {/* Header */}
       <Box
         sx={{
@@ -408,7 +410,9 @@ export default function ConversationList({
       </Box>
 
       {/* List */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+        {/* Status feed appears at top of scroll area so users can scroll up to it */}
+        {headerSlot}
         {isLoading && filtered.length === 0 ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 6 }}>
             <CircularProgress size={28} sx={{ color: C.accent }} />

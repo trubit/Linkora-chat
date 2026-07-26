@@ -7,6 +7,7 @@ const { verify } = jwt;
 import mongoose from 'mongoose';
 import { getEnv } from '../config/env.js';
 import { logger } from '../logger/index.js';
+import { isAllowedOrigin } from '../security/cors.js';
 import { redisClient } from '../redis/connection.js';
 import { ConversationMemberModel } from '../database/models/ConversationMember.js';
 import { GroupMemberModel } from '../database/models/GroupMember.js';
@@ -109,7 +110,13 @@ export async function setupSocketServer(
 
   const io = new Server(httpServer, {
     cors: {
-      origin: env.CLIENT_URL,
+      origin: (reqOrigin, callback) => {
+        if (isAllowedOrigin(reqOrigin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`Socket.IO CORS: origin '${reqOrigin}' not allowed`));
+        }
+      },
       credentials: true,
       methods: ['GET', 'POST'],
     },
@@ -710,14 +717,26 @@ export async function setupSocketServer(
   const notifications = io.of('/notifications');
   notifications.use(authMiddleware);
   notifications.on('connection', (socket) => {
-    // Auto-join a personal room for targeted server-push delivery
-    void socket.join(`user:${socket.data.userId}`);
-
     logger.info('Socket connected to /notifications', {
       socketId: socket.id,
       userId: socket.data.userId,
     });
     attachLifecycleHandlers(socket, '/notifications');
+
+    // Register notification and status client↔server events
+    Promise.all([
+      import('./notification-events.js'),
+      import('./status-events.js'),
+    ])
+      .then(([{ registerNotificationEvents }, { registerStatusEvents }]) => {
+        registerNotificationEvents(socket, notifications);
+        registerStatusEvents(socket, notifications);
+      })
+      .catch((err: unknown) => {
+        logger.error('Failed to load notification/status events module', {
+          error: err instanceof Error ? err.message : String(err),
+        });
+      });
   });
 
   logger.info('Socket.IO server initialised', {

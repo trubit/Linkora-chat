@@ -12,8 +12,11 @@ import SendIcon from '@mui/icons-material/Send';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import GroupMessageBubble from './GroupMessageBubble';
 import GroupInfoDrawer from './GroupInfoDrawer';
+import { WallpaperSelector } from '@/features/chat/components/WallpaperSelector';
+import { useWallpaperStore } from '@/store/wallpaperStore';
 import { useGroup, useGroupMessages, useSendGroupMessage } from '../queries/index';
 import { useGroupStore } from '@/store/groupStore';
 import { useAuthStore } from '@/store';
@@ -41,6 +44,8 @@ export default function GroupWindow({ groupId, channelId }: Props) {
   const sendMutation = useSendGroupMessage();
   const [text, setText] = useState('');
   const [infoOpen, setInfoOpen] = useState(false);
+  const [wallpaperOpen, setWallpaperOpen] = useState(false);
+  const wallpaper = useWallpaperStore((s) => s.wallpaper);
   const endRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -122,10 +127,10 @@ export default function GroupWindow({ groupId, channelId }: Props) {
           flexShrink: 0,
         }}
       >
-        {/* Back button — navigates to /chat on mobile */}
+        {/* Back button — navigates to /groups on mobile */}
         <IconButton
           size="small"
-          onClick={() => navigate('/chat')}
+          onClick={() => navigate('/groups')}
           sx={{ color: C.txt2, '&:hover': { color: C.txt1 }, display: { md: 'none' } }}
         >
           <ArrowBackIcon sx={{ fontSize: 20 }} />
@@ -172,6 +177,16 @@ export default function GroupWindow({ groupId, channelId }: Props) {
             </Typography>
           </Box>
         </Box>
+
+        {/* Room Wallpaper Palette button */}
+        <IconButton
+          size="small"
+          onClick={() => setWallpaperOpen(true)}
+          title="Room Wallpaper"
+          sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}
+        >
+          <PaletteOutlinedIcon sx={{ fontSize: 20 }} />
+        </IconButton>
       </Box>
 
       {/* Messages */}
@@ -182,10 +197,9 @@ export default function GroupWindow({ groupId, channelId }: Props) {
           overflowY: 'auto',
           px: 2,
           py: 1.5,
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px)',
-          backgroundSize: '20px 20px',
           display: 'flex',
           flexDirection: 'column',
+          ...wallpaper.style,
         }}
       >
         <div />
@@ -229,6 +243,7 @@ export default function GroupWindow({ groupId, channelId }: Props) {
         sx={{
           px: 2,
           py: 1.5,
+          pb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
           borderTop: `1px solid ${C.border}`,
           display: 'flex',
           alignItems: 'flex-end',
@@ -293,6 +308,11 @@ export default function GroupWindow({ groupId, channelId }: Props) {
         onClose={() => setInfoOpen(false)}
         groupId={groupId}
         myId={myId ?? ''}
+      />
+
+      <WallpaperSelector
+        open={wallpaperOpen}
+        onClose={() => setWallpaperOpen(false)}
       />
     </Box>
   );

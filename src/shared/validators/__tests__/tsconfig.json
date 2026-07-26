@@ -1,3 +1,7 @@
 {
-  "extends": "../../../../tsconfig.shared.test.json"
+  "extends": "../../../../tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["jest", "node"]
+  },
+  "include": ["./**/*"]
 }

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 import { ROUTES } from './routes/index';
 import { AuthGuard } from './guards/index';
@@ -8,6 +8,8 @@ import { AdminGuard } from './guards/AdminGuard';
 import { AuthInitializer } from './components/AuthInitializer';
 import AppLayout from './components/AppLayout';
 import AdminLayout from './components/AdminLayout';
+
+const LandingPage = lazy(() => import('./features/landing/pages/LandingPage'));
 
 // ---------------------------------------------------------------------------
 // Lazy-loaded pages — auth
@@ -90,8 +92,9 @@ export default function App() {
     <AuthInitializer>
       <Suspense fallback={<PageLoading />}>
         <Routes>
-          {/* Root redirect */}
-          <Route path={ROUTES.ROOT} element={<Navigate to={ROUTES.CHAT} replace />} />
+          {/* Public Landing Page */}
+          <Route path={ROUTES.ROOT} element={<LandingPage />} />
+          <Route path={ROUTES.LANDING} element={<LandingPage />} />
 
           {/* Guest-only routes */}
           <Route element={<GuestGuard />}>

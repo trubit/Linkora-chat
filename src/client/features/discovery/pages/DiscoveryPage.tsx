@@ -236,8 +236,8 @@ export default function DiscoveryPage() {
             <Alert severity="info">No users found for &ldquo;{rawQuery}&rdquo;.</Alert>
           )}
           <Grid container spacing={2}>
-            {searchResults.map((user) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id}>
+            {searchResults.map((user, idx) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id ? `srch-${user.id}` : `srch-idx-${idx}`}>
                 <UserCard user={user} />
               </Grid>
             ))}
@@ -263,9 +263,9 @@ export default function DiscoveryPage() {
             </Button>
           </Box>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {recentSearches.map((r) => (
+            {recentSearches.map((r, idx) => (
               <Chip
-                key={r.userId}
+                key={r.userId ? `rec-${r.userId}-${idx}` : `rec-idx-${idx}`}
                 avatar={<Avatar src={r.avatar}>{r.displayName.charAt(0)}</Avatar>}
                 label={r.displayName}
                 onClick={() => setRawQuery(r.username)}
@@ -286,8 +286,8 @@ export default function DiscoveryPage() {
             People you may know
           </Typography>
           <Grid container spacing={2}>
-            {suggestions.map((user) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id}>
+            {suggestions.map((user, idx) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id ? `sugg-${user.id}` : `sugg-idx-${idx}`}>
                 <UserCard user={user} />
               </Grid>
             ))}

@@ -319,9 +319,20 @@ export class AuthService {
     }
 
     if (storedToken.isRevoked) {
-      // Potential token reuse — revoke all tokens for this user
-      await this.repo.revokeAllUserRefreshTokens(storedToken.userId.toString());
-      await this.repo.revokeAllUserSessions(storedToken.userId.toString());
+      // 30-second grace period: if this token was rotated recently AND has a
+      // replacedBy pointer, the HTTP response was almost certainly lost in
+      // transit (ECONNRESET during startup). Don't nuke all sessions for that.
+      // Only treat it as a genuine reuse attack when the window has passed.
+      const GRACE_MS = 30_000;
+      const isLikelyRetry =
+        storedToken.revokedAt != null &&
+        storedToken.replacedBy != null &&
+        Date.now() - new Date(storedToken.revokedAt).getTime() < GRACE_MS;
+
+      if (!isLikelyRetry) {
+        await this.repo.revokeAllUserRefreshTokens(storedToken.userId.toString());
+        await this.repo.revokeAllUserSessions(storedToken.userId.toString());
+      }
       throw new AppError('Refresh token has been revoked', 401, 'TOKEN_INVALID');
     }
 

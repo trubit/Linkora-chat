@@ -11,6 +11,8 @@ import {
   alpha,
   IconButton,
   Tooltip,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
@@ -98,6 +100,9 @@ function GroupItem({
 export default function GroupsPage() {
   const { groupId } = useParams<{ groupId?: string }>();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   const [q, setQ] = useState('');
   const [open, setOpen] = useState(false);
 
@@ -127,6 +132,125 @@ export default function GroupsPage() {
     navigate(`/groups/${id}`);
   }
 
+  // Mobile view handling
+  if (isMobile) {
+    if (groupId) {
+      return (
+        <Box sx={{ height: '100%', bgcolor: C.bg, overflow: 'hidden' }}>
+          <GroupWindow groupId={groupId} />
+          <CreateGroupDialog open={open} onClose={() => setOpen(false)} />
+        </Box>
+      );
+    }
+
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: C.panel, overflow: 'hidden' }}>
+        {/* Header */}
+        <Box
+          sx={{
+            px: 2,
+            py: 1.5,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: `linear-gradient(180deg, ${C.panelHdr} 0%, rgba(14,27,42,0.98) 100%)`,
+            backdropFilter: 'blur(12px)',
+            borderBottom: `1px solid ${C.border}`,
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box
+              sx={{
+                width: 30,
+                height: 30,
+                borderRadius: '8px',
+                bgcolor: C.accent,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <GroupsIcon sx={{ fontSize: 18, color: '#fff' }} />
+            </Box>
+            <Typography
+              sx={{ color: C.txt1, fontSize: 17, fontWeight: 800, letterSpacing: '-0.2px' }}
+            >
+              Groups
+            </Typography>
+          </Box>
+          <Tooltip title="Create group">
+            <IconButton
+              size="small"
+              onClick={() => setOpen(true)}
+              sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: alpha(C.accent, 0.1) } }}
+            >
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+
+        {/* Search */}
+        <Box sx={{ px: 2, py: 1.25, borderBottom: `1px solid ${C.border}` }}>
+          <TextField
+            fullWidth
+            size="small"
+            placeholder="Search groups…"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            slotProps={searchSlotProps}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                bgcolor: alpha('#fff', 0.04),
+                borderRadius: '10px',
+                color: C.txt1,
+                fontSize: 14,
+                '& fieldset': { borderColor: C.border },
+                '&:hover fieldset': { borderColor: alpha(C.accent, 0.4) },
+                '&.Mui-focused fieldset': { borderColor: C.accent },
+              },
+              '& input::placeholder': { color: C.txt2, opacity: 1 },
+            }}
+          />
+        </Box>
+
+        {/* List */}
+        <Box sx={{ flex: 1, overflowY: 'auto', py: 0.5 }}>
+          {isLoading && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
+              <CircularProgress size={24} sx={{ color: C.accent }} />
+            </Box>
+          )}
+          {!isLoading && filtered.length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 6 }}>
+              <Typography sx={{ color: C.txt2, fontSize: 14 }}>
+                {q ? 'No groups match your search' : 'No groups yet'}
+              </Typography>
+              {!q && (
+                <Button
+                  onClick={() => setOpen(true)}
+                  sx={{ mt: 2, color: C.accent, textTransform: 'none' }}
+                >
+                  Create your first group
+                </Button>
+              )}
+            </Box>
+          )}
+          {filtered.map((g) => (
+            <GroupItem
+              key={g._id}
+              group={g}
+              isActive={g._id === groupId}
+              onClick={() => selectGroup(g._id)}
+            />
+          ))}
+        </Box>
+
+        <CreateGroupDialog open={open} onClose={() => setOpen(false)} />
+      </Box>
+    );
+  }
+
+  // Desktop view handling
   return (
     <Box sx={{ display: 'flex', height: '100%', bgcolor: C.bg, overflow: 'hidden' }}>
       {/* Sidebar */}

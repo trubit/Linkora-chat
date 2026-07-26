@@ -45,7 +45,7 @@ function ContactItem({ contact }: { contact: IContactWithUser }) {
   };
 
   return (
-    <ListItem alignItems="flex-start" divider>
+    <ListItem sx={{ pr: { xs: 10, sm: 12 }, py: 1.5 }} divider>
       <ListItemAvatar>
         <Badge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
           <Avatar src={contact.avatar} alt={contact.displayName} sx={{ bgcolor: 'primary.main' }}>

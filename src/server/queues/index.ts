@@ -1,6 +1,17 @@
 import { Queue, type ConnectionOptions } from 'bullmq';
 import { getEnv } from '../config/env.js';
 import { logger } from '../logger/index.js';
+import { initNotificationQueues, closeNotificationQueues } from './notification-queues.js';
+
+export {
+  initNotificationQueues,
+  closeNotificationQueues,
+  getNotificationProcessingQueue,
+  getNotificationDeliveryQueue,
+  getNotificationRetryQueue,
+  getNotificationCleanupQueue,
+  getNotificationMetricsQueue,
+} from './notification-queues.js';
 
 // --------------------------------------------------------------------------
 // Shared Redis connection options for BullMQ
@@ -76,6 +87,8 @@ export function initQueues(): void {
   for (const name of QUEUE_NAMES) {
     registry.set(name, createQueue(name));
   }
+  // Also initialise the Phase 8 notification queues
+  initNotificationQueues();
   logger.info('BullMQ queues initialised', { queues: [...QUEUE_NAMES] });
 }
 
@@ -100,7 +113,10 @@ export const getAuditQueue = () => getQueue('audit-queue');
 export async function closeAllQueues(): Promise<void> {
   if (registry.size === 0) return;
   logger.info('Closing all BullMQ queues…');
-  await Promise.all([...registry.values()].map((q) => q.close()));
+  await Promise.all([
+    ...[...registry.values()].map((q) => q.close()),
+    closeNotificationQueues(),
+  ]);
   registry.clear();
   logger.info('All BullMQ queues closed');
 }

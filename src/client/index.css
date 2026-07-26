@@ -7,24 +7,30 @@
 }
 
 :root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
   --color-primary: #10c4a0;
   --color-primary-dark: #0d9e80;
+  --color-accent-violet: #9b6dff;
+  --color-accent-cyan: #22d3ee;
   --color-secondary: #e87830;
-  --color-bg: #f0f4f8;
-  --color-surface: #ffffff;
-  --color-text: #0d1b29;
-  --color-text-muted: #567390;
-  --color-border: rgba(13, 27, 41, 0.12);
-  --color-danger: #dc3545;
-  --color-success: #198754;
-  --color-warning: #ffc107;
+  --color-bg: #060914;
+  --color-surface: #080c18;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(139, 92, 246, 0.12);
+  --color-danger: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #fbbf24;
   --sidebar-width: 340px;
   --header-height: 60px;
-  --border-radius: 12px;
-  --border-radius-sm: 6px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
-  --transition: 0.2s ease;
+  --border-radius: 14px;
+  --border-radius-sm: 8px;
+  --shadow-glow-violet: 0 8px 32px rgba(124, 58, 237, 0.25);
+  --shadow-glow-teal: 0 8px 32px rgba(16, 196, 160, 0.25);
+  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   font-family:
     'Inter',
     -apple-system,
@@ -48,6 +54,7 @@ html {
   height: 100%;
   height: 100dvh;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -56,6 +63,21 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #060914;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+/* Touch & Mobile Responsiveness Enhancements */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari focus */
+  }
+
+  /* Smooth touch momentum scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 #root {
@@ -70,14 +92,16 @@ body {
 a {
   color: var(--color-primary);
   text-decoration: none;
+  transition: color var(--transition);
 }
 
 a:hover {
-  text-decoration: underline;
+  color: #3dd4b8;
 }
 
 button {
   cursor: pointer;
+  font-family: inherit;
 }
 
 img {
@@ -85,6 +109,7 @@ img {
   display: block;
 }
 
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -95,22 +120,86 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
+  background: rgba(143, 168, 189, 0.2);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: rgba(16, 196, 160, 0.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #07101c;
-    --color-surface: #0d1b29;
-    --color-text: #e8eff5;
-    --color-text-muted: #8fa8bd;
-    --color-border: rgba(143, 168, 189, 0.13);
+/* Glassmorphism & Effects */
+.glass-panel {
+  background: rgba(13, 27, 41, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(16, 196, 160, 0.35);
+  box-shadow: 0 12px 40px rgba(16, 196, 160, 0.12), 0 0 0 1px rgba(16, 196, 160, 0.15);
+  transform: translateY(-2px);
+}
+
+.gradient-text-teal {
+  background: linear-gradient(135deg, #f1f5f9 0%, #10c4a0 60%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-violet {
+  background: linear-gradient(135deg, #ffffff 0%, #9b6dff 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Keyframes Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
   }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
 }
 
 /* Focus ring — visible keyboard navigation */

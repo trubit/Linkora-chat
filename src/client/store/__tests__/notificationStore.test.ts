@@ -17,7 +17,7 @@ const makeNotification = (overrides: Partial<NotificationInput> = {}): Notificat
   id: 'notif-1',
   title: 'Test',
   body: 'Test notification',
-  type: 'message' as const,
+  type: 'message_received' as const,
   ...overrides,
 });
 

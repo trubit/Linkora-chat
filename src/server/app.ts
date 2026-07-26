@@ -162,6 +162,8 @@ export async function start(): Promise<void> {
       initQueues();
       const { startMediaWorker } = await import('./workers/media.worker.js');
       startMediaWorker();
+      const { startNotificationWorker } = await import('./workers/notification.worker.js');
+      startNotificationWorker();
     } else {
       logger.warn(
         `Redis ${redisVersion} is too old for BullMQ (requires 5.0+) — background jobs disabled. ` +
@@ -175,7 +177,15 @@ export async function start(): Promise<void> {
     });
   }
 
-  await setupSocketServer(httpServer, redisAvailable);
+  const io = await setupSocketServer(httpServer, redisAvailable);
+
+  // Wire notification engine adapters
+  const { notificationEngine } = await import('./lib/notification-engine/index.js');
+  const { inAppAdapter } = await import('./lib/notification-engine/adapters/in-app.adapter.js');
+  const { emailAdapter } = await import('./lib/notification-engine/adapters/email.adapter.js');
+  inAppAdapter.setIo(io);
+  notificationEngine.registerAdapter(inAppAdapter);
+  notificationEngine.registerAdapter(emailAdapter);
 
   await new Promise<void>((resolve) => {
     httpServer.listen(env.PORT, () => {

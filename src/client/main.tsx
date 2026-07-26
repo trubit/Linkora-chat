@@ -1,12 +1,17 @@
 import './storeMigration'; // must be first — migrates localStorage keys before stores hydrate
+import { registerServiceWorker } from './pwa/registerSW';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { AppProviders } from './providers';
 import App from './App';
 import { ErrorBoundary } from './components/ErrorBoundary';
+
+// Register PWA service worker after initial render
+if (import.meta.env.PROD) {
+  void registerServiceWorker();
+}
 
 const root = document.getElementById('root');
 if (!root) {

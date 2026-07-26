@@ -20,11 +20,6 @@ function VerificationBanner() {
           position: 'relative',
           flexShrink: 0,
           zIndex: 100,
-          '@keyframes slideDown': {
-            from: { opacity: 0, transform: 'translateY(-100%)' },
-            to: { opacity: 1, transform: 'translateY(0)' },
-          },
-          animation: 'slideDown 0.35s cubic-bezier(.22,.68,0,1.2) both',
           background: 'linear-gradient(135deg, #1a1200 0%, #2a1e00 40%, #1f1500 100%)',
           borderBottom: '1px solid rgba(255,191,0,0.15)',
           boxShadow: '0 4px 32px rgba(0,0,0,0.35)',

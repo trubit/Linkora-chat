@@ -5,13 +5,35 @@ import { getEnv } from '../config/env.js';
 // Allowed origins
 // --------------------------------------------------------------------------
 
-function getAllowedOrigins(): string[] {
-  const { CLIENT_URL } = getEnv();
-  return [CLIENT_URL];
+export function isAllowedOrigin(origin: string | undefined): boolean {
+  if (!origin) return true; // Server-to-server, mobile native, curl
+
+  const env = getEnv();
+  if (env.NODE_ENV === 'development' || env.NODE_ENV === 'test') {
+    return true; // Allow all origins in dev mode (mobile on Wi-Fi, localtunnel, ngrok)
+  }
+
+  if (origin === env.CLIENT_URL) return true;
+
+  // Allow local network IP addresses (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
+  if (
+    /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3})(:\d+)?$/.test(
+      origin,
+    )
+  ) {
+    return true;
+  }
+
+  // Allow localtunnel & ngrok development tunnels
+  if (/\.(loca\.lt|ngrok-free\.app|ngrok\.io)$/.test(origin)) {
+    return true;
+  }
+
+  return false;
 }
 
 // --------------------------------------------------------------------------
-// CORS options
+// CORS options for Express
 // --------------------------------------------------------------------------
 
 export const corsOptions: CorsOptions = {
@@ -19,14 +41,7 @@ export const corsOptions: CorsOptions = {
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void,
   ): void => {
-    // Allow requests with no origin (server-to-server, curl, mobile apps)
-    if (!origin) {
-      callback(null, true);
-      return;
-    }
-
-    const allowed = getAllowedOrigins();
-    if (allowed.includes(origin)) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: origin '${origin}' is not allowed`));

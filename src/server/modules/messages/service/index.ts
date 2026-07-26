@@ -131,6 +131,50 @@ export class MessageService {
     // Increment unread for other members
     await this.convRepo.incrementUnread(dto.conversationId, userId);
 
+    // True fire-and-forget — never blocks sendMessage, never throws to caller
+    const senderId = message.senderId.toString();
+    const messageId = message._id.toString();
+    const conversationId = dto.conversationId;
+    const mentions = dto.mentions ?? [];
+    const preview = dto.type === 'text' ? dto.content.slice(0, 100) : `[${dto.type}]`;
+    const msgType = dto.type;
+
+    Promise.resolve().then(async () => {
+      try {
+        const [{ ConversationMemberModel }, { UserModel }, { triggerMessageReceived, triggerMessageMention }] = await Promise.all([
+          import('../../../database/models/ConversationMember.js'),
+          import('../../../database/models/User.js'),
+          import('../../../lib/notification-triggers/index.js'),
+        ]);
+
+        const senderDoc = await UserModel.findById(senderId).select('username').lean().exec();
+        if (!senderDoc) return;
+
+        const actor = {
+          userId: senderId,
+          username: senderDoc.username ?? '',
+          displayName: senderDoc.username ?? '',
+        };
+
+        const otherMembers = await ConversationMemberModel.find({
+          conversationId: new mongoose.Types.ObjectId(conversationId),
+          userId: { $ne: new mongoose.Types.ObjectId(senderId) },
+          leftAt: null,
+        }).select('userId').lean().exec();
+
+        for (const m of otherMembers) {
+          const recipientId = m.userId.toString();
+          if (mentions.includes(recipientId)) {
+            triggerMessageMention({ recipientId, actor, conversationId, messageId, preview });
+          } else {
+            triggerMessageReceived({ recipientId, actor, conversationId, messageId, messageType: msgType, preview });
+          }
+        }
+      } catch {
+        // Silently swallow — notifications must never affect message delivery
+      }
+    }).catch(() => {});
+
     return toResponse(message);
   }
 

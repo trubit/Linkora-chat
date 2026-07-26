@@ -9,6 +9,10 @@ import { useAuthStore } from '@/store/authStore';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
 
+// Separate instance for token refresh — bypasses our response interceptor entirely,
+// preventing any interceptor re-entrancy or infinite-loop risk.
+const refreshAxios = axios.create({ baseURL: BASE_URL, withCredentials: true, timeout: 10_000 });
+
 // ---------------------------------------------------------------------------
 // Client-side resilience helpers (no server imports)
 // ---------------------------------------------------------------------------
@@ -114,11 +118,29 @@ api.interceptors.response.use(
         return Promise.reject(error);
       }
 
-      const response = await api.post<{
-        success: boolean;
-        data: { accessToken: string; refreshToken: string; expiresIn: number };
-      }>('/auth/refresh', { refreshToken }, { withCredentials: true });
-      const { accessToken, refreshToken: newRefreshToken } = response.data.data;
+      // Retry up to 3 times for transient network errors (ECONNRESET, ECONNREFUSED
+      // during server startup). Never retry on 4xx — those are definitive auth failures.
+      let refreshResponse;
+      let lastErr: unknown = null;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          refreshResponse = await refreshAxios.post<{
+            success: boolean;
+            data: { accessToken: string; refreshToken: string; expiresIn: number };
+          }>('/auth/refresh', { refreshToken });
+          break;
+        } catch (err: unknown) {
+          const status = (err as { response?: { status: number } }).response?.status;
+          // 4xx means the server made a decision — don't retry
+          if (status && status < 500) { lastErr = err; break; }
+          lastErr = err;
+          if (attempt < 2) await clientDelay(600 * (attempt + 1));
+        }
+      }
+
+      if (!refreshResponse) throw lastErr;
+
+      const { accessToken, refreshToken: newRefreshToken } = refreshResponse.data.data;
 
       useAuthStore.getState().setTokens(accessToken, newRefreshToken);
       onTokenRefreshed(accessToken);
@@ -156,5 +178,8 @@ export const apiService = {
     request<T>({ ...config, method: 'PATCH', url, data }),
 
   del: <T>(url: string, config?: AxiosRequestConfig): Promise<T> =>
+    request<T>({ ...config, method: 'DELETE', url }),
+
+  delete: <T>(url: string, config?: AxiosRequestConfig): Promise<T> =>
     request<T>({ ...config, method: 'DELETE', url }),
 };

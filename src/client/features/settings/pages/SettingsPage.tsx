@@ -19,6 +19,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import LockIcon from '@mui/icons-material/Lock';
 import SecurityIcon from '@mui/icons-material/Security';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PaletteIcon from '@mui/icons-material/Palette';
+import { WallpaperSelector } from '@/features/chat/components/WallpaperSelector';
+import { useWallpaperStore } from '@/store/wallpaperStore';
 import { ROUTES } from '@/routes/index';
 import { useChangePassword } from '@/features/auth/queries';
 import { useGetPreferences, useUpdatePreferences } from '@/features/profile/queries';
@@ -248,6 +251,8 @@ export default function SettingsPage() {
   const navigate = useNavigate();
   const logout = useAuthStore((s) => s.logout);
   const [activeTab, setActiveTab] = useState(0);
+  const [wallpaperOpen, setWallpaperOpen] = useState(false);
+  const wallpaper = useWallpaperStore((s) => s.wallpaper);
 
   const handleTabChange = (_: SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -256,6 +261,7 @@ export default function SettingsPage() {
   const tabs = [
     { label: 'Profile', icon: <PersonIcon /> },
     { label: 'Notifications', icon: <NotificationsIcon /> },
+    { label: 'Wallpaper', icon: <PaletteIcon /> },
     { label: 'Privacy', icon: <LockIcon /> },
     { label: 'Security', icon: <SecurityIcon /> },
     { label: 'Account', icon: <AccountCircleIcon /> },
@@ -306,8 +312,35 @@ export default function SettingsPage() {
             <NotificationsSection />
           </TabPanel>
 
-          {/* Privacy tab */}
+          {/* Wallpaper tab */}
           <TabPanel value={activeTab} index={2}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Customize your chat room background wallpaper theme across all conversations.
+            </Typography>
+            <Box
+              sx={{
+                p: 2,
+                borderRadius: 3,
+                mb: 2,
+                height: 120,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.1)',
+                ...wallpaper.style,
+              }}
+            >
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#FFF', bgcolor: 'rgba(0,0,0,0.6)', px: 2, py: 0.5, borderRadius: 2 }}>
+                Current Wallpaper: {wallpaper.name}
+              </Typography>
+            </Box>
+            <Button variant="contained" startIcon={<PaletteIcon />} onClick={() => setWallpaperOpen(true)}>
+              Choose Chat Wallpaper
+            </Button>
+          </TabPanel>
+
+          {/* Privacy tab */}
+          <TabPanel value={activeTab} index={3}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               Control who can see your information and how you appear to others.
             </Typography>
@@ -317,7 +350,7 @@ export default function SettingsPage() {
           </TabPanel>
 
           {/* Security tab */}
-          <TabPanel value={activeTab} index={3}>
+          <TabPanel value={activeTab} index={4}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               View active sessions, trusted devices, and recent security events.
             </Typography>
@@ -329,7 +362,7 @@ export default function SettingsPage() {
           </TabPanel>
 
           {/* Account tab */}
-          <TabPanel value={activeTab} index={4}>
+          <TabPanel value={activeTab} index={5}>
             <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
               Account actions
             </Typography>
@@ -351,6 +384,11 @@ export default function SettingsPage() {
           </TabPanel>
         </Box>
       </Paper>
+
+      <WallpaperSelector
+        open={wallpaperOpen}
+        onClose={() => setWallpaperOpen(false)}
+      />
     </Box>
   );
 }

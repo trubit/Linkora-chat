@@ -137,7 +137,7 @@ function SettingRow<T extends string>({
           isLoading ? (
             <Skeleton variant="rectangular" width={160} height={36} sx={{ borderRadius: 1 }} />
           ) : (
-            <FormControl size="small" sx={{ minWidth: 160 }}>
+            <FormControl size="small" sx={{ minWidth: 160, width: { xs: '100%', sm: 'auto' } }}>
               <Select {...f} value={f.value ?? options[0].value}>
                 {options.map((opt) => (
                   <MenuItem key={opt.value} value={opt.value}>

@@ -4,3 +4,7 @@ export * from './message.js';
 export * from './conversation.js';
 export * from './socket.js';
 export * from './group.js';
+export * from './notification.js';
+export * from './status.js';
+export * from './search.js';
+export * from './sync.js';

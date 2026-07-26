@@ -170,3 +170,59 @@ export type {
   AnnouncementScope,
   AnnouncementStatus,
 } from './Announcement.js';
+
+// ---------------------------------------------------------------------------
+// Phase 8 — Notifications Platform
+// ---------------------------------------------------------------------------
+
+export { NotificationModel } from './Notification.js';
+export type { INotification } from './Notification.js';
+
+export { NotificationPreferenceModel } from './NotificationPreference.js';
+export type { INotificationPreference, ICategoryPreference } from './NotificationPreference.js';
+
+export { NotificationDeviceModel } from './NotificationDevice.js';
+export type { INotificationDevice, NotificationDeviceType } from './NotificationDevice.js';
+
+export { NotificationTokenModel } from './NotificationToken.js';
+export type { INotificationToken, NotificationTokenPurpose } from './NotificationToken.js';
+
+export { NotificationLogModel } from './NotificationLog.js';
+export type { INotificationLog, NotificationLogAction } from './NotificationLog.js';
+
+export { NotificationTemplateModel } from './NotificationTemplate.js';
+export type { INotificationTemplate, ITemplateLocalization } from './NotificationTemplate.js';
+
+export { NotificationCategoryModel } from './NotificationCategory.js';
+export type { INotificationCategory } from './NotificationCategory.js';
+
+export { NotificationChannelConfigModel } from './NotificationChannelConfig.js';
+export type {
+  INotificationChannelConfig,
+  IChannelRateLimit,
+} from './NotificationChannelConfig.js';
+
+export { NotificationDeliveryModel } from './NotificationDelivery.js';
+export type { INotificationDelivery, DeliveryStatus } from './NotificationDelivery.js';
+
+export { NotificationFailureModel } from './NotificationFailure.js';
+export type { INotificationFailure, FailureReason } from './NotificationFailure.js';
+
+export { NotificationMetricsModel } from './NotificationMetrics.js';
+export type { INotificationMetrics, MetricGranularity, IChannelMetrics } from './NotificationMetrics.js';
+
+// Phase 8 Part 2 — Status/Stories & Sync
+export { StatusUpdateModel } from './StatusUpdate.js';
+export type { IStatusUpdate } from './StatusUpdate.js';
+
+export { StatusViewModel } from './StatusView.js';
+export type { IStatusView } from './StatusView.js';
+
+export { StatusReplyModel } from './StatusReply.js';
+export type { IStatusReply } from './StatusReply.js';
+
+export { SyncEventModel } from './SyncEvent.js';
+export type { ISyncEvent } from './SyncEvent.js';
+
+export { SyncStateModel } from './SyncState.js';
+export type { ISyncState } from './SyncState.js';

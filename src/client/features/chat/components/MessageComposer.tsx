@@ -360,6 +360,7 @@ export default function MessageComposer({
         bgcolor: C.panel,
         borderTop: `1px solid ${C.border}`,
         flexShrink: 0,
+        pb: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
       {/* Reply preview */}

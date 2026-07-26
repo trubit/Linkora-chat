@@ -309,7 +309,7 @@ export default function AdminLayout() {
         {/* Top bar (mobile only) */}
         <Box
           sx={{
-            display: { md: 'none' },
+            display: { xs: 'flex', md: 'none' },
             px: 2,
             py: 1.5,
             bgcolor: C.sidebarHdr,

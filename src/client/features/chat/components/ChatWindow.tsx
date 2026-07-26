@@ -7,12 +7,13 @@ import {
   useMemo,
   Fragment,
 } from 'react';
-import { Box, Typography, Avatar, IconButton, Skeleton, Badge, Fab } from '@mui/material';
+import { Box, Typography, Avatar, IconButton, Skeleton, Badge, Fab, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
+import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useConversationStore } from '@/store/conversationStore';
@@ -24,6 +25,8 @@ import { useMessages } from '../queries/index';
 import MessageBubble from './MessageBubble';
 import MessageComposer from './MessageComposer';
 import TypingIndicator from './TypingIndicator';
+import { WallpaperSelector } from './WallpaperSelector';
+import { useWallpaperStore } from '@/store/wallpaperStore';
 import type { Message, MessageMedia } from '@shared/types';
 import { ROUTES } from '@/routes/index';
 
@@ -109,8 +112,11 @@ export default function ChatWindow({
   const presencesRef = usePresenceStore((s) => s.presences);
 
   const [replyTo, setReplyTo] = useState<Message | null>(null);
-  const [newMsgCount, setNewMsgCount] = useState(0);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [newMsgCount, setNewMsgCount] = useState(0);
+
+  const [wallpaperOpen, setWallpaperOpen] = useState(false);
+  const wallpaper = useWallpaperStore((s) => s.wallpaper);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -374,6 +380,15 @@ export default function ChatWindow({
           )}
         </Box>
 
+        <Tooltip title="Room Wallpaper">
+          <IconButton
+            size="small"
+            onClick={() => setWallpaperOpen(true)}
+            sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}
+          >
+            <PaletteOutlinedIcon sx={{ fontSize: 20 }} />
+          </IconButton>
+        </Tooltip>
         <IconButton
           size="small"
           sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}
@@ -413,10 +428,9 @@ export default function ChatWindow({
             overflow: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.022) 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
             '&::-webkit-scrollbar': { width: 4 },
             '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(255,255,255,0.07)', borderRadius: 4 },
+            ...wallpaper.style,
           }}
         >
           {isLoading && messages.length === 0 ? (
@@ -550,6 +564,12 @@ export default function ChatWindow({
         disabled={conversation?.metadata.isReadOnly}
         onTypingStart={() => sendTypingStart(conversationId)}
         onTypingStop={() => sendTypingStop(conversationId)}
+      />
+
+      {/* ── Wallpaper Selector Modal ─────────────────────────────────────── */}
+      <WallpaperSelector
+        open={wallpaperOpen}
+        onClose={() => setWallpaperOpen(false)}
       />
     </Box>
   );

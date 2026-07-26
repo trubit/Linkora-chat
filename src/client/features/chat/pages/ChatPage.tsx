@@ -1,10 +1,13 @@
-import { useParams } from 'react-router-dom';
-import { Box, Typography, alpha } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Box, Typography, alpha, useTheme, useMediaQuery } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutlined';
 import LockIcon from '@mui/icons-material/Lock';
 import { useChatSocket } from '../hooks/useChatSocket';
 import ChatWindow from '../components/ChatWindow';
+import ConversationList from '../components/ConversationList';
+import { StatusFeed } from '@/features/status/components/StatusFeed';
 import { UploadProgress } from '@/features/media/components/UploadProgress';
+import { ROUTES } from '@/routes/index';
 
 const C = {
   accentDark: '#7C3AED',
@@ -75,6 +78,10 @@ function ChatWelcome() {
 
 export default function ChatPage() {
   const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
   const {
     sendMessage,
     sendTypingStart,
@@ -84,7 +91,20 @@ export default function ChatPage() {
     sendReactToMessage,
   } = useChatSocket();
 
-  if (!id) return <ChatWelcome />;
+  if (!id) {
+    if (isMobile) {
+      return (
+        <Box data-testid="page-chat" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <ConversationList
+            onConversationSelect={(convId) => navigate(`${ROUTES.CHAT}/${convId}`)}
+            activeId={null}
+            headerSlot={<StatusFeed />}
+          />
+        </Box>
+      );
+    }
+    return <ChatWelcome />;
+  }
 
   // With-id: wrap in a flex column so ChatWindow fills the available height.
   return (
