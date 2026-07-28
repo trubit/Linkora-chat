@@ -13,10 +13,7 @@ import {
 } from '../../../redis/notification-cache.js';
 import type { INotification } from '../../../database/models/Notification.js';
 import type { GetNotificationsQuery, CreateNotificationDto } from '../types/index.js';
-import type {
-  NotificationSummary,
-  PaginatedNotifications,
-} from '@shared/types/notification.js';
+import type { NotificationSummary, PaginatedNotifications } from '@shared/types/notification.js';
 
 // ---------------------------------------------------------------------------
 // Mapper
@@ -84,7 +81,10 @@ export class NotificationService {
 
     const doc = await notificationRepository.findById(notificationId);
     if (!doc || doc.recipientId.toString() !== userId) {
-      throw Object.assign(new Error('Notification not found'), { statusCode: 404, code: 'NOT_FOUND' });
+      throw Object.assign(new Error('Notification not found'), {
+        statusCode: 404,
+        code: 'NOT_FOUND',
+      });
     }
 
     const summary = toSummary(doc);
@@ -169,13 +169,13 @@ export class NotificationService {
     return { modifiedCount, readAt };
   }
 
-  async archiveNotification(
-    userId: string,
-    notificationId: string,
-  ): Promise<NotificationSummary> {
+  async archiveNotification(userId: string, notificationId: string): Promise<NotificationSummary> {
     const doc = await notificationRepository.archive(userId, notificationId);
     if (!doc) {
-      throw Object.assign(new Error('Notification not found'), { statusCode: 404, code: 'NOT_FOUND' });
+      throw Object.assign(new Error('Notification not found'), {
+        statusCode: 404,
+        code: 'NOT_FOUND',
+      });
     }
 
     await invalidateNotification(notificationId);
@@ -186,7 +186,10 @@ export class NotificationService {
   async deleteNotification(userId: string, notificationId: string): Promise<void> {
     const deleted = await notificationRepository.softDelete(userId, notificationId);
     if (!deleted) {
-      throw Object.assign(new Error('Notification not found'), { statusCode: 404, code: 'NOT_FOUND' });
+      throw Object.assign(new Error('Notification not found'), {
+        statusCode: 404,
+        code: 'NOT_FOUND',
+      });
     }
 
     await invalidateNotification(notificationId);

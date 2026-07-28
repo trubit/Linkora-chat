@@ -567,10 +567,7 @@ export default function ChatWindow({
       />
 
       {/* ── Wallpaper Selector Modal ─────────────────────────────────────── */}
-      <WallpaperSelector
-        open={wallpaperOpen}
-        onClose={() => setWallpaperOpen(false)}
-      />
+      <WallpaperSelector open={wallpaperOpen} onClose={() => setWallpaperOpen(false)} />
     </Box>
   );
 }

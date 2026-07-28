@@ -1,5 +1,9 @@
 import mongoose, { type Document, Schema } from 'mongoose';
-import type { NotificationType, NotificationCategory, NotificationDeliveryChannel } from '@shared/types/notification.js';
+import type {
+  NotificationType,
+  NotificationCategory,
+  NotificationDeliveryChannel,
+} from '@shared/types/notification.js';
 
 // ---------------------------------------------------------------------------
 // Interfaces

@@ -1,5 +1,9 @@
 import mongoose, { type Document, Schema } from 'mongoose';
-import type { NotificationCategory, ChannelPreferences, DoNotDisturbSchedule } from '@shared/types/notification.js';
+import type {
+  NotificationCategory,
+  ChannelPreferences,
+  DoNotDisturbSchedule,
+} from '@shared/types/notification.js';
 
 // ---------------------------------------------------------------------------
 // Interfaces

@@ -2,7 +2,11 @@ import { useQuery, useMutation, useInfiniteQuery, useQueryClient } from '@tansta
 import { apiService } from '@/services/api';
 import { useNotificationStore } from '@/store/notificationStore';
 import { useAuthStore } from '@/store/authStore';
-import type { NotificationSummary, PaginatedNotifications, NotificationCategory } from '@shared/types/notification.js';
+import type {
+  NotificationSummary,
+  PaginatedNotifications,
+  NotificationCategory,
+} from '@shared/types/notification.js';
 
 interface ApiResponse<T> {
   success: boolean;
@@ -11,10 +15,7 @@ interface ApiResponse<T> {
 
 // ── List notifications ──────────────────────────────────────────────────────
 
-export function useNotifications(opts?: {
-  category?: NotificationCategory;
-  unreadOnly?: boolean;
-}) {
+export function useNotifications(opts?: { category?: NotificationCategory; unreadOnly?: boolean }) {
   const { accessToken } = useAuthStore();
   return useInfiniteQuery({
     queryKey: ['notifications', opts],
@@ -28,8 +29,7 @@ export function useNotifications(opts?: {
       );
       return res.data;
     },
-    getNextPageParam: (last) =>
-      last.hasMore ? last.page + 1 : undefined,
+    getNextPageParam: (last) => (last.hasMore ? last.page + 1 : undefined),
     initialPageParam: 1,
     enabled: Boolean(accessToken),
     retry: false,
@@ -46,7 +46,9 @@ export function useNotificationUnreadCount() {
   return useQuery({
     queryKey: ['notifications', 'unread-count'],
     queryFn: async () => {
-      const res = await apiService.get<ApiResponse<{ count: number }>>('/notifications/unread-count');
+      const res = await apiService.get<ApiResponse<{ count: number }>>(
+        '/notifications/unread-count',
+      );
       setUnreadCount(res.data.count);
       return res.data.count;
     },
@@ -81,10 +83,7 @@ export function useMarkNotificationsRead() {
   return useMutation({
     mutationFn: (opts: { notificationIds?: string[]; all?: boolean }) =>
       apiService
-        .post<ApiResponse<{ modifiedCount: number; readAt: string }>>(
-          '/notifications/read',
-          opts,
-        )
+        .post<ApiResponse<{ modifiedCount: number; readAt: string }>>('/notifications/read', opts)
         .then((r) => r.data),
     onSuccess: (_data, vars) => {
       if (vars.all) {

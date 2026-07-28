@@ -19,6 +19,7 @@ export function StatusFeed() {
     openViewer(group, index);
   };
 
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
   const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
 
@@ -46,7 +47,10 @@ export function StatusFeed() {
     return (
       <Stack direction="row" spacing={2} sx={{ px: 2, py: 1.5, overflowX: 'auto' }}>
         {Array.from({ length: 5 }).map((_, i) => (
-          <Box key={i} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 72 }}>
+          <Box
+            key={i}
+            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 72 }}
+          >
             <Skeleton variant="circular" width={56} height={56} />
             <Skeleton variant="text" width={56} height={14} sx={{ mt: 0.5 }} />
           </Box>

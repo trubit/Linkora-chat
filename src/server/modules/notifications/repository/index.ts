@@ -50,10 +50,7 @@ export class NotificationRepository {
     return NotificationModel.findById(new mongoose.Types.ObjectId(id)).exec();
   }
 
-  async markRead(
-    recipientId: string,
-    notificationIds: string[],
-  ): Promise<number> {
+  async markRead(recipientId: string, notificationIds: string[]): Promise<number> {
     if (!mongoose.Types.ObjectId.isValid(recipientId)) return 0;
     const validIds = notificationIds
       .filter((id) => mongoose.Types.ObjectId.isValid(id))
@@ -143,9 +140,7 @@ export class NotificationRepository {
     return result.modifiedCount;
   }
 
-  async countByCategory(
-    recipientId: string,
-  ): Promise<Record<NotificationCategory, number>> {
+  async countByCategory(recipientId: string): Promise<Record<NotificationCategory, number>> {
     if (!mongoose.Types.ObjectId.isValid(recipientId)) {
       return {} as Record<NotificationCategory, number>;
     }
@@ -184,7 +179,10 @@ export class NotificationRepository {
 
     await NotificationModel.updateOne(
       { _id: new mongoose.Types.ObjectId(notificationId) },
-      { $set: { status }, ...(deliveredChannel ? { $addToSet: { deliveredChannels: deliveredChannel } } : {}) },
+      {
+        $set: { status },
+        ...(deliveredChannel ? { $addToSet: { deliveredChannels: deliveredChannel } } : {}),
+      },
     ).exec();
   }
 }

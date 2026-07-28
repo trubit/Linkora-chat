@@ -22,10 +22,7 @@ export class NotificationPreferenceRepository {
     }).exec();
   }
 
-  async update(
-    userId: string,
-    input: UpdatePreferencesInput,
-  ): Promise<INotificationPreference> {
+  async update(userId: string, input: UpdatePreferencesInput): Promise<INotificationPreference> {
     const oid = new mongoose.Types.ObjectId(userId);
 
     // Build flat $set / $unset
@@ -68,11 +65,10 @@ export class NotificationPreferenceRepository {
     if (Object.keys(setFields).length > 0) updateOp['$set'] = setFields;
     if (Object.keys(unsetFields).length > 0) updateOp['$unset'] = unsetFields;
 
-    const doc = await NotificationPreferenceModel.findOneAndUpdate(
-      { userId: oid },
-      updateOp,
-      { new: true, upsert: true },
-    ).exec();
+    const doc = await NotificationPreferenceModel.findOneAndUpdate({ userId: oid }, updateOp, {
+      new: true,
+      upsert: true,
+    }).exec();
 
     return doc!;
   }

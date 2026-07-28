@@ -37,7 +37,12 @@ export const notificationReadLimiter: RequestHandler = rateLimit(
 
 // 5 status posts per hour per user
 export const statusCreateLimiter: RequestHandler = rateLimit(
-  buildOpts(60 * 60_000, 5, 'status-create', 'You can only post 5 status updates per hour.') as RateLimitOptions,
+  buildOpts(
+    60 * 60_000,
+    5,
+    'status-create',
+    'You can only post 5 status updates per hour.',
+  ) as RateLimitOptions,
 );
 
 // 30 searches per minute per user

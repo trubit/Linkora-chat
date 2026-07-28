@@ -1,5 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { Box, Container, Typography, Stack, Button, TextField, Avatar, Chip, Paper } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Stack,
+  Button,
+  TextField,
+  Avatar,
+  Chip,
+  Paper,
+} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -33,6 +43,10 @@ const BOT_RESPONSES: Record<string, string> = {
     'Thanks for testing Linkora! Linkora uses real-time WebSockets to deliver sub-10ms message latency across all devices. Feel free to click "Get Started Free" to create your account! 🚀',
 };
 
+function createDemoId(prefix: string) {
+  return `demo-${prefix}-${Math.random().toString(36).substring(2, 9)}`;
+}
+
 export default function LiveDemoSection() {
   const [messages, setMessages] = useState<DemoMessage[]>([
     {
@@ -55,7 +69,7 @@ export default function LiveDemoSection() {
     if (!query.trim()) return;
 
     const userMsg: DemoMessage = {
-      id: Date.now().toString(),
+      id: createDemoId('user'),
       sender: 'user',
       text: query,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -69,7 +83,7 @@ export default function LiveDemoSection() {
     setTimeout(() => {
       const responseText = BOT_RESPONSES[query] || BOT_RESPONSES.default;
       const botMsg: DemoMessage = {
-        id: (Date.now() + 1).toString(),
+        id: createDemoId('bot'),
         sender: 'bot',
         text: responseText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -165,10 +179,17 @@ export default function LiveDemoSection() {
 
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <Chip
-                icon={<LockIcon sx={{ fontSize: '13px !important', color: '#10C4A0 !important' }} />}
+                icon={
+                  <LockIcon sx={{ fontSize: '13px !important', color: '#10C4A0 !important' }} />
+                }
                 label="Encrypted"
                 size="small"
-                sx={{ bgcolor: 'rgba(16,196,160,0.12)', color: '#10C4A0', fontSize: '0.7rem', fontWeight: 600 }}
+                sx={{
+                  bgcolor: 'rgba(16,196,160,0.12)',
+                  color: '#10C4A0',
+                  fontSize: '0.7rem',
+                  fontWeight: 600,
+                }}
               />
               <Button
                 size="small"
@@ -221,9 +242,16 @@ export default function LiveDemoSection() {
                   <Stack
                     direction="row"
                     spacing={0.5}
-                    sx={{ mt: 0.5, px: 0.5, justifyContent: isUser ? 'flex-end' : 'flex-start', alignItems: 'center' }}
+                    sx={{
+                      mt: 0.5,
+                      px: 0.5,
+                      justifyContent: isUser ? 'flex-end' : 'flex-start',
+                      alignItems: 'center',
+                    }}
                   >
-                    <Typography sx={{ fontSize: '0.7rem', color: '#64748B' }}>{msg.timestamp}</Typography>
+                    <Typography sx={{ fontSize: '0.7rem', color: '#64748B' }}>
+                      {msg.timestamp}
+                    </Typography>
                     {isUser && <DoneAllIcon sx={{ fontSize: 14, color: '#10C4A0' }} />}
                   </Stack>
                 </Box>
@@ -254,7 +282,15 @@ export default function LiveDemoSection() {
           </Box>
 
           {/* Quick Preset Prompts */}
-          <Box sx={{ px: 3, pt: 1.5, pb: 1, bgcolor: '#080C18', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <Box
+            sx={{
+              px: 3,
+              pt: 1.5,
+              pb: 1,
+              bgcolor: '#080C18',
+              borderTop: '1px solid rgba(255,255,255,0.05)',
+            }}
+          >
             <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 1 }}>
               {PRESET_PROMPTS.map((prompt) => (
                 <Chip

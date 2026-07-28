@@ -126,7 +126,8 @@ export class SearchService {
   private async searchMessages(q: string, userId: string): Promise<SearchResultMessage[]> {
     try {
       const { MessageModel } = await import('../../../database/models/Message.js');
-      const { ConversationMemberModel } = await import('../../../database/models/ConversationMember.js');
+      const { ConversationMemberModel } =
+        await import('../../../database/models/ConversationMember.js');
 
       const userOid = new mongoose.Types.ObjectId(userId);
       const memberships = await ConversationMemberModel.find({

@@ -70,7 +70,9 @@ body {
 
 /* Touch & Mobile Responsiveness Enhancements */
 @media (max-width: 768px) {
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px !important; /* Prevents auto-zoom on iOS Safari focus */
   }
 
@@ -148,7 +150,9 @@ img {
 
 .glass-card:hover {
   border-color: rgba(16, 196, 160, 0.35);
-  box-shadow: 0 12px 40px rgba(16, 196, 160, 0.12), 0 0 0 1px rgba(16, 196, 160, 0.15);
+  box-shadow:
+    0 12px 40px rgba(16, 196, 160, 0.12),
+    0 0 0 1px rgba(16, 196, 160, 0.15);
   transform: translateY(-2px);
 }
 
@@ -166,7 +170,8 @@ img {
 
 /* Keyframes Animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -175,7 +180,8 @@ img {
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }

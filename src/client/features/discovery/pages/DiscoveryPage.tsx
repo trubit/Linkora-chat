@@ -237,7 +237,10 @@ export default function DiscoveryPage() {
           )}
           <Grid container spacing={2}>
             {searchResults.map((user, idx) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id ? `srch-${user.id}` : `srch-idx-${idx}`}>
+              <Grid
+                size={{ xs: 12, sm: 6, md: 4 }}
+                key={user.id ? `srch-${user.id}` : `srch-idx-${idx}`}
+              >
                 <UserCard user={user} />
               </Grid>
             ))}
@@ -287,7 +290,10 @@ export default function DiscoveryPage() {
           </Typography>
           <Grid container spacing={2}>
             {suggestions.map((user, idx) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={user.id ? `sugg-${user.id}` : `sugg-idx-${idx}`}>
+              <Grid
+                size={{ xs: 12, sm: 6, md: 4 }}
+                key={user.id ? `sugg-${user.id}` : `sugg-idx-${idx}`}
+              >
                 <UserCard user={user} />
               </Grid>
             ))}

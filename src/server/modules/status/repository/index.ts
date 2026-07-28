@@ -81,7 +81,11 @@ export class StatusRepository {
   }
 
   // Record a view (upsert — idempotent)
-  async recordView(statusId: string, statusOwnerId: string, viewerId: string): Promise<{ isNew: boolean }> {
+  async recordView(
+    statusId: string,
+    statusOwnerId: string,
+    viewerId: string,
+  ): Promise<{ isNew: boolean }> {
     const result = await StatusViewModel.findOneAndUpdate(
       {
         statusId: new mongoose.Types.ObjectId(statusId),
@@ -108,7 +112,12 @@ export class StatusRepository {
   }
 
   // Record a reaction (upsert on the view record)
-  async recordReaction(statusId: string, statusOwnerId: string, viewerId: string, reaction: string): Promise<void> {
+  async recordReaction(
+    statusId: string,
+    statusOwnerId: string,
+    viewerId: string,
+    reaction: string,
+  ): Promise<void> {
     await StatusViewModel.findOneAndUpdate(
       {
         statusId: new mongoose.Types.ObjectId(statusId),

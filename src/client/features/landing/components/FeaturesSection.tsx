@@ -81,7 +81,10 @@ export default function FeaturesSection() {
     >
       <Container maxWidth="lg">
         {/* Section Header */}
-        <Stack spacing={2} sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}>
+        <Stack
+          spacing={2}
+          sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}
+        >
           <Typography
             sx={{
               fontSize: '0.875rem',
@@ -112,8 +115,8 @@ export default function FeaturesSection() {
               lineHeight: 1.6,
             }}
           >
-            No more switching between separate apps for personal chats, community groups, 
-            voice channels, and workplace threads.
+            No more switching between separate apps for personal chats, community groups, voice
+            channels, and workplace threads.
           </Typography>
         </Stack>
 
@@ -146,7 +149,10 @@ export default function FeaturesSection() {
                 >
                   <Box>
                     {/* Top Icon & Subtitle Badge */}
-                    <Stack direction="row" sx={{ mb: 2.5, justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Stack
+                      direction="row"
+                      sx={{ mb: 2.5, justifyContent: 'space-between', alignItems: 'center' }}
+                    >
                       <Box
                         sx={{
                           width: 48,
@@ -176,11 +182,16 @@ export default function FeaturesSection() {
                       </Typography>
                     </Stack>
 
-                    <Typography variant="h5" sx={{ fontSize: '1.25rem', fontWeight: 700, color: '#F1F5F9', mb: 1 }}>
+                    <Typography
+                      variant="h5"
+                      sx={{ fontSize: '1.25rem', fontWeight: 700, color: '#F1F5F9', mb: 1 }}
+                    >
                       {item.title}
                     </Typography>
 
-                    <Typography sx={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.6, mb: 3 }}>
+                    <Typography
+                      sx={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.6, mb: 3 }}
+                    >
                       {item.desc}
                     </Typography>
                   </Box>

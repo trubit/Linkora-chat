@@ -330,11 +330,25 @@ export default function SettingsPage() {
                 ...wallpaper.style,
               }}
             >
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#FFF', bgcolor: 'rgba(0,0,0,0.6)', px: 2, py: 0.5, borderRadius: 2 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 700,
+                  color: '#FFF',
+                  bgcolor: 'rgba(0,0,0,0.6)',
+                  px: 2,
+                  py: 0.5,
+                  borderRadius: 2,
+                }}
+              >
                 Current Wallpaper: {wallpaper.name}
               </Typography>
             </Box>
-            <Button variant="contained" startIcon={<PaletteIcon />} onClick={() => setWallpaperOpen(true)}>
+            <Button
+              variant="contained"
+              startIcon={<PaletteIcon />}
+              onClick={() => setWallpaperOpen(true)}
+            >
               Choose Chat Wallpaper
             </Button>
           </TabPanel>
@@ -385,10 +399,7 @@ export default function SettingsPage() {
         </Box>
       </Paper>
 
-      <WallpaperSelector
-        open={wallpaperOpen}
-        onClose={() => setWallpaperOpen(false)}
-      />
+      <WallpaperSelector open={wallpaperOpen} onClose={() => setWallpaperOpen(false)} />
     </Box>
   );
 }

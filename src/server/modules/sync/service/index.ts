@@ -109,11 +109,7 @@ export class SyncService {
     };
   }
 
-  private async updateSyncState(
-    userId: string,
-    deviceId: string,
-    version: number,
-  ): Promise<void> {
+  private async updateSyncState(userId: string, deviceId: string, version: number): Promise<void> {
     await SyncStateModel.findOneAndUpdate(
       {
         userId: new mongoose.Types.ObjectId(userId),

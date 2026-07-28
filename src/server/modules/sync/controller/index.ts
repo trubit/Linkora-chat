@@ -41,10 +41,7 @@ export class SyncController {
   async getState(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const userId = req.user!.id;
-      const { deviceId } = validate(
-        z.object({ deviceId: z.string().min(1) }),
-        req.query,
-      );
+      const { deviceId } = validate(z.object({ deviceId: z.string().min(1) }), req.query);
       const data = await syncService.getSyncState(userId, deviceId);
       res.status(200).json({ success: true, data });
     } catch (err) {

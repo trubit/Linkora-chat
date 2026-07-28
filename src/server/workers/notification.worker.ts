@@ -2,15 +2,9 @@ import { Worker, type Job } from 'bullmq';
 import { getEnv } from '../config/env.js';
 import { logger } from '../logger/index.js';
 import { notificationEngine } from '../lib/notification-engine/index.js';
-import {
-  NotificationModel,
-} from '../database/models/index.js';
-import {
-  NotificationDeliveryModel,
-} from '../database/models/index.js';
-import {
-  NotificationLogModel,
-} from '../database/models/index.js';
+import { NotificationModel } from '../database/models/index.js';
+import { NotificationDeliveryModel } from '../database/models/index.js';
+import { NotificationLogModel } from '../database/models/index.js';
 import { acquireDeliveryLock, releaseDeliveryLock } from '../redis/notification-cache.js';
 import mongoose from 'mongoose';
 
@@ -178,7 +172,10 @@ async function processNotification(data: ProcessNotificationJob): Promise<void> 
           },
           {
             $inc: { attempts: 1 },
-            $set: { status: 'failed', lastError: deliveryErr instanceof Error ? deliveryErr.message : String(deliveryErr) },
+            $set: {
+              status: 'failed',
+              lastError: deliveryErr instanceof Error ? deliveryErr.message : String(deliveryErr),
+            },
           },
         ).exec();
 

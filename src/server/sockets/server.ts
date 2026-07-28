@@ -724,10 +724,7 @@ export async function setupSocketServer(
     attachLifecycleHandlers(socket, '/notifications');
 
     // Register notification and status client↔server events
-    Promise.all([
-      import('./notification-events.js'),
-      import('./status-events.js'),
-    ])
+    Promise.all([import('./notification-events.js'), import('./status-events.js')])
       .then(([{ registerNotificationEvents }, { registerStatusEvents }]) => {
         registerNotificationEvents(socket, notifications);
         registerStatusEvents(socket, notifications);

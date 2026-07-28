@@ -1,4 +1,17 @@
-import { Box, Container, Typography, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+} from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 
@@ -94,7 +107,8 @@ export default function PlatformComparison() {
               maxWidth: 640,
             }}
           >
-            Linkora consolidates private messaging, channels, voice servers, and workspace collaboration into a single, high-performance platform.
+            Linkora consolidates private messaging, channels, voice servers, and workspace
+            collaboration into a single, high-performance platform.
           </Typography>
         </Stack>
 
@@ -113,7 +127,9 @@ export default function PlatformComparison() {
           <Table>
             <TableHead sx={{ bgcolor: 'rgba(15, 23, 42, 0.9)' }}>
               <TableRow>
-                <TableCell sx={{ color: '#F1F5F9', fontWeight: 700, fontSize: '0.95rem', py: 2.5, pl: 3 }}>
+                <TableCell
+                  sx={{ color: '#F1F5F9', fontWeight: 700, fontSize: '0.95rem', py: 2.5, pl: 3 }}
+                >
                   Capability / Feature
                 </TableCell>
                 <TableCell align="center" sx={{ py: 2.5 }}>
@@ -128,16 +144,28 @@ export default function PlatformComparison() {
                     }}
                   />
                 </TableCell>
-                <TableCell align="center" sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}>
+                <TableCell
+                  align="center"
+                  sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}
+                >
                   WhatsApp
                 </TableCell>
-                <TableCell align="center" sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}>
+                <TableCell
+                  align="center"
+                  sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}
+                >
                   Telegram
                 </TableCell>
-                <TableCell align="center" sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}>
+                <TableCell
+                  align="center"
+                  sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}
+                >
                   Discord
                 </TableCell>
-                <TableCell align="center" sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}>
+                <TableCell
+                  align="center"
+                  sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}
+                >
                   Slack
                 </TableCell>
               </TableRow>
@@ -153,7 +181,9 @@ export default function PlatformComparison() {
                     transition: 'background-color 0.2s ease',
                   }}
                 >
-                  <TableCell sx={{ color: '#E2E8F0', fontWeight: 600, fontSize: '0.9rem', py: 2.2, pl: 3 }}>
+                  <TableCell
+                    sx={{ color: '#E2E8F0', fontWeight: 600, fontSize: '0.9rem', py: 2.2, pl: 3 }}
+                  >
                     {row.feature}
                   </TableCell>
 

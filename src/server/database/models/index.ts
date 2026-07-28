@@ -197,10 +197,7 @@ export { NotificationCategoryModel } from './NotificationCategory.js';
 export type { INotificationCategory } from './NotificationCategory.js';
 
 export { NotificationChannelConfigModel } from './NotificationChannelConfig.js';
-export type {
-  INotificationChannelConfig,
-  IChannelRateLimit,
-} from './NotificationChannelConfig.js';
+export type { INotificationChannelConfig, IChannelRateLimit } from './NotificationChannelConfig.js';
 
 export { NotificationDeliveryModel } from './NotificationDelivery.js';
 export type { INotificationDelivery, DeliveryStatus } from './NotificationDelivery.js';
@@ -209,7 +206,11 @@ export { NotificationFailureModel } from './NotificationFailure.js';
 export type { INotificationFailure, FailureReason } from './NotificationFailure.js';
 
 export { NotificationMetricsModel } from './NotificationMetrics.js';
-export type { INotificationMetrics, MetricGranularity, IChannelMetrics } from './NotificationMetrics.js';
+export type {
+  INotificationMetrics,
+  MetricGranularity,
+  IChannelMetrics,
+} from './NotificationMetrics.js';
 
 // Phase 8 Part 2 — Status/Stories & Sync
 export { StatusUpdateModel } from './StatusUpdate.js';

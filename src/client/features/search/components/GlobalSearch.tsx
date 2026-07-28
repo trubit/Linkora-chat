@@ -36,35 +36,49 @@ import type { SearchResult } from '@shared/types/search.js';
 
 function SearchResultItem({ result }: { result: SearchResult }) {
   const icon =
-    result.type === 'user' ? <PersonIcon /> :
-    result.type === 'message' ? <MessageIcon /> :
-    result.type === 'group' ? <GroupIcon /> :
-    result.type === 'community' ? <CommunityIcon /> :
-    <ChannelIcon />;
+    result.type === 'user' ? (
+      <PersonIcon />
+    ) : result.type === 'message' ? (
+      <MessageIcon />
+    ) : result.type === 'group' ? (
+      <GroupIcon />
+    ) : result.type === 'community' ? (
+      <CommunityIcon />
+    ) : (
+      <ChannelIcon />
+    );
 
   const primary =
-    result.type === 'user' ? result.displayName :
-    result.type === 'message' ? result.senderName :
-    result.type === 'group' ? result.name :
-    result.type === 'community' ? result.name :
-    result.name;
+    result.type === 'user'
+      ? result.displayName
+      : result.type === 'message'
+        ? result.senderName
+        : result.type === 'group'
+          ? result.name
+          : result.type === 'community'
+            ? result.name
+            : result.name;
 
   const secondary =
-    result.type === 'user' ? `@${result.username}` :
-    result.type === 'message' ? result.highlight ?? result.content :
-    result.type === 'group' ? `${result.memberCount} members` :
-    result.type === 'community' ? `${result.memberCount} members` :
-    result.groupName;
+    result.type === 'user'
+      ? `@${result.username}`
+      : result.type === 'message'
+        ? (result.highlight ?? result.content)
+        : result.type === 'group'
+          ? `${result.memberCount} members`
+          : result.type === 'community'
+            ? `${result.memberCount} members`
+            : result.groupName;
 
   const avatar =
-    result.type === 'user' ? result.avatar :
-    result.type === 'group' || result.type === 'community' ? result.avatar :
-    undefined;
+    result.type === 'user'
+      ? result.avatar
+      : result.type === 'group' || result.type === 'community'
+        ? result.avatar
+        : undefined;
 
   return (
-    <ListItem
-      sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, borderRadius: 1 }}
-    >
+    <ListItem sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, borderRadius: 1 }}>
       <ListItemAvatar>
         <Avatar src={avatar} sx={{ width: 36, height: 36 }}>
           {icon}
@@ -76,11 +90,7 @@ function SearchResultItem({ result }: { result: SearchResult }) {
             <Typography variant="body2" noWrap sx={{ flex: 1 }}>
               {primary}
             </Typography>
-            <Chip
-              label={result.type}
-              size="small"
-              sx={{ height: 18, fontSize: 10 }}
-            />
+            <Chip label={result.type} size="small" sx={{ height: 18, fontSize: 10 }} />
           </Stack>
         }
         secondary={
@@ -105,8 +115,17 @@ interface GlobalSearchProps {
 }
 
 export function GlobalSearch({ open: openProp, onClose: onCloseProp }: GlobalSearchProps = {}) {
-  const { isOpen, query, results, activeTypes, lastResponse, toggleType, setQuery, closeSearch, addRecentSearch } =
-    useSearchStore();
+  const {
+    isOpen,
+    query,
+    results,
+    activeTypes,
+    lastResponse,
+    toggleType,
+    setQuery,
+    closeSearch,
+    addRecentSearch,
+  } = useSearchStore();
 
   const dialogOpen = openProp ?? isOpen;
 

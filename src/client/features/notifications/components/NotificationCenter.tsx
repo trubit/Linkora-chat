@@ -108,10 +108,7 @@ function NotificationItem({ notification, onRead, onDelete }: NotificationItemPr
       }
     >
       <ListItemAvatar>
-        <Avatar
-          src={notification.actor?.avatar}
-          sx={{ bgcolor: color, width: 40, height: 40 }}
-        >
+        <Avatar src={notification.actor?.avatar} sx={{ bgcolor: color, width: 40, height: 40 }}>
           {icon}
         </Avatar>
       </ListItemAvatar>
@@ -173,15 +170,14 @@ const TABS: Array<{ label: string; value: NotificationCategory | 'all' }> = [
 export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
   const [tab, setTab] = useState<NotificationCategory | 'all'>('all');
 
-  const {
-    notifications,
-    unreadCount,
-    setNotifications,
-  } = useNotificationStore();
+  const { notifications, unreadCount, setNotifications } = useNotificationStore();
 
-  const { data: pages, isFetching, fetchNextPage, hasNextPage } = useNotifications(
-    tab === 'all' ? undefined : { category: tab },
-  );
+  const {
+    data: pages,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useNotifications(tab === 'all' ? undefined : { category: tab });
 
   const { mutate: markRead } = useMarkNotificationsRead();
   const { mutate: deleteNotif } = useDeleteNotification();
@@ -215,9 +211,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
     [markRead],
   );
 
-  const filtered = notifications.filter((n) =>
-    tab === 'all' ? true : n.category === tab,
-  );
+  const filtered = notifications.filter((n) => (tab === 'all' ? true : n.category === tab));
 
   return (
     <Drawer
@@ -241,9 +235,7 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             Notifications
           </Typography>
-          {unreadCount > 0 && (
-            <Badge badgeContent={unreadCount} color="error" max={99} />
-          )}
+          {unreadCount > 0 && <Badge badgeContent={unreadCount} color="error" max={99} />}
         </Stack>
         <Stack direction="row">
           {unreadCount > 0 && (
@@ -292,21 +284,13 @@ export function NotificationCenter({ open, onClose }: NotificationCenterProps) {
           <List disablePadding>
             {filtered.map((n, i) => (
               <React.Fragment key={n._id}>
-                <NotificationItem
-                  notification={n}
-                  onRead={handleRead}
-                  onDelete={handleDelete}
-                />
+                <NotificationItem notification={n} onRead={handleRead} onDelete={handleDelete} />
                 {i < notifications.length - 1 && <Divider component="li" />}
               </React.Fragment>
             ))}
             {hasNextPage && (
               <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Button
-                  size="small"
-                  onClick={() => void fetchNextPage()}
-                  disabled={isFetching}
-                >
+                <Button size="small" onClick={() => void fetchNextPage()} disabled={isFetching}>
                   {isFetching ? 'Loading…' : 'Load more'}
                 </Button>
               </Box>

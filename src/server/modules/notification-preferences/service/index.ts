@@ -23,7 +23,10 @@ function toSummary(doc: INotificationPreference): NotificationPreferenceSummary 
     CategoryPreferences
   >;
 
-  const rawCats = doc.categories instanceof Map ? doc.categories : new Map(Object.entries(doc.categories as object));
+  const rawCats =
+    doc.categories instanceof Map
+      ? doc.categories
+      : new Map(Object.entries(doc.categories as object));
   for (const [key, val] of rawCats.entries()) {
     const v = val as {
       enabled: boolean;

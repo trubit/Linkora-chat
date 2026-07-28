@@ -42,7 +42,10 @@ export default function TestimonialsSection() {
     >
       <Container maxWidth="lg">
         {/* Header */}
-        <Stack spacing={2} sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}>
+        <Stack
+          spacing={2}
+          sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}
+        >
           <Typography
             sx={{
               fontSize: '0.875rem',
@@ -84,12 +87,17 @@ export default function TestimonialsSection() {
                 }}
               >
                 <Box>
-                  <Stack direction="row" sx={{ mb: 2, justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Stack
+                    direction="row"
+                    sx={{ mb: 2, justifyContent: 'space-between', alignItems: 'center' }}
+                  >
                     <Rating value={item.rating} readOnly precision={0.5} size="small" />
                     <FormatQuoteIcon sx={{ fontSize: 32, color: 'rgba(155, 109, 255, 0.3)' }} />
                   </Stack>
 
-                  <Typography sx={{ fontSize: '0.975rem', color: '#E2E8F0', lineHeight: 1.7, mb: 3 }}>
+                  <Typography
+                    sx={{ fontSize: '0.975rem', color: '#E2E8F0', lineHeight: 1.7, mb: 3 }}
+                  >
                     &ldquo;{item.text}&rdquo;
                   </Typography>
                 </Box>

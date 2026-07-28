@@ -310,10 +310,7 @@ export default function GroupWindow({ groupId, channelId }: Props) {
         myId={myId ?? ''}
       />
 
-      <WallpaperSelector
-        open={wallpaperOpen}
-        onClose={() => setWallpaperOpen(false)}
-      />
+      <WallpaperSelector open={wallpaperOpen} onClose={() => setWallpaperOpen(false)} />
     </Box>
   );
 }

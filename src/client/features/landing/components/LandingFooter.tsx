@@ -22,8 +22,11 @@ export default function LandingFooter() {
           <Grid size={{ xs: 12, md: 4 }}>
             <Stack spacing={2.5}>
               <LinkoraLogo size={36} showWordmark wordmarkColor="#FFF" wordmarkSize="1.25rem" />
-              <Typography sx={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.7, maxWidth: 320 }}>
-                The next-generation production real-time communication platform combining private messaging, broadcast channels, voice rooms, and workspace threads.
+              <Typography
+                sx={{ fontSize: '0.9rem', color: '#94A3B8', lineHeight: 1.7, maxWidth: 320 }}
+              >
+                The next-generation production real-time communication platform combining private
+                messaging, broadcast channels, voice rooms, and workspace threads.
               </Typography>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                 <Box
@@ -44,11 +47,22 @@ export default function LandingFooter() {
 
           {/* Product Links */}
           <Grid size={{ xs: 6, sm: 3, md: 2 }}>
-            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#F1F5F9', mb: 2, letterSpacing: 1 }}>
+            <Typography
+              sx={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: '#F1F5F9',
+                mb: 2,
+                letterSpacing: 1,
+              }}
+            >
               PRODUCT
             </Typography>
             <Stack spacing={1.5}>
-              <Link onClick={() => navigate(ROUTES.REGISTER)} sx={{ color: '#94A3B8', cursor: 'pointer', '&:hover': { color: '#10C4A0' } }}>
+              <Link
+                onClick={() => navigate(ROUTES.REGISTER)}
+                sx={{ color: '#94A3B8', cursor: 'pointer', '&:hover': { color: '#10C4A0' } }}
+              >
                 Web App
               </Link>
               <Link href="#features" sx={{ color: '#94A3B8', '&:hover': { color: '#10C4A0' } }}>
@@ -65,7 +79,15 @@ export default function LandingFooter() {
 
           {/* Platform Security */}
           <Grid size={{ xs: 6, sm: 3, md: 3 }}>
-            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#F1F5F9', mb: 2, letterSpacing: 1 }}>
+            <Typography
+              sx={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: '#F1F5F9',
+                mb: 2,
+                letterSpacing: 1,
+              }}
+            >
               SECURITY & COMPLIANCE
             </Typography>
             <Stack spacing={1.5}>
@@ -86,7 +108,15 @@ export default function LandingFooter() {
 
           {/* Account CTAs */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: '#F1F5F9', mb: 2, letterSpacing: 1 }}>
+            <Typography
+              sx={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: '#F1F5F9',
+                mb: 2,
+                letterSpacing: 1,
+              }}
+            >
               GET STARTED NOW
             </Typography>
             <Stack spacing={1.5}>
@@ -113,18 +143,43 @@ export default function LandingFooter() {
 
         <Divider sx={{ borderColor: 'rgba(255,255,255,0.08)', mb: 4 }} />
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+        >
           <Typography sx={{ fontSize: '0.8rem', color: '#64748B' }}>
             © {new Date().getFullYear()} Linkora Inc. All rights reserved. Encrypted & Secure.
           </Typography>
           <Stack direction="row" spacing={3}>
-            <Link sx={{ fontSize: '0.8rem', color: '#64748B', cursor: 'pointer', '&:hover': { color: '#94A3B8' } }}>
+            <Link
+              sx={{
+                fontSize: '0.8rem',
+                color: '#64748B',
+                cursor: 'pointer',
+                '&:hover': { color: '#94A3B8' },
+              }}
+            >
               Privacy Policy
             </Link>
-            <Link sx={{ fontSize: '0.8rem', color: '#64748B', cursor: 'pointer', '&:hover': { color: '#94A3B8' } }}>
+            <Link
+              sx={{
+                fontSize: '0.8rem',
+                color: '#64748B',
+                cursor: 'pointer',
+                '&:hover': { color: '#94A3B8' },
+              }}
+            >
               Terms of Service
             </Link>
-            <Link sx={{ fontSize: '0.8rem', color: '#64748B', cursor: 'pointer', '&:hover': { color: '#94A3B8' } }}>
+            <Link
+              sx={{
+                fontSize: '0.8rem',
+                color: '#64748B',
+                cursor: 'pointer',
+                '&:hover': { color: '#94A3B8' },
+              }}
+            >
               Security Whitepaper
             </Link>
           </Stack>

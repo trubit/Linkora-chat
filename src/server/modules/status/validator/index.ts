@@ -36,13 +36,25 @@ export const createStatusSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.type === 'text' && !data.content) {
-      ctx.addIssue({ code: 'custom', message: 'content is required for text status', path: ['content'] });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'content is required for text status',
+        path: ['content'],
+      });
     }
     if ((data.type === 'image' || data.type === 'video' || data.type === 'voice') && !data.media) {
-      ctx.addIssue({ code: 'custom', message: 'media is required for this status type', path: ['media'] });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'media is required for this status type',
+        path: ['media'],
+      });
     }
     if (data.type === 'link' && !data.linkPreview?.url) {
-      ctx.addIssue({ code: 'custom', message: 'linkPreview.url is required for link status', path: ['linkPreview'] });
+      ctx.addIssue({
+        code: 'custom',
+        message: 'linkPreview.url is required for link status',
+        path: ['linkPreview'],
+      });
     }
   });
 

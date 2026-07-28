@@ -132,7 +132,10 @@ api.interceptors.response.use(
         } catch (err: unknown) {
           const status = (err as { response?: { status: number } }).response?.status;
           // 4xx means the server made a decision — don't retry
-          if (status && status < 500) { lastErr = err; break; }
+          if (status && status < 500) {
+            lastErr = err;
+            break;
+          }
           lastErr = err;
           if (attempt < 2) await clientDelay(600 * (attempt + 1));
         }

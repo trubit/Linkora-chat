@@ -113,10 +113,7 @@ export const getAuditQueue = () => getQueue('audit-queue');
 export async function closeAllQueues(): Promise<void> {
   if (registry.size === 0) return;
   logger.info('Closing all BullMQ queues…');
-  await Promise.all([
-    ...[...registry.values()].map((q) => q.close()),
-    closeNotificationQueues(),
-  ]);
+  await Promise.all([...[...registry.values()].map((q) => q.close()), closeNotificationQueues()]);
   registry.clear();
   logger.info('All BullMQ queues closed');
 }

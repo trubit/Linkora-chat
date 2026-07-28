@@ -97,11 +97,7 @@ export function StatusRing({
         )}
       </Box>
       {label && (
-        <Typography
-          variant="caption"
-          noWrap
-          sx={{ mt: 0.5, maxWidth: size + 8, fontSize: 11 }}
-        >
+        <Typography variant="caption" noWrap sx={{ mt: 0.5, maxWidth: size + 8, fontSize: 11 }}>
           {label}
         </Typography>
       )}

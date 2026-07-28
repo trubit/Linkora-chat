@@ -30,10 +30,18 @@ interface StatusCreatorProps {
 }
 
 const BG_COLORS = [
-  '#075E54', '#128C7E', '#25D366',
-  '#7C3AED', '#9B6DFF', '#1D4ED8',
-  '#DC2626', '#EA580C', '#D97706',
-  '#0F172A', '#1E293B', '#374151',
+  '#075E54',
+  '#128C7E',
+  '#25D366',
+  '#7C3AED',
+  '#9B6DFF',
+  '#1D4ED8',
+  '#DC2626',
+  '#EA580C',
+  '#D97706',
+  '#0F172A',
+  '#1E293B',
+  '#374151',
 ];
 
 const PRIVACY_OPTIONS = [
@@ -124,8 +132,16 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" slotProps={{ paper: { sx: { borderRadius: 3, bgcolor: '#0B1022', color: '#FFF' } } }}>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 1 }}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="sm"
+      slotProps={{ paper: { sx: { borderRadius: 3, bgcolor: '#0B1022', color: '#FFF' } } }}
+    >
+      <DialogTitle
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 1 }}
+      >
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <Typography sx={{ fontWeight: 700, fontSize: 17, color: '#FFF' }}>
             Add Status Update
@@ -134,10 +150,20 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
             icon={<AccessTimeIcon sx={{ fontSize: '14px !important', color: '#10C4A0' }} />}
             label="24 Hours"
             size="small"
-            sx={{ bgcolor: 'rgba(16,196,160,0.12)', color: '#10C4A0', fontWeight: 600, fontSize: '0.72rem' }}
+            sx={{
+              bgcolor: 'rgba(16,196,160,0.12)',
+              color: '#10C4A0',
+              fontWeight: 600,
+              fontSize: '0.72rem',
+            }}
           />
         </Stack>
-        <IconButton size="small" onClick={handleClose} disabled={isPending} sx={{ color: '#94A3B8' }}>
+        <IconButton
+          size="small"
+          onClick={handleClose}
+          disabled={isPending}
+          sx={{ color: '#94A3B8' }}
+        >
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -148,8 +174,20 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
         variant="fullWidth"
         sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <Tab icon={<TitleIcon />} iconPosition="start" label="Text Status" value="text" sx={{ color: '#94A3B8' }} />
-        <Tab icon={<PhotoCameraIcon />} iconPosition="start" label="Photo / Video" value="media" sx={{ color: '#94A3B8' }} />
+        <Tab
+          icon={<TitleIcon />}
+          iconPosition="start"
+          label="Text Status"
+          value="text"
+          sx={{ color: '#94A3B8' }}
+        />
+        <Tab
+          icon={<PhotoCameraIcon />}
+          iconPosition="start"
+          label="Photo / Video"
+          value="media"
+          sx={{ color: '#94A3B8' }}
+        />
       </Tabs>
 
       <DialogContent sx={{ pt: 2 }}>
@@ -251,7 +289,9 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
                 width: '100%',
                 height: 220,
                 borderRadius: 2,
-                border: mediaUrl ? '1px solid rgba(16,196,160,0.5)' : '2px dashed rgba(255,255,255,0.2)',
+                border: mediaUrl
+                  ? '1px solid rgba(16,196,160,0.5)'
+                  : '2px dashed rgba(255,255,255,0.2)',
                 bgcolor: 'rgba(255,255,255,0.02)',
                 cursor: 'pointer',
                 display: 'flex',
@@ -326,13 +366,19 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
         <ToggleButtonGroup
           value={privacy}
           exclusive
-          onChange={(_e, v) => { if (v) setPrivacy(v); }}
+          onChange={(_e, v) => {
+            if (v) setPrivacy(v);
+          }}
           size="small"
           fullWidth
           sx={{ mb: 1 }}
         >
           {PRIVACY_OPTIONS.map((opt) => (
-            <ToggleButton key={opt.value} value={opt.value} sx={{ fontSize: 11, py: 0.5, color: '#94A3B8' }}>
+            <ToggleButton
+              key={opt.value}
+              value={opt.value}
+              sx={{ fontSize: 11, py: 0.5, color: '#94A3B8' }}
+            >
               {opt.label}
             </ToggleButton>
           ))}
@@ -340,7 +386,12 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
       </DialogContent>
 
       <DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
-        <Button onClick={handleClose} disabled={isPending} variant="outlined" sx={{ color: '#94A3B8' }}>
+        <Button
+          onClick={handleClose}
+          disabled={isPending}
+          variant="outlined"
+          sx={{ color: '#94A3B8' }}
+        >
           Cancel
         </Button>
         <Button

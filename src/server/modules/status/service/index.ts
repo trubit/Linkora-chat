@@ -3,11 +3,7 @@ import { statusRepository } from '../repository/index.js';
 import type { IStatusUpdate } from '../../../database/models/StatusUpdate.js';
 import type { IStatusView } from '../../../database/models/StatusView.js';
 import type { CreateStatusInput } from '../validator/index.js';
-import type {
-  StatusSummary,
-  StatusGroupSummary,
-  StatusViewSummary,
-} from '@shared/types/status.js';
+import type { StatusSummary, StatusGroupSummary, StatusViewSummary } from '@shared/types/status.js';
 
 // ---------------------------------------------------------------------------
 // Friend/contact lookup helper — import lazily to avoid circular deps
@@ -66,14 +62,21 @@ function toSummary(doc: IStatusUpdate, viewedByMe: boolean, myReaction?: string)
 }
 
 function toViewSummary(doc: IStatusView): StatusViewSummary {
-  const viewerDoc = (doc as unknown as { viewerId: { _id: unknown; username: string; displayName: string } }).viewerId;
+  const viewerDoc = (
+    doc as unknown as { viewerId: { _id: unknown; username: string; displayName: string } }
+  ).viewerId;
   return {
     _id: doc._id.toString(),
     statusId: doc.statusId.toString(),
     viewer: {
-      userId: typeof viewerDoc === 'object' && viewerDoc !== null ? viewerDoc._id?.toString() ?? doc.viewerId.toString() : doc.viewerId.toString(),
-      username: typeof viewerDoc === 'object' && viewerDoc !== null ? viewerDoc.username ?? '' : '',
-      displayName: typeof viewerDoc === 'object' && viewerDoc !== null ? viewerDoc.displayName ?? '' : '',
+      userId:
+        typeof viewerDoc === 'object' && viewerDoc !== null
+          ? (viewerDoc._id?.toString() ?? doc.viewerId.toString())
+          : doc.viewerId.toString(),
+      username:
+        typeof viewerDoc === 'object' && viewerDoc !== null ? (viewerDoc.username ?? '') : '',
+      displayName:
+        typeof viewerDoc === 'object' && viewerDoc !== null ? (viewerDoc.displayName ?? '') : '',
     },
     reaction: doc.reaction,
     viewedAt: doc.viewedAt.toISOString(),
@@ -100,7 +103,10 @@ export class StatusService {
   async getStatus(requesterId: string, statusId: string): Promise<StatusSummary> {
     const doc = await statusRepository.findById(statusId);
     if (!doc) {
-      throw Object.assign(new Error('Status not found or expired'), { statusCode: 404, code: 'NOT_FOUND' });
+      throw Object.assign(new Error('Status not found or expired'), {
+        statusCode: 404,
+        code: 'NOT_FOUND',
+      });
     }
 
     // Privacy check
@@ -136,11 +142,15 @@ export class StatusService {
     const { default: mn } = await import('mongoose');
     const objectIds = allUserIds.map((id) => new mn.Types.ObjectId(id));
 
-    const users = await UserModel.find({ _id: { $in: objectIds } }, { _id: 1, username: 1 }).lean().exec();
+    const users = await UserModel.find({ _id: { $in: objectIds } }, { _id: 1, username: 1 })
+      .lean()
+      .exec();
     const profiles = await ProfileModel.find(
       { userId: { $in: objectIds } },
       { userId: 1, displayName: 1, 'avatar.url': 1 },
-    ).lean().exec();
+    )
+      .lean()
+      .exec();
 
     const usernameMap = new Map(users.map((u) => [u._id.toString(), u.username]));
     const profileMap = new Map(profiles.map((p) => [p.userId.toString(), p]));
@@ -178,10 +188,7 @@ export class StatusService {
     return result;
   }
 
-  async viewStatus(
-    viewerId: string,
-    statusId: string,
-  ): Promise<{ isNew: boolean }> {
+  async viewStatus(viewerId: string, statusId: string): Promise<{ isNew: boolean }> {
     const doc = await statusRepository.findById(statusId);
     if (!doc) {
       throw Object.assign(new Error('Status not found'), { statusCode: 404, code: 'NOT_FOUND' });
@@ -191,19 +198,11 @@ export class StatusService {
       return { isNew: false };
     }
 
-    const { isNew } = await statusRepository.recordView(
-      statusId,
-      doc.userId.toString(),
-      viewerId,
-    );
+    const { isNew } = await statusRepository.recordView(statusId, doc.userId.toString(), viewerId);
     return { isNew };
   }
 
-  async reactToStatus(
-    viewerId: string,
-    statusId: string,
-    reaction: string,
-  ): Promise<void> {
+  async reactToStatus(viewerId: string, statusId: string, reaction: string): Promise<void> {
     const doc = await statusRepository.findById(statusId);
     if (!doc) {
       throw Object.assign(new Error('Status not found'), { statusCode: 404, code: 'NOT_FOUND' });
@@ -213,14 +212,16 @@ export class StatusService {
     // Notify status owner (non-blocking)
     const ownerId = doc.userId.toString();
     if (ownerId !== viewerId) {
-      import('../../../lib/notification-triggers/index.js').then(({ triggerStatusReaction }) => {
-        triggerStatusReaction({
-          recipientId: ownerId,
-          actor: { userId: viewerId, username: '', displayName: '' },
-          statusId,
-          reaction,
-        });
-      }).catch(() => {});
+      import('../../../lib/notification-triggers/index.js')
+        .then(({ triggerStatusReaction }) => {
+          triggerStatusReaction({
+            recipientId: ownerId,
+            actor: { userId: viewerId, username: '', displayName: '' },
+            statusId,
+            reaction,
+          });
+        })
+        .catch(() => {});
     }
   }
 
@@ -238,11 +239,7 @@ export class StatusService {
     return { views: views.map(toViewSummary), total };
   }
 
-  async replyToStatus(
-    senderId: string,
-    statusId: string,
-    content: string,
-  ): Promise<void> {
+  async replyToStatus(senderId: string, statusId: string, content: string): Promise<void> {
     const doc = await statusRepository.findById(statusId);
     if (!doc) {
       throw Object.assign(new Error('Status not found'), { statusCode: 404, code: 'NOT_FOUND' });
@@ -266,13 +263,19 @@ export class StatusService {
         const { ProfileModel } = await import('../../../database/models/Profile.js');
 
         const senderUser = await UserModel.findById(senderId, { username: 1 }).lean().exec();
-        const senderProfile = await ProfileModel.findOne({ userId: senderId }, { displayName: 1 }).lean().exec();
+        const senderProfile = await ProfileModel.findOne({ userId: senderId }, { displayName: 1 })
+          .lean()
+          .exec();
 
         const senderName = senderProfile?.displayName ?? senderUser?.username ?? 'Someone';
 
         triggerStatusReply({
           recipientId: ownerId,
-          actor: { userId: senderId, username: senderUser?.username ?? '', displayName: senderName },
+          actor: {
+            userId: senderId,
+            username: senderUser?.username ?? '',
+            displayName: senderName,
+          },
           statusId,
           content,
         });

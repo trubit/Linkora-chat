@@ -15,10 +15,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {
-  useWallpaperStore,
-  WALLPAPER_PRESETS,
-} from '@/store/wallpaperStore';
+import { useWallpaperStore, WALLPAPER_PRESETS } from '@/store/wallpaperStore';
 
 interface WallpaperSelectorProps {
   open: boolean;
@@ -64,7 +61,7 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
   const [selectedId, setSelectedId] = useState(currentWallpaper.id);
   const [customUrlInput, setCustomUrlInput] = useState(currentWallpaper.customUrl || '');
   const [uploadPreview, setUploadPreview] = useState<string | null>(
-    currentWallpaper.type === 'custom' ? currentWallpaper.customUrl || null : null
+    currentWallpaper.type === 'custom' ? currentWallpaper.customUrl || null : null,
   );
   const [isCompressing, setIsCompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -143,18 +140,32 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
         },
       }}
     >
-      <DialogTitle component="div" sx={{ m: 0, p: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <DialogTitle
+        component="div"
+        sx={{
+          m: 0,
+          p: 2.5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <Typography component="span" variant="h6" sx={{ fontWeight: 700, color: '#FFF' }}>
           Choose or Upload Chat Wallpaper
         </Typography>
-        <IconButton size="small" onClick={onClose} sx={{ color: '#94A3B8', '&:hover': { color: '#FFF' } }}>
+        <IconButton
+          size="small"
+          onClick={onClose}
+          sx={{ color: '#94A3B8', '&:hover': { color: '#FFF' } }}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
       <DialogContent dividers sx={{ borderColor: 'rgba(255,255,255,0.08)', py: 2.5 }}>
         <Typography variant="body2" sx={{ color: '#94A3B8', mb: 2 }}>
-          Select a preset wallpaper pattern, upload an image from your computer/device, or paste an image URL.
+          Select a preset wallpaper pattern, upload an image from your computer/device, or paste an
+          image URL.
         </Typography>
 
         {/* ── Preset Wallpapers Grid ── */}
@@ -231,7 +242,10 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
             sx={{
               p: 2.5,
               borderRadius: '14px',
-              border: selectedId === 'custom' && uploadPreview ? '2px solid #10C4A0' : '2px dashed rgba(255,255,255,0.2)',
+              border:
+                selectedId === 'custom' && uploadPreview
+                  ? '2px solid #10C4A0'
+                  : '2px dashed rgba(255,255,255,0.2)',
               bgcolor: 'rgba(255,255,255,0.02)',
               cursor: 'pointer',
               display: 'flex',
@@ -247,14 +261,30 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
             }}
           >
             {isCompressing ? (
-              <Box sx={{ py: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+              <Box
+                sx={{
+                  py: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
                 <CircularProgress size={32} sx={{ color: '#10C4A0' }} />
                 <Typography variant="caption" sx={{ color: '#94A3B8' }}>
                   Optimizing & compressing image for mobile…
                 </Typography>
               </Box>
             ) : uploadPreview ? (
-              <Box sx={{ width: '100%', height: 110, borderRadius: '10px', overflow: 'hidden', position: 'relative' }}>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: 110,
+                  borderRadius: '10px',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}
+              >
                 <img
                   src={uploadPreview}
                   alt="Wallpaper preview"
@@ -292,7 +322,10 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
 
         {/* ── Custom Image URL Input ── */}
         <Box sx={{ mt: 2 }}>
-          <Typography variant="caption" sx={{ fontWeight: 500, color: '#94A3B8', mb: 0.5, display: 'block' }}>
+          <Typography
+            variant="caption"
+            sx={{ fontWeight: 500, color: '#94A3B8', mb: 0.5, display: 'block' }}
+          >
             Or paste an Image URL:
           </Typography>
           <TextField

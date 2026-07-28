@@ -7,7 +7,11 @@ export const searchQuerySchema = z.object({
   types: z
     .string()
     .optional()
-    .transform((v) => (v ? v.split(',').filter((t) => SEARCH_TYPES.includes(t as typeof SEARCH_TYPES[number])) : undefined)),
+    .transform((v) =>
+      v
+        ? v.split(',').filter((t) => SEARCH_TYPES.includes(t as (typeof SEARCH_TYPES)[number]))
+        : undefined,
+    ),
   page: z.coerce.number().int().positive().max(100).default(1),
   limit: z.coerce.number().int().positive().max(50).default(20),
   conversationId: z.string().optional(),

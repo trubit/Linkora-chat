@@ -51,7 +51,9 @@ export const useStatusStore = create<StatusState & StatusActions>((set) => ({
     set({
       myStatuses: myStatuses.filter((s, index, self) => {
         const id = s._id || (s as unknown as { id?: string }).id;
-        return index === self.findIndex((t) => (t._id || (t as unknown as { id?: string }).id) === id);
+        return (
+          index === self.findIndex((t) => (t._id || (t as unknown as { id?: string }).id) === id)
+        );
       }),
     }),
 
@@ -67,19 +69,19 @@ export const useStatusStore = create<StatusState & StatusActions>((set) => ({
   removeStatus: (statusId) =>
     set((state) => ({
       myStatuses: state.myStatuses.filter((s) => s._id !== statusId),
-      feed: state.feed.map((group) => ({
-        ...group,
-        statuses: group.statuses.filter((s) => s._id !== statusId),
-      })).filter((group) => group.statuses.length > 0),
+      feed: state.feed
+        .map((group) => ({
+          ...group,
+          statuses: group.statuses.filter((s) => s._id !== statusId),
+        }))
+        .filter((group) => group.statuses.length > 0),
     })),
 
   markViewed: (statusId) =>
     set((state) => ({
       feed: state.feed.map((group) => ({
         ...group,
-        statuses: group.statuses.map((s) =>
-          s._id === statusId ? { ...s, viewedByMe: true } : s,
-        ),
+        statuses: group.statuses.map((s) => (s._id === statusId ? { ...s, viewedByMe: true } : s)),
         hasUnseen: group.statuses.some((s) => s._id !== statusId && !s.viewedByMe),
       })),
     })),

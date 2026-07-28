@@ -94,7 +94,10 @@ export default function ChatPage() {
   if (!id) {
     if (isMobile) {
       return (
-        <Box data-testid="page-chat" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Box
+          data-testid="page-chat"
+          sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        >
           <ConversationList
             onConversationSelect={(convId) => navigate(`${ROUTES.CHAT}/${convId}`)}
             activeId={null}

@@ -126,8 +126,8 @@ export default function HeroSection() {
               lineHeight: 1.6,
             }}
           >
-            Experience lightning-fast end-to-end encrypted messaging, high-capacity channels, 
-            voice rooms, and team collaboration — built with modern real-time WebSockets.
+            Experience lightning-fast end-to-end encrypted messaging, high-capacity channels, voice
+            rooms, and team collaboration — built with modern real-time WebSockets.
           </Typography>
 
           {/* CTA Action Buttons */}
@@ -233,7 +233,12 @@ export default function HeroSection() {
                 <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: '#10B981' }} />
               </Stack>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                <LinkoraLogo size={20} showWordmark wordmarkColor="#94A3B8" wordmarkSize="0.85rem" />
+                <LinkoraLogo
+                  size={20}
+                  showWordmark
+                  wordmarkColor="#94A3B8"
+                  wordmarkSize="0.85rem"
+                />
                 <Chip
                   label="LIVE APPNODE"
                   size="small"
@@ -337,11 +342,19 @@ export default function HeroSection() {
                       {item.initials}
                     </Avatar>
                     <Box sx={{ flex: 1, minWidth: 0, display: { xs: 'none', sm: 'block' } }}>
-                      <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: '#F1F5F9' }} noWrap>
+                      <Stack
+                        direction="row"
+                        sx={{ justifyContent: 'space-between', alignItems: 'center' }}
+                      >
+                        <Typography
+                          sx={{ fontSize: '0.875rem', fontWeight: 600, color: '#F1F5F9' }}
+                          noWrap
+                        >
                           {item.name}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.7rem', color: '#64748B' }}>{item.time}</Typography>
+                        <Typography sx={{ fontSize: '0.7rem', color: '#64748B' }}>
+                          {item.time}
+                        </Typography>
                       </Stack>
                       <Typography sx={{ fontSize: '0.775rem', color: '#94A3B8' }} noWrap>
                         {item.msg}
@@ -395,7 +408,9 @@ export default function HeroSection() {
                     </Box>
                   </Stack>
                   <Chip
-                    icon={<LockIcon sx={{ fontSize: '14px !important', color: '#10C4A0 !important' }} />}
+                    icon={
+                      <LockIcon sx={{ fontSize: '14px !important', color: '#10C4A0 !important' }} />
+                    }
                     label="E2EE Encrypted"
                     size="small"
                     sx={{
@@ -419,7 +434,8 @@ export default function HeroSection() {
                       }}
                     >
                       <Typography sx={{ fontSize: '0.85rem', color: '#F1F5F9', lineHeight: 1.5 }}>
-                        Hey team! The new Linkora UI design system update has officially dropped with glassmorphism cards and smooth theme transitions! 🎨
+                        Hey team! The new Linkora UI design system update has officially dropped
+                        with glassmorphism cards and smooth theme transitions! 🎨
                       </Typography>
                     </Box>
                     <Typography sx={{ fontSize: '0.675rem', color: '#64748B', mt: 0.5, ml: 1 }}>
@@ -437,11 +453,18 @@ export default function HeroSection() {
                       }}
                     >
                       <Typography sx={{ fontSize: '0.85rem', color: '#FFFFFF', lineHeight: 1.5 }}>
-                        Awesome! Test coverage is at 98% and socket connections feel instant across desktop and mobile. 🚀
+                        Awesome! Test coverage is at 98% and socket connections feel instant across
+                        desktop and mobile. 🚀
                       </Typography>
                     </Box>
-                    <Stack direction="row" spacing={0.5} sx={{ mt: 0.5, mr: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-                      <Typography sx={{ fontSize: '0.675rem', color: '#64748B' }}>12:44 PM</Typography>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      sx={{ mt: 0.5, mr: 1, justifyContent: 'flex-end', alignItems: 'center' }}
+                    >
+                      <Typography sx={{ fontSize: '0.675rem', color: '#64748B' }}>
+                        12:44 PM
+                      </Typography>
                       <DoneAllIcon sx={{ fontSize: 14, color: '#10C4A0' }} />
                     </Stack>
                   </Box>

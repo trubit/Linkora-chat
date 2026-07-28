@@ -1,5 +1,10 @@
 import mongoose, { type Document, Schema } from 'mongoose';
-import type { StatusType, StatusPrivacy, StatusMediaItem, StatusLinkPreview } from '@shared/types/status.js';
+import type {
+  StatusType,
+  StatusPrivacy,
+  StatusMediaItem,
+  StatusLinkPreview,
+} from '@shared/types/status.js';
 
 export interface IStatusUpdate extends Document {
   userId: mongoose.Types.ObjectId;

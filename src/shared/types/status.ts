@@ -6,14 +6,7 @@ export type StatusType = 'text' | 'image' | 'video' | 'voice' | 'link';
 
 export type StatusPrivacy = 'all_contacts' | 'contacts_except' | 'only_share_with';
 
-export type StatusReaction =
-  | '❤️'
-  | '😂'
-  | '😮'
-  | '😢'
-  | '😡'
-  | '👍'
-  | '👎';
+export type StatusReaction = '❤️' | '😂' | '😮' | '😢' | '😡' | '👍' | '👎';
 
 export interface StatusMediaItem {
   url: string;

@@ -38,13 +38,7 @@ export type NotificationType =
 export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent';
 
 export type NotificationStatus =
-  | 'pending'
-  | 'processing'
-  | 'delivered'
-  | 'failed'
-  | 'read'
-  | 'expired'
-  | 'cancelled';
+  'pending' | 'processing' | 'delivered' | 'failed' | 'read' | 'expired' | 'cancelled';
 
 export type NotificationDeliveryChannel = 'in_app' | 'email' | 'push' | 'desktop';
 
@@ -150,9 +144,9 @@ export interface CategoryPreferences {
 export interface DoNotDisturbSchedule {
   enabled: boolean;
   startTime: string; // HH:mm
-  endTime: string;   // HH:mm
+  endTime: string; // HH:mm
   timezone: string;
-  days: number[];    // 0=Sun … 6=Sat
+  days: number[]; // 0=Sun … 6=Sat
 }
 
 export interface NotificationPreferenceSummary {

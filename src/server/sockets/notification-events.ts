@@ -12,12 +12,7 @@ import type {
 // Helper — emit to a specific user's room within the /notifications namespace
 // ---------------------------------------------------------------------------
 
-export function emitToUser(
-  ns: Namespace,
-  userId: string,
-  event: string,
-  payload: unknown,
-): void {
+export function emitToUser(ns: Namespace, userId: string, event: string, payload: unknown): void {
   ns.to(`user:${userId}`).emit(event, payload);
 }
 
@@ -38,10 +33,7 @@ export function registerNotificationEvents(socket: Socket, ns: Namespace): void 
   // notification:read — mark specific notifications as read
   socket.on(
     'notification:read',
-    async (
-      data: { notificationIds: string[] },
-      callback?: (result: unknown) => void,
-    ) => {
+    async (data: { notificationIds: string[] }, callback?: (result: unknown) => void) => {
       try {
         const { modifiedCount, readAt } = await notificationService.markRead(userId, {
           notificationIds: data.notificationIds,
@@ -78,7 +70,9 @@ export function registerNotificationEvents(socket: Socket, ns: Namespace): void 
     try {
       const { modifiedCount } = await notificationService.markRead(userId, { all: true });
 
-      ns.to(`user:${userId}`).emit('notification:unread_count', { count: 0 } satisfies NotificationUnreadCountEvent);
+      ns.to(`user:${userId}`).emit('notification:unread_count', {
+        count: 0,
+      } satisfies NotificationUnreadCountEvent);
 
       if (typeof callback === 'function') callback({ success: true, modifiedCount });
     } catch (err) {
@@ -94,10 +88,7 @@ export function registerNotificationEvents(socket: Socket, ns: Namespace): void 
   // notification:delete — soft delete a single notification
   socket.on(
     'notification:delete',
-    async (
-      data: { notificationId: string },
-      callback?: (result: unknown) => void,
-    ) => {
+    async (data: { notificationId: string }, callback?: (result: unknown) => void) => {
       try {
         await notificationService.deleteNotification(userId, data.notificationId);
 
@@ -105,7 +96,9 @@ export function registerNotificationEvents(socket: Socket, ns: Namespace): void 
         ns.to(`user:${userId}`).emit('notification:deleted', deleteEvent);
 
         const count = await notificationService.getUnreadCount(userId);
-        ns.to(`user:${userId}`).emit('notification:unread_count', { count } satisfies NotificationUnreadCountEvent);
+        ns.to(`user:${userId}`).emit('notification:unread_count', {
+          count,
+        } satisfies NotificationUnreadCountEvent);
 
         if (typeof callback === 'function') callback({ success: true });
       } catch (err) {
@@ -148,10 +141,8 @@ export function pushNotificationCreated(
   ns.to(`user:${userId}`).emit('notification:created', event);
 }
 
-export function pushUnreadCount(
-  ns: Namespace,
-  userId: string,
-  count: number,
-): void {
-  ns.to(`user:${userId}`).emit('notification:unread_count', { count } satisfies NotificationUnreadCountEvent);
+export function pushUnreadCount(ns: Namespace, userId: string, count: number): void {
+  ns.to(`user:${userId}`).emit('notification:unread_count', {
+    count,
+  } satisfies NotificationUnreadCountEvent);
 }

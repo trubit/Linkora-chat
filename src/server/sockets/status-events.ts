@@ -12,35 +12,32 @@ export function registerStatusEvents(socket: Socket, ns: Namespace): void {
   const userId = socket.data.userId as string;
 
   // status:view — broadcast to status owner
-  socket.on(
-    'status:view',
-    async (data: { statusId: string }, callback?: (r: unknown) => void) => {
-      try {
-        const result = await statusService.viewStatus(userId, data.statusId);
+  socket.on('status:view', async (data: { statusId: string }, callback?: (r: unknown) => void) => {
+    try {
+      const result = await statusService.viewStatus(userId, data.statusId);
 
-        if (result.isNew) {
-          const event: StatusViewedEvent = {
-            statusId: data.statusId,
-            viewerId: userId,
-            viewedAt: new Date().toISOString(),
-          };
-          // Notify status owner if online
-          const status = await statusService.getStatus(userId, data.statusId).catch(() => null);
-          if (status) {
-            ns.to(`user:${status.userId}`).emit('status:viewed', event);
-          }
+      if (result.isNew) {
+        const event: StatusViewedEvent = {
+          statusId: data.statusId,
+          viewerId: userId,
+          viewedAt: new Date().toISOString(),
+        };
+        // Notify status owner if online
+        const status = await statusService.getStatus(userId, data.statusId).catch(() => null);
+        if (status) {
+          ns.to(`user:${status.userId}`).emit('status:viewed', event);
         }
-
-        callback?.({ success: true, isNew: result.isNew });
-      } catch (err) {
-        logger.error('[StatusEvents] status:view error', {
-          userId,
-          error: err instanceof Error ? err.message : String(err),
-        });
-        callback?.({ success: false, error: err instanceof Error ? err.message : 'Error' });
       }
-    },
-  );
+
+      callback?.({ success: true, isNew: result.isNew });
+    } catch (err) {
+      logger.error('[StatusEvents] status:view error', {
+        userId,
+        error: err instanceof Error ? err.message : String(err),
+      });
+      callback?.({ success: false, error: err instanceof Error ? err.message : 'Error' });
+    }
+  });
 
   // status:react — broadcast reaction to owner
   socket.on(
@@ -70,10 +67,18 @@ export function registerStatusEvents(socket: Socket, ns: Namespace): void {
 }
 
 // Push helpers
-export function pushStatusCreated(ns: Namespace, targetUserId: string, event: StatusCreatedEvent): void {
+export function pushStatusCreated(
+  ns: Namespace,
+  targetUserId: string,
+  event: StatusCreatedEvent,
+): void {
   ns.to(`user:${targetUserId}`).emit('status:new', event);
 }
 
-export function pushStatusDeleted(ns: Namespace, targetUserId: string, event: StatusDeletedEvent): void {
+export function pushStatusDeleted(
+  ns: Namespace,
+  targetUserId: string,
+  event: StatusDeletedEvent,
+): void {
   ns.to(`user:${targetUserId}`).emit('status:deleted', event);
 }

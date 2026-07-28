@@ -83,6 +83,21 @@ export function StatusViewer() {
   const isTypingReply = replyText.length > 0;
   const isTimerPaused = paused || isTypingReply;
 
+  const goNext = useCallback(() => {
+    if (!viewingGroup) return;
+    if (viewingIndex < viewingGroup.statuses.length - 1) {
+      setViewIndex(viewingIndex + 1);
+    } else {
+      closeViewer();
+    }
+  }, [viewingGroup, viewingIndex, setViewIndex, closeViewer]);
+
+  const goPrev = useCallback(() => {
+    if (viewingIndex > 0) {
+      setViewIndex(viewingIndex - 1);
+    }
+  }, [viewingIndex, setViewIndex]);
+
   // Auto-advance
   useEffect(() => {
     if (!isViewerOpen || isTimerPaused || !currentStatus) return;
@@ -107,23 +122,7 @@ export function StatusViewer() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStatus?._id, isViewerOpen, isTimerPaused]);
-
-  const goNext = useCallback(() => {
-    if (!viewingGroup) return;
-    if (viewingIndex < viewingGroup.statuses.length - 1) {
-      setViewIndex(viewingIndex + 1);
-    } else {
-      closeViewer();
-    }
-  }, [viewingGroup, viewingIndex, setViewIndex, closeViewer]);
-
-  const goPrev = useCallback(() => {
-    if (viewingIndex > 0) {
-      setViewIndex(viewingIndex - 1);
-    }
-  }, [viewingIndex, setViewIndex]);
+  }, [currentStatus, isViewerOpen, isTimerPaused, goNext, markViewed, viewStatus]);
 
   const handleReaction = useCallback(
     (emoji: string) => {
@@ -180,11 +179,7 @@ export function StatusViewer() {
           current={viewingIndex}
           progress={progress}
         />
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ px: 2, pt: 1.5, pb: 1, alignItems: 'center' }}
-        >
+        <Stack direction="row" spacing={1} sx={{ px: 2, pt: 1.5, pb: 1, alignItems: 'center' }}>
           <Avatar
             src={viewingGroup.author.avatar}
             alt={viewingGroup.author.displayName}
@@ -241,7 +236,16 @@ export function StatusViewer() {
 
         {/* Media or Text content */}
         {currentStatus.type === 'image' || currentStatus.type === 'video' ? (
-          <Box sx={{ width: '100%', height: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Box
               component={currentStatus.type === 'video' ? 'video' : 'img'}
               src={currentStatus.media?.url}
@@ -355,11 +359,7 @@ export function StatusViewer() {
         {showReactions && (
           <Stack direction="row" spacing={1} sx={{ mt: 1, justifyContent: 'center' }}>
             {REACTIONS.map((r) => (
-              <IconButton
-                key={r}
-                onClick={() => handleReaction(r)}
-                sx={{ fontSize: 24, p: 0.5 }}
-              >
+              <IconButton key={r} onClick={() => handleReaction(r)} sx={{ fontSize: 24, p: 0.5 }}>
                 {r}
               </IconButton>
             ))}

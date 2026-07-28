@@ -144,7 +144,15 @@ export default function GroupsPage() {
     }
 
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: C.panel, overflow: 'hidden' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          bgcolor: C.panel,
+          overflow: 'hidden',
+        }}
+      >
         {/* Header */}
         <Box
           sx={{

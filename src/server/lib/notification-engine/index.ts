@@ -16,11 +16,7 @@ import {
   getCachedPreferences,
 } from '../../redis/notification-cache.js';
 import { getNotificationProcessingQueue } from '../../queues/notification-queues.js';
-import type {
-  CreateNotificationInput,
-  CreateNotificationResult,
-  ChannelAdapter,
-} from './types.js';
+import type { CreateNotificationInput, CreateNotificationResult, ChannelAdapter } from './types.js';
 import type {
   NotificationDeliveryChannel,
   NotificationCategory,
@@ -88,7 +84,9 @@ export class NotificationEngine {
         const start = (sh ?? 0) * 60 + (sm ?? 0);
         const end = (eh ?? 0) * 60 + (em ?? 0);
         const inDnd =
-          start <= end ? nowMinutes >= start && nowMinutes < end : nowMinutes >= start || nowMinutes < end;
+          start <= end
+            ? nowMinutes >= start && nowMinutes < end
+            : nowMinutes >= start || nowMinutes < end;
         if (inDnd) return false;
       }
 
@@ -139,8 +137,8 @@ export class NotificationEngine {
     }
 
     // ── Resolve channels ─────────────────────────────────────────────────
-    const requestedChannels =
-      input.deliveryChannels ?? CATEGORY_CHANNELS[input.category] ?? ['in_app'];
+    const requestedChannels = input.deliveryChannels ??
+      CATEGORY_CHANNELS[input.category] ?? ['in_app'];
 
     // Filter channels by user preferences
     const allowedChannels: NotificationDeliveryChannel[] = [];

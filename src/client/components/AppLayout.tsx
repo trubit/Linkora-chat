@@ -423,15 +423,21 @@ function DesktopLayout() {
     location.pathname.startsWith(ROUTES.CHAT + '/') && location.pathname !== ROUTES.CHAT;
 
   return (
-    <Box sx={{ width: '100%', height: '100%', maxHeight: '100%', display: 'flex', overflow: 'hidden', bgcolor: C.main }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        maxHeight: '100%',
+        display: 'flex',
+        overflow: 'hidden',
+        bgcolor: C.main,
+      }}
+    >
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 
       {/* Icon strip — always visible */}
-      <IconStrip
-        onNav={(p) => navigate(p)}
-        onSearchOpen={openSearch}
-      />
+      <IconStrip onNav={(p) => navigate(p)} onSearchOpen={openSearch} />
 
       {isChat ? (
         <>
@@ -498,7 +504,17 @@ function MobileLayout() {
     location.pathname.startsWith('/chat/g/');
 
   return (
-    <Box sx={{ width: '100%', height: '100dvh', maxHeight: '100dvh', display: 'flex', flexDirection: 'column', bgcolor: C.main, overflow: 'hidden' }}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100dvh',
+        maxHeight: '100dvh',
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: C.main,
+        overflow: 'hidden',
+      }}
+    >
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 
@@ -530,7 +546,11 @@ function MobileLayout() {
           <LinkoraLogo size={26} showWordmark wordmarkColor={C.txt1} wordmarkSize="1rem" />
           <Box sx={{ flex: 1 }} />
           {/* Search icon */}
-          <IconButton size="small" onClick={openSearch} sx={{ color: C.icon, width: 40, height: 40 }}>
+          <IconButton
+            size="small"
+            onClick={openSearch}
+            sx={{ color: C.icon, width: 40, height: 40 }}
+          >
             <SearchIcon />
           </IconButton>
           {/* Notification bell — self-contained with its own drawer */}
@@ -584,7 +604,9 @@ function MobileLayout() {
                 }}
               >
                 {it.icon}
-                <Typography sx={{ fontSize: 9.5, fontWeight: active ? 600 : 400, color: 'inherit' }}>
+                <Typography
+                  sx={{ fontSize: 9.5, fontWeight: active ? 600 : 400, color: 'inherit' }}
+                >
                   {it.label}
                 </Typography>
               </Box>

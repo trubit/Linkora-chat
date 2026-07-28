@@ -13,7 +13,7 @@ export type { NotificationType };
 // StoreNotification extends NotificationSummary with `id` and `read` aliases
 // so both the pre-existing tests (n.id, n.read) and Phase 8 components (n._id, n.isRead) work.
 export type StoreNotification = NotificationSummary & {
-  id: string;    // mirrors _id
+  id: string; // mirrors _id
   read: boolean; // mirrors isRead
 };
 

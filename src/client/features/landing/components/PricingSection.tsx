@@ -67,7 +67,10 @@ export default function PricingSection() {
     >
       <Container maxWidth="lg">
         {/* Header */}
-        <Stack spacing={2} sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}>
+        <Stack
+          spacing={2}
+          sx={{ mb: { xs: 6, md: 10 }, textAlign: 'center', alignItems: 'center' }}
+        >
           <Typography
             sx={{
               fontSize: '0.875rem',
@@ -134,7 +137,10 @@ export default function PricingSection() {
                 )}
 
                 <Box>
-                  <Typography variant="h5" sx={{ fontSize: '1.35rem', fontWeight: 700, color: '#F1F5F9', mb: 1 }}>
+                  <Typography
+                    variant="h5"
+                    sx={{ fontSize: '1.35rem', fontWeight: 700, color: '#F1F5F9', mb: 1 }}
+                  >
                     {plan.name}
                   </Typography>
 

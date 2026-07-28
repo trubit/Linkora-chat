@@ -14,7 +14,6 @@ const NOTIFICATIONS_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '') ?
 export function useNotificationSocket() {
   const socketRef = useRef<Socket | null>(null);
   const { accessToken } = useAuthStore();
-  const { addNotification, markRead, setUnreadCount, removeNotification } = useNotificationStore();
 
   useEffect(() => {
     if (!accessToken) return;

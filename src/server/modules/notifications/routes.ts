@@ -27,7 +27,10 @@ router.delete('/', notificationController.deleteAllNotifications.bind(notificati
 router.get('/:id', notificationController.getNotification.bind(notificationController));
 
 // POST /notifications/:id/archive
-router.post('/:id/archive', notificationController.archiveNotification.bind(notificationController));
+router.post(
+  '/:id/archive',
+  notificationController.archiveNotification.bind(notificationController),
+);
 
 // DELETE /notifications/:id
 router.delete('/:id', notificationController.deleteNotification.bind(notificationController));

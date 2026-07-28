@@ -4,18 +4,18 @@ const PRECACHE_URLS = ['/'];
 
 // Install: pre-cache shell
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)),
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)));
   self.skipWaiting();
 });
 
 // Activate: clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))),
-    ),
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))),
+      ),
   );
   self.clients.claim();
 });
@@ -31,9 +31,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Cache-first for static assets
-  if (request.method === 'GET' && (
-    url.pathname.match(/\.(js|css|png|jpg|svg|woff2?|ico)$/)
-  )) {
+  if (request.method === 'GET' && url.pathname.match(/\.(js|css|png|jpg|svg|woff2?|ico)$/)) {
     event.respondWith(
       caches.match(request).then((cached) => {
         if (cached) return cached;
@@ -50,9 +48,7 @@ self.addEventListener('fetch', (event) => {
 
   // Network-first for HTML navigation
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => caches.match('/') ?? new Response('Offline')),
-    );
+    event.respondWith(fetch(request).catch(() => caches.match('/') ?? new Response('Offline')));
   }
 });
 
