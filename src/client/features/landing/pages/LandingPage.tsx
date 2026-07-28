@@ -4,8 +4,10 @@ import { LinkoraLogo } from '@/components/LinkoraLogo';
 import { ROUTES } from '@/routes/index';
 import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
+import AIShowcaseSection from '../components/AIShowcaseSection';
 import PlatformComparison from '../components/PlatformComparison';
 import TestimonialsSection from '../components/TestimonialsSection';
+import DeveloperSection from '../components/DeveloperSection';
 import PricingSection from '../components/PricingSection';
 import LandingFooter from '../components/LandingFooter';
 
@@ -45,6 +47,18 @@ export default function LandingPage() {
                 sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#10C4A0' } }}
               >
                 Features
+              </Button>
+              <Button
+                href="#ai-suite"
+                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#A78BFA' } }}
+              >
+                AI Assistant
+              </Button>
+              <Button
+                href="#api"
+                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#38BDF8' } }}
+              >
+                Developers
               </Button>
               <Button
                 href="#pricing"
@@ -96,7 +110,9 @@ export default function LandingPage() {
       {/* Main Landing Sections */}
       <HeroSection />
       <FeaturesSection />
+      <AIShowcaseSection />
       <PlatformComparison />
+      <DeveloperSection />
       <TestimonialsSection />
       <PricingSection />
       <LandingFooter />

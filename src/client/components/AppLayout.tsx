@@ -30,11 +30,15 @@ import { useLogout } from '@/features/auth/queries';
 import { LinkoraLogo } from '@/components/LinkoraLogo';
 import { ROUTES } from '@/routes/index';
 import ShieldIcon from '@mui/icons-material/Shield';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import ConversationList from '@/features/chat/components/ConversationList';
 import { useChatSocket } from '@/features/chat/hooks/useChatSocket';
 import { NotificationBell } from '@/features/notifications/components/NotificationBell';
 import { GlobalSearch } from '@/features/search/components/GlobalSearch';
 import { StatusFeed } from '@/features/status/components/StatusFeed';
+import { AICopilotDrawer } from '@/components/AICopilotDrawer';
+import { SubscriptionModal } from '@/features/settings/components/SubscriptionModal';
 
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL as string | undefined;
 
@@ -153,9 +157,13 @@ function NavDot({
 function IconStrip({
   onNav,
   onSearchOpen,
+  onAICopilotOpen,
+  onUpgradeOpen,
 }: {
   onNav: (p: string) => void;
   onSearchOpen: () => void;
+  onAICopilotOpen: () => void;
+  onUpgradeOpen: () => void;
 }) {
   const location = useLocation();
   const user = useAuthStore((s) => s.user);
@@ -229,6 +237,58 @@ function IconStrip({
             }}
           >
             <SearchIcon sx={{ fontSize: 21 }} />
+          </Box>
+        </Tooltip>
+
+        {/* AI Copilot Trigger */}
+        <Tooltip title="Linkora AI Copilot" placement="right">
+          <Box
+            onClick={() => onAICopilotOpen()}
+            sx={{
+              width: 44,
+              height: 44,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '14px',
+              cursor: 'pointer',
+              mb: 0.5,
+              color: '#A78BFA',
+              bgcolor: 'rgba(124,58,237,0.15)',
+              border: '1px solid rgba(124,58,237,0.3)',
+              transition: 'all 0.18s ease',
+              '&:hover': {
+                color: '#FFF',
+                bgcolor: 'rgba(124,58,237,0.3)',
+                boxShadow: '0 0 15px rgba(124,58,237,0.4)',
+              },
+            }}
+          >
+            <AutoAwesomeIcon sx={{ fontSize: 20 }} />
+          </Box>
+        </Tooltip>
+
+        {/* Upgrade Workspace */}
+        <Tooltip title="Upgrade Workspace" placement="right">
+          <Box
+            onClick={() => onUpgradeOpen()}
+            sx={{
+              width: 44,
+              height: 44,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '14px',
+              cursor: 'pointer',
+              mb: 0.5,
+              color: '#FBBF24',
+              bgcolor: 'rgba(251,191,36,0.1)',
+              border: '1px solid rgba(251,191,36,0.25)',
+              transition: 'all 0.18s ease',
+              '&:hover': { color: '#FFF', bgcolor: 'rgba(251,191,36,0.25)' },
+            }}
+          >
+            <VerifiedIcon sx={{ fontSize: 20 }} />
           </Box>
         </Tooltip>
       </Box>
@@ -416,6 +476,8 @@ function DesktopLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const openSearch = useSearchStore((s) => s.openSearch);
+  const [aiCopilotOpen, setAiCopilotOpen] = useState(false);
+  const [subscriptionOpen, setSubscriptionOpen] = useState(false);
 
   const isChat =
     location.pathname === ROUTES.CHAT || location.pathname.startsWith(ROUTES.CHAT + '/');
@@ -436,8 +498,19 @@ function DesktopLayout() {
       {/* Global search dialog — opens via store, manages its own state */}
       <GlobalSearch />
 
+      {/* AI Assistant Drawer */}
+      <AICopilotDrawer open={aiCopilotOpen} onClose={() => setAiCopilotOpen(false)} />
+
+      {/* Subscription Upgrade Modal */}
+      <SubscriptionModal open={subscriptionOpen} onClose={() => setSubscriptionOpen(false)} />
+
       {/* Icon strip — always visible */}
-      <IconStrip onNav={(p) => navigate(p)} onSearchOpen={openSearch} />
+      <IconStrip
+        onNav={(p) => navigate(p)}
+        onSearchOpen={openSearch}
+        onAICopilotOpen={() => setAiCopilotOpen(true)}
+        onUpgradeOpen={() => setSubscriptionOpen(true)}
+      />
 
       {isChat ? (
         <>

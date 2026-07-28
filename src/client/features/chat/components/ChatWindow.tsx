@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { useConversationStore } from '@/store/conversationStore';
@@ -380,6 +381,14 @@ export default function ChatWindow({
           )}
         </Box>
 
+        <Tooltip title="Linkora AI Copilot">
+          <IconButton
+            size="small"
+            sx={{ color: '#A78BFA', '&:hover': { color: '#FFF', bgcolor: 'rgba(124,58,237,0.2)' } }}
+          >
+            <AutoAwesomeIcon sx={{ fontSize: 20 }} />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Room Wallpaper">
           <IconButton
             size="small"
