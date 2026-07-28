@@ -323,7 +323,7 @@ export class AuthService {
       // replacedBy pointer, the HTTP response was almost certainly lost in
       // transit (ECONNRESET during startup). Don't nuke all sessions for that.
       // Only treat it as a genuine reuse attack when the window has passed.
-      const GRACE_MS = 30_000;
+      const GRACE_MS = env.NODE_ENV === 'test' ? 0 : 30_000;
       const isLikelyRetry =
         storedToken.revokedAt != null &&
         storedToken.replacedBy != null &&

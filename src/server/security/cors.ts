@@ -9,15 +9,15 @@ export function isAllowedOrigin(origin: string | undefined): boolean {
   if (!origin) return true; // Server-to-server, mobile native, curl
 
   const env = getEnv();
-  if (env.NODE_ENV === 'development' || env.NODE_ENV === 'test') {
+  if (env.NODE_ENV === 'development') {
     return true; // Allow all origins in dev mode (mobile on Wi-Fi, localtunnel, ngrok)
   }
 
   if (origin === env.CLIENT_URL) return true;
 
-  // Allow local network IP addresses (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
+  // Allow local network IP addresses with explicit port (192.168.x.x:5173, 10.x.x.x:5173)
   if (
-    /^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3})(:\d+)?$/.test(
+    /^http:\/\/(127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}):\d+$/.test(
       origin,
     )
   ) {
