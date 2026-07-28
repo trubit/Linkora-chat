@@ -5,14 +5,15 @@ import type { ConversationWithMeta } from '@/store/conversationStore';
 import { usePresenceStore } from '@/store/presenceStore';
 
 const C = {
-  panel: '#0C1722',
-  border: 'rgba(134,150,160,0.12)',
-  accent: '#10C4A0',
-  accentDark: '#0D9E80',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  txt3: '#567390',
-  badge: '#10C4A0',
+  panel: '#080C18',
+  border: 'rgba(139,92,246,0.12)',
+  accent: '#A78BFA',
+  accentDark: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  txt3: '#64748B',
+  badge: '#7C3AED',
+  statusGreen: '#10B981',
 } as const;
 
 function formatTime(timestamp: string): string {
@@ -153,9 +154,9 @@ export default function ConversationItem({
               width: 11,
               height: 11,
               borderRadius: '50%',
-              bgcolor: C.badge,
+              bgcolor: C.statusGreen,
               border: `2px solid ${C.panel}`,
-              boxShadow: `0 0 8px ${C.badge}`,
+              boxShadow: `0 0 8px ${C.statusGreen}`,
             }}
           />
         )}

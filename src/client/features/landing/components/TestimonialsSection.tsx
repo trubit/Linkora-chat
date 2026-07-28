@@ -7,8 +7,8 @@ const TESTIMONIALS = [
     role: 'VP of Product',
     company: 'HyperScale Systems',
     initials: 'ER',
-    gradient: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
-    text: 'Linkora allowed us to replace WhatsApp, Slack, and Discord across our 450-person distributed team into one secure platform. Our team loves the sub-10ms sync speed!',
+    gradient: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+    text: 'Linkora allowed us to replace multiple fragmented tools across our 450-person distributed team into one secure platform. Our team loves the sub-10ms sync speed!',
     rating: 5,
   },
   {

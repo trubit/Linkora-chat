@@ -6,7 +6,6 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PlayCircleOutlinedIcon from '@mui/icons-material/PlayCircleOutlined';
 import LockIcon from '@mui/icons-material/Lock';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { LinkoraLogo } from '@/components/LinkoraLogo';
 import { ROUTES } from '@/routes/index';
 
@@ -68,7 +67,7 @@ export default function HeroSection() {
         <Stack spacing={4} sx={{ alignItems: 'center', textAlign: 'center' }}>
           {/* Release Pill Badge */}
           <Chip
-            label="🚀 Linkora 2.0 Released — WhatsApp + Telegram + Discord + Slack Unified"
+            label="🚀 Linkora 2.0 Enterprise Omnichannel Communication Platform"
             clickable
             onClick={() => navigate(ROUTES.REGISTER)}
             sx={{
@@ -465,7 +464,9 @@ export default function HeroSection() {
                       <Typography sx={{ fontSize: '0.675rem', color: '#64748B' }}>
                         12:44 PM
                       </Typography>
-                      <DoneAllIcon sx={{ fontSize: 14, color: '#10C4A0' }} />
+                      <Typography sx={{ fontSize: '0.625rem', color: '#06B6D4', fontWeight: 600 }}>
+                        READ
+                      </Typography>
                     </Stack>
                   </Box>
                 </Stack>
@@ -490,12 +491,14 @@ export default function HeroSection() {
                     variant="contained"
                     sx={{
                       borderRadius: '8px',
-                      bgcolor: '#10C4A0',
-                      color: '#05060E',
+                      background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                      color: '#FFF',
                       fontWeight: 700,
                       minWidth: 32,
                       px: 1.5,
-                      '&:hover': { bgcolor: '#3DD4B8' },
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #8B5CF6 0%, #22D3EE 100%)',
+                      },
                     }}
                   >
                     Send

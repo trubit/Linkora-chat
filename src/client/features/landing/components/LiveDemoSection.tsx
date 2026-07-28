@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
 import LockIcon from '@mui/icons-material/Lock';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
@@ -252,7 +251,11 @@ export default function LiveDemoSection() {
                     <Typography sx={{ fontSize: '0.7rem', color: '#64748B' }}>
                       {msg.timestamp}
                     </Typography>
-                    {isUser && <DoneAllIcon sx={{ fontSize: 14, color: '#10C4A0' }} />}
+                    {isUser && (
+                      <Typography sx={{ fontSize: '0.625rem', color: '#06B6D4', fontWeight: 600 }}>
+                        READ
+                      </Typography>
+                    )}
                   </Stack>
                 </Box>
               );

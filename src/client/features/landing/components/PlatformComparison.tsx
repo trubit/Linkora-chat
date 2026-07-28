@@ -148,7 +148,7 @@ export default function PlatformComparison() {
                   align="center"
                   sx={{ color: '#94A3B8', fontWeight: 600, fontSize: '0.9rem' }}
                 >
-                  WhatsApp
+                  Legacy Apps
                 </TableCell>
                 <TableCell
                   align="center"
@@ -188,11 +188,11 @@ export default function PlatformComparison() {
                   </TableCell>
 
                   {/* Linkora column */}
-                  <TableCell align="center" sx={{ bgcolor: 'rgba(16, 196, 160, 0.05)' }}>
-                    <CheckCircleIcon sx={{ color: '#10C4A0', fontSize: 24 }} />
+                  <TableCell align="center" sx={{ bgcolor: 'rgba(124, 58, 237, 0.08)' }}>
+                    <CheckCircleIcon sx={{ color: '#34D399', fontSize: 24 }} />
                   </TableCell>
 
-                  {/* WhatsApp */}
+                  {/* Legacy Apps */}
                   <TableCell align="center">
                     {row.whatsapp ? (
                       <CheckCircleIcon sx={{ color: '#64748B', fontSize: 22 }} />

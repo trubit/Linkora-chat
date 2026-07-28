@@ -10,15 +10,15 @@ export interface WallpaperConfig {
 
 export const WALLPAPER_PRESETS: WallpaperConfig[] = [
   {
-    id: 'whatsapp-doodle',
-    name: 'WhatsApp Dark Doodle',
+    id: 'linkora-obsidian',
+    name: 'Linkora Obsidian Nebula',
     type: 'preset',
     style: {
-      backgroundColor: '#0B141A',
+      backgroundColor: '#060914',
       backgroundImage:
-        'radial-gradient(rgba(16,196,160,0.18) 1.5px, transparent 1.5px), radial-gradient(rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
-      backgroundSize: '30px 30px',
-      backgroundPosition: '0 0, 15px 15px',
+        'radial-gradient(rgba(124,58,237,0.22) 1.5px, transparent 1.5px), radial-gradient(rgba(6,182,212,0.12) 1.5px, transparent 1.5px)',
+      backgroundSize: '32px 32px',
+      backgroundPosition: '0 0, 16px 16px',
     },
   },
   {

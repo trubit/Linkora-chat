@@ -10,17 +10,17 @@ const FEATURES = [
   {
     icon: LockIcon,
     title: 'End-to-End Encrypted',
-    subtitle: 'WhatsApp Security Standard',
+    subtitle: 'Zero-Trust Encryption Standard',
     desc: 'All private chats, media files, and calls are secured with military-grade Signal protocol encryption. No one—not even Linkora—can read your communications.',
-    color: '#10C4A0',
-    bgGlow: 'rgba(16,196,160,0.12)',
+    color: '#7C3AED',
+    bgGlow: 'rgba(124,58,237,0.12)',
     badgeText: 'Signal Protocol 256-Bit E2EE',
     codeSnippet: 'encrypt(msg, ratchetKey) ➔ [Ciphertext]',
   },
   {
     icon: CampaignIcon,
     title: 'Broadcast & Channels',
-    subtitle: 'Telegram Scale & Speed',
+    subtitle: 'Mass Global Broadcasting',
     desc: 'Create public and private channels with unlimited subscribers, rich formatted media, instant subscriber metrics, and admin permissions.',
     color: '#38BDF8',
     bgGlow: 'rgba(56,189,248,0.12)',
@@ -30,7 +30,7 @@ const FEATURES = [
   {
     icon: RecordVoiceOverIcon,
     title: 'Voice & Video Hubs',
-    subtitle: 'Discord Voice Experience',
+    subtitle: 'Ultra Low-Latency WebRTC Hubs',
     desc: 'Jump into crystal-clear low-latency voice channels and HD video rooms anytime with screen sharing, noise suppression, and role controls.',
     color: '#9B6DFF',
     bgGlow: 'rgba(155,109,255,0.12)',
@@ -40,7 +40,7 @@ const FEATURES = [
   {
     icon: LayersIcon,
     title: 'Workspaces & Threads',
-    subtitle: 'Slack Productivity Engine',
+    subtitle: 'Structured Thread Engine',
     desc: 'Organize project discussions with threaded conversations, pinned announcements, document previews, global search, and custom notification rules.',
     color: '#F59E0B',
     bgGlow: 'rgba(245,158,11,0.12)',
@@ -50,7 +50,7 @@ const FEATURES = [
   {
     icon: PhotoCameraIcon,
     title: 'Status & Story Feeds',
-    subtitle: 'WhatsApp Status Feature',
+    subtitle: 'Real-time Linkora Stories',
     desc: 'Share short-form status updates, image stories, and status highlights with custom audience visibility and 24-hour expiration settings.',
     color: '#EC4899',
     bgGlow: 'rgba(236,72,153,0.12)',

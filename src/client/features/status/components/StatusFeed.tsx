@@ -71,7 +71,7 @@ export function StatusFeed() {
           '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
-        {/* My status — single WhatsApp style story ring */}
+        {/* My status — Linkora story ring */}
         <StatusRing
           group={
             validMyStatuses.length > 0

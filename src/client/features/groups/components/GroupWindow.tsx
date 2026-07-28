@@ -113,7 +113,7 @@ export default function GroupWindow({ groupId, channelId }: Props) {
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: C.main }}>
-      {/* WhatsApp-style header — entire left section is clickable to open Group Info */}
+      {/* Workspace Group Header */}
       <Box
         sx={{
           px: 1,
@@ -302,7 +302,7 @@ export default function GroupWindow({ groupId, channelId }: Props) {
         </IconButton>
       </Box>
 
-      {/* Group Info panel (WhatsApp-style) */}
+      {/* Group Info panel */}
       <GroupInfoDrawer
         open={infoOpen}
         onClose={() => setInfoOpen(false)}

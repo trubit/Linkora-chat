@@ -34,16 +34,16 @@ import { ROUTES } from '@/routes/index';
 const EMPTY_MESSAGES: Message[] = [];
 
 const C = {
-  panelHdr: '#0E1E2B', // header bar — premium dark blue
-  main: '#08111A', // chat area — deep midnight
-  border: 'rgba(134,150,160,0.12)',
-  accent: '#10C4A0',
-  accentDark: '#0D9E80',
-  teal: '#53BDEB', // blue read-ticks
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  txt3: '#567390',
-  badge: '#10C4A0',
+  panelHdr: '#0B1022', // deep midnight obsidian
+  main: '#060914', // obsidian base
+  border: 'rgba(139,92,246,0.12)',
+  accent: '#A78BFA', // aurora violet
+  accentDark: '#7C3AED',
+  teal: '#06B6D4', // cyber cyan
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  txt3: '#64748B',
+  badge: '#10B981',
 } as const;
 
 function formatDateLabel(iso: string): string {
@@ -475,10 +475,8 @@ export default function ChatWindow({
           ) : (
             <>
               {/*
-                KEY TRICK: This spacer grows to fill all available space when
-                there are few messages, pushing them to the bottom — exactly
-                like WhatsApp. When messages overflow the container the spacer
-                collapses to zero and messages fill the scroll area normally.
+                Spacer grows to fill available vertical space when there are few
+                messages, keeping stream pinned cleanly to the bottom.
               */}
               <Box sx={{ flex: 1 }} />
 
@@ -506,7 +504,9 @@ export default function ChatWindow({
                         showAvatar={showAvatar}
                         onReply={setReplyTo}
                         onReact={handleReact}
-                        onDelete={msg.senderId === user?._id ? handleDelete : undefined}
+                        onDelete={(id) => {
+                          if (msg.senderId === user?._id) handleDelete(id);
+                        }}
                       />
                     </Fragment>
                   ))}
