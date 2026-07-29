@@ -43,8 +43,16 @@ async function seedAuth(page: Page): Promise<void> {
     localStorage.setItem('linkora_auth', JSON.stringify(auth));
   }, MOCK_AUTH_STATE);
 
-  // Return 200 for session-validation and API calls so AuthInitializer doesn't
-  // log us out in E2E tests without a running backend server.
+  // Default catch-all for all API requests
+  await page.route('**/api/v1/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ success: true, data: [] }),
+    }),
+  );
+
+  // Return 200 for session-validation so AuthInitializer doesn't log us out
   await page.route('**/*auth/me*', (route) =>
     route.fulfill({
       status: 200,
@@ -53,6 +61,7 @@ async function seedAuth(page: Page): Promise<void> {
     }),
   );
 
+  // Return 200 with valid profile object for own profile queries
   await page.route('**/*profile/me*', (route) =>
     route.fulfill({
       status: 200,
@@ -66,14 +75,6 @@ async function seedAuth(page: Page): Promise<void> {
           bio: 'E2E test profile',
         },
       }),
-    }),
-  );
-
-  await page.route('**/api/v1/**', (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ success: true, data: [] }),
     }),
   );
 }

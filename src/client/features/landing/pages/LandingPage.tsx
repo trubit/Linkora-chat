@@ -16,7 +16,7 @@ export default function LandingPage() {
   const scrolled = useScrollTrigger({ disableHysteresis: true, threshold: 20 });
 
   return (
-    <Box sx={{ bgcolor: '#060914', color: '#F1F5F9', minHeight: '100vh', overflowX: 'hidden' }}>
+    <Box data-testid="page-landing" sx={{ bgcolor: '#060914', color: '#F1F5F9', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Sticky Top Navigation Bar */}
       <Box
         sx={{
