@@ -17,11 +17,11 @@ import { useCreateGroup } from '../queries/index';
 import { useNavigate } from 'react-router-dom';
 
 const C = {
-  bg: '#0C1722',
-  border: 'rgba(134,150,160,0.15)',
-  accent: '#10C4A0',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  bg: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 interface Props {
@@ -76,12 +76,14 @@ export default function CreateGroupDialog({ open, onClose }: Props) {
         paper: { sx: { bgcolor: C.bg, border: `1px solid ${C.border}`, borderRadius: '16px' } },
       }}
     >
-      <DialogTitle sx={{ color: C.txt1, fontWeight: 700, fontSize: 18 }}>Create Group</DialogTitle>
+      <DialogTitle sx={{ color: C.txt1, fontWeight: 700, fontSize: 18 }}>
+        Create Team Hub
+      </DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: '16px !important' }}
       >
         <TextField
-          label="Group name"
+          label="Hub name"
           fullWidth
           required
           value={name}
@@ -132,10 +134,10 @@ export default function CreateGroupDialog({ open, onClose }: Props) {
             textTransform: 'none',
             borderRadius: '10px',
             px: 3,
-            '&:hover': { bgcolor: '#0D9E80' },
+            '&:hover': { bgcolor: '#6D28D9' },
           }}
         >
-          {isPending ? 'Creating…' : 'Create Group'}
+          {isPending ? 'Creating…' : 'Create Team Hub'}
         </Button>
       </DialogActions>
     </Dialog>

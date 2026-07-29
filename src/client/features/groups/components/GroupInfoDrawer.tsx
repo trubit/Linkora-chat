@@ -32,14 +32,14 @@ import {
 import AddMemberDialog from './AddMemberDialog';
 
 const C = {
-  panel: '#0C1722',
-  bg: '#07101C',
-  border: 'rgba(134,150,160,0.12)',
-  accent: '#10C4A0',
-  copper: '#E87830',
-  danger: '#ef4444',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  panel: '#080C18',
+  bg: '#060914',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  cyan: '#06B6D4',
+  danger: '#EF4444',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 const ROLE_LABEL: Record<string, string> = {
@@ -157,7 +157,7 @@ export default function GroupInfoDrawer({ open, onClose, groupId, myId }: Props)
                 height: 84,
                 fontSize: 34,
                 fontWeight: 700,
-                background: 'linear-gradient(135deg, #10C4A0, #0D9E80)',
+                background: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
                 boxShadow: `0 0 0 3px ${C.bg}, 0 0 0 5px ${alpha(C.accent, 0.35)}`,
               }}
             >
@@ -390,7 +390,7 @@ export default function GroupInfoDrawer({ open, onClose, groupId, myId }: Props)
         slotProps={{
           paper: {
             sx: {
-              bgcolor: '#0C1722',
+              bgcolor: C.panel,
               border: `1px solid ${C.border}`,
               borderRadius: '16px',
               minWidth: 300,
@@ -434,7 +434,7 @@ export default function GroupInfoDrawer({ open, onClose, groupId, myId }: Props)
         slotProps={{
           paper: {
             sx: {
-              bgcolor: '#0C1722',
+              bgcolor: C.panel,
               border: `1px solid ${C.border}`,
               borderRadius: '16px',
               minWidth: 300,

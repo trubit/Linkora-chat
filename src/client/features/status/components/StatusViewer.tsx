@@ -183,7 +183,7 @@ export function StatusViewer() {
           <Avatar
             src={viewingGroup.author.avatar}
             alt={viewingGroup.author.displayName}
-            sx={{ width: 36, height: 36, bgcolor: '#10C4A0' }}
+            sx={{ width: 36, height: 36, bgcolor: '#7C3AED' }}
           >
             {viewingGroup.author.displayName.charAt(0).toUpperCase()}
           </Avatar>
@@ -339,7 +339,7 @@ export function StatusViewer() {
             <IconButton
               disabled={isReplying}
               onClick={handleSendReply}
-              sx={{ color: '#25D366', '&:hover': { bgcolor: 'rgba(37,211,102,0.15)' } }}
+              sx={{ color: '#7C3AED', '&:hover': { bgcolor: 'rgba(124,58,237,0.15)' } }}
             >
               <SendIcon />
             </IconButton>

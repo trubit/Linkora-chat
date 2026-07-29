@@ -139,27 +139,27 @@ const baseComponents = (mode: 'light' | 'dark') => ({
             },
           },
           '&.Mui-focused': {
-            backgroundColor: mode === 'dark' ? 'rgba(16,196,160,0.04)' : 'rgba(16,196,160,0.025)',
+            backgroundColor: mode === 'dark' ? 'rgba(124,58,237,0.04)' : 'rgba(124,58,237,0.025)',
             boxShadow:
               mode === 'dark'
-                ? '0 0 0 3px rgba(16,196,160,0.18), 0 4px 20px rgba(16,196,160,0.06)'
-                : '0 0 0 3px rgba(16,196,160,0.12), 0 4px 16px rgba(16,196,160,0.06)',
+                ? '0 0 0 3px rgba(124,58,237,0.18), 0 4px 20px rgba(124,58,237,0.06)'
+                : '0 0 0 3px rgba(124,58,237,0.12), 0 4px 16px rgba(124,58,237,0.06)',
             '& fieldset': {
               borderWidth: 1.5,
-              borderColor: '#10C4A0',
+              borderColor: '#7C3AED',
             },
           },
           '&.Mui-disabled': {
             opacity: 0.55,
           },
           '&.Mui-focused .MuiInputAdornment-positionStart .MuiSvgIcon-root': {
-            color: '#10C4A0',
+            color: '#7C3AED',
           },
         },
         '& .MuiInputLabel-outlined': {
           fontSize: '0.9rem',
           fontWeight: 500,
-          '&.Mui-focused': { color: '#10C4A0' },
+          '&.Mui-focused': { color: '#7C3AED' },
         },
         '& .MuiInputBase-input': {
           fontSize: '0.9375rem',
@@ -267,41 +267,41 @@ export const lightTheme: Theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#10C4A0',
-      light: '#3DD4B8',
-      dark: '#0D9E80',
+      main: '#7C3AED',
+      light: '#A78BFA',
+      dark: '#6D28D9',
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#E87830',
-      light: '#EE9A5C',
-      dark: '#C96020',
+      main: '#06B6D4',
+      light: '#67E8F9',
+      dark: '#0891B2',
       contrastText: '#ffffff',
     },
     background: {
-      default: '#F0F4F8',
+      default: '#F8FAFC',
       paper: '#ffffff',
     },
     text: {
-      primary: '#0D1B29',
-      secondary: '#3A5570',
-      disabled: '#8FA8BD',
+      primary: '#0F172A',
+      secondary: '#475569',
+      disabled: '#94A3B8',
     },
-    divider: 'rgba(13,27,41,0.12)',
-    error: { main: '#dc3545', light: '#f1707b', dark: '#b02a37' },
-    warning: { main: '#ffc107', light: '#ffcd38', dark: '#d39e00' },
-    info: { main: '#0dcaf0', light: '#3fd5f4', dark: '#0aa2c0' },
-    success: { main: '#198754', light: '#2fb774', dark: '#146c43' },
+    divider: 'rgba(15,23,42,0.12)',
+    error: { main: '#EF4444', light: '#F87171', dark: '#DC2626' },
+    warning: { main: '#FBBF24', light: '#FDE047', dark: '#D97706' },
+    info: { main: '#38BDF8', light: '#7DD3FC', dark: '#0284C7' },
+    success: { main: '#10B981', light: '#34D399', dark: '#059669' },
     neutral: {
-      main: '#567390',
-      light: '#8FA8BD',
-      dark: '#3A5570',
+      main: '#64748B',
+      light: '#94A3B8',
+      dark: '#475569',
       contrastText: '#ffffff',
     },
     action: {
-      hover: 'rgba(16,196,160,0.06)',
-      selected: 'rgba(16,196,160,0.1)',
-      focus: 'rgba(16,196,160,0.12)',
+      hover: 'rgba(124,58,237,0.06)',
+      selected: 'rgba(124,58,237,0.1)',
+      focus: 'rgba(124,58,237,0.12)',
     },
   },
   typography: baseTypography,

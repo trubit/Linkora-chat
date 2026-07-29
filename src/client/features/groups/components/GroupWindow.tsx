@@ -24,13 +24,13 @@ import { useGroupSocket } from '../hooks/useGroupSocket';
 import { useNavigate } from 'react-router-dom';
 
 const C = {
-  main: '#08111A',
-  panelHdr: '#0E1E2B',
-  accent: '#10C4A0',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  border: 'rgba(134,150,160,0.1)',
-  inputBg: '#1F2C34',
+  main: '#060914',
+  panelHdr: '#0B1022',
+  accent: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  border: 'rgba(255,255,255,0.08)',
+  inputBg: '#0F172A',
 } as const;
 
 interface Props {
@@ -158,12 +158,12 @@ export default function GroupWindow({ groupId, channelId }: Props) {
               width: 40,
               height: 40,
               background: !groupDetail.avatar
-                ? 'linear-gradient(135deg, #10C4A0, #0D9E80)'
+                ? 'linear-gradient(135deg, #7C3AED, #06B6D4)'
                 : undefined,
               bgcolor: C.accent,
               fontWeight: 700,
               fontSize: 16,
-              boxShadow: `0 0 0 2px #0E1E2B, 0 0 0 3px ${alpha(C.accent, 0.3)}`,
+              boxShadow: `0 0 0 2px #0B1022, 0 0 0 3px ${alpha(C.accent, 0.3)}`,
             }}
           >
             {groupDetail.name[0]?.toUpperCase()}
@@ -183,7 +183,7 @@ export default function GroupWindow({ groupId, channelId }: Props) {
           size="small"
           onClick={() => setWallpaperOpen(true)}
           title="Room Wallpaper"
-          sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(16,196,160,0.08)' } }}
+          sx={{ color: C.txt2, '&:hover': { color: C.accent, bgcolor: 'rgba(124,58,237,0.08)' } }}
         >
           <PaletteOutlinedIcon sx={{ fontSize: 20 }} />
         </IconButton>
@@ -290,11 +290,11 @@ export default function GroupWindow({ groupId, channelId }: Props) {
           sx={{
             bgcolor: text.trim() ? C.accent : 'transparent',
             color: text.trim() ? '#fff' : C.txt2,
-            '&:hover': { bgcolor: text.trim() ? '#0D9E80' : undefined },
+            '&:hover': { bgcolor: text.trim() ? '#6D28D9' : undefined },
             width: 38,
             height: 38,
             borderRadius: '50%',
-            boxShadow: text.trim() ? `0 4px 16px rgba(16,196,160,0.45)` : 'none',
+            boxShadow: text.trim() ? `0 4px 16px rgba(124,58,237,0.45)` : 'none',
             transition: 'all 0.2s',
           }}
         >

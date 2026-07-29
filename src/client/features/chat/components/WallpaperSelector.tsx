@@ -184,8 +184,8 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
                     borderRadius: '14px',
                     cursor: 'pointer',
                     position: 'relative',
-                    border: isSelected ? '2px solid #10C4A0' : '1px solid rgba(255,255,255,0.12)',
-                    boxShadow: isSelected ? '0 0 16px rgba(16,196,160,0.4)' : 'none',
+                    border: isSelected ? '2px solid #7C3AED' : '1px solid rgba(255,255,255,0.12)',
+                    boxShadow: isSelected ? '0 0 16px rgba(124,58,237,0.4)' : 'none',
                     transition: 'all 0.2s ease',
                     overflow: 'hidden',
                     display: 'flex',
@@ -194,13 +194,13 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
                     p: 1,
                     '&:hover': {
                       transform: 'translateY(-3px)',
-                      borderColor: '#10C4A0',
+                      borderColor: '#7C3AED',
                     },
                     ...wp.style,
                   }}
                 >
                   {isSelected && (
-                    <Box sx={{ position: 'absolute', top: 8, right: 8, color: '#10C4A0' }}>
+                    <Box sx={{ position: 'absolute', top: 8, right: 8, color: '#7C3AED' }}>
                       <CheckCircleIcon fontSize="small" />
                     </Box>
                   )}
@@ -244,7 +244,7 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
               borderRadius: '14px',
               border:
                 selectedId === 'custom' && uploadPreview
-                  ? '2px solid #10C4A0'
+                  ? '2px solid #7C3AED'
                   : '2px dashed rgba(255,255,255,0.2)',
               bgcolor: 'rgba(255,255,255,0.02)',
               cursor: 'pointer',
@@ -255,8 +255,8 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
               gap: 1,
               transition: 'all 0.2s ease',
               '&:hover': {
-                borderColor: '#10C4A0',
-                bgcolor: 'rgba(16,196,160,0.04)',
+                borderColor: '#7C3AED',
+                bgcolor: 'rgba(124,58,237,0.04)',
               },
             }}
           >
@@ -270,7 +270,7 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
                   gap: 1,
                 }}
               >
-                <CircularProgress size={32} sx={{ color: '#10C4A0' }} />
+                <CircularProgress size={32} sx={{ color: '#7C3AED' }} />
                 <Typography variant="caption" sx={{ color: '#94A3B8' }}>
                   Optimizing & compressing image for mobile…
                 </Typography>
@@ -308,7 +308,7 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
               </Box>
             ) : (
               <>
-                <CloudUploadIcon sx={{ fontSize: 36, color: '#10C4A0' }} />
+                <CloudUploadIcon sx={{ fontSize: 36, color: '#7C3AED' }} />
                 <Typography variant="body2" sx={{ fontWeight: 600, color: '#FFF' }}>
                   Click to select & upload image file
                 </Typography>
@@ -344,7 +344,7 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
                 color: '#FFF',
                 borderRadius: '10px',
                 '& fieldset': { borderColor: 'rgba(255,255,255,0.15)' },
-                '&:hover fieldset': { borderColor: '#10C4A0' },
+                '&:hover fieldset': { borderColor: '#7C3AED' },
               },
             }}
           />
@@ -369,10 +369,10 @@ export function WallpaperSelector({ open, onClose }: WallpaperSelectorProps) {
               borderRadius: '10px',
               px: 3,
               fontWeight: 700,
-              background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
-              boxShadow: '0 4px 14px rgba(16,196,160,0.3)',
+              background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+              boxShadow: '0 4px 14px rgba(124,58,237,0.3)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #3DD4B8 0%, #10C4A0 100%)',
+                background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)',
               },
             }}
           >

@@ -137,8 +137,8 @@ export default function PlatformComparison() {
                     label="Linkora"
                     sx={{
                       fontWeight: 800,
-                      bgcolor: '#10C4A0',
-                      color: '#05060E',
+                      background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                      color: '#FFFFFF',
                       fontSize: '0.85rem',
                       px: 1,
                     }}

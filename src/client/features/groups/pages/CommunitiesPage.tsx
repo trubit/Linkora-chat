@@ -21,13 +21,13 @@ import { useMyCommunities, useDiscoverCommunities } from '../queries/index';
 import type { CommunitySummary } from '@shared/types';
 
 const C = {
-  bg: '#07101C',
-  card: '#0C1722',
-  border: 'rgba(134,150,160,0.1)',
-  accent: '#10C4A0',
-  copper: '#E87830',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  bg: '#060914',
+  card: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  cyan: '#06B6D4',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 function CommunityCard({ community, onView }: { community: CommunitySummary; onView: () => void }) {
@@ -40,7 +40,7 @@ function CommunityCard({ community, onView }: { community: CommunitySummary; onV
         transition: 'border-color 0.2s, box-shadow 0.2s',
         '&:hover': {
           borderColor: alpha(C.accent, 0.4),
-          boxShadow: `0 4px 20px rgba(16,196,160,0.12)`,
+          boxShadow: `0 4px 20px rgba(124,58,237,0.18)`,
         },
       }}
     >
@@ -122,7 +122,9 @@ export default function CommunitiesPage() {
     <Box sx={{ height: '100%', bgcolor: C.bg, overflowY: 'auto', px: { xs: 2, md: 4 }, py: 3 }}>
       {/* Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-        <Typography sx={{ color: C.txt1, fontWeight: 800, fontSize: 24 }}>Communities</Typography>
+        <Typography sx={{ color: C.txt1, fontWeight: 800, fontSize: 24 }}>
+          Enterprise Networks
+        </Typography>
         <Button
           onClick={() => setOpen(true)}
           variant="contained"
@@ -133,10 +135,10 @@ export default function CommunitiesPage() {
             textTransform: 'none',
             borderRadius: '20px',
             px: 3,
-            '&:hover': { bgcolor: '#0D9E80' },
+            '&:hover': { bgcolor: '#6D28D9' },
           }}
         >
-          New Community
+          Create Network
         </Button>
       </Box>
 
@@ -154,10 +156,10 @@ export default function CommunitiesPage() {
               bgcolor: tab === t ? C.accent : alpha('#fff', 0.04),
               color: tab === t ? '#fff' : C.txt2,
               fontWeight: tab === t ? 700 : 400,
-              '&:hover': { bgcolor: tab === t ? '#0D9E80' : alpha('#fff', 0.08) },
+              '&:hover': { bgcolor: tab === t ? '#6D28D9' : alpha('#fff', 0.08) },
             }}
           >
-            {t === 'mine' ? 'My Communities' : 'Discover'}
+            {t === 'mine' ? 'My Networks' : 'Discover'}
           </Button>
         ))}
       </Box>
@@ -222,7 +224,4 @@ export default function CommunitiesPage() {
         </Box>
       )}
 
-      <CreateCommunityDialog open={open} onClose={() => setOpen(false)} />
-    </Box>
-  );
-}
+      <CreateCommunityDialog open={open} onClose={() => setOpen(false)} /

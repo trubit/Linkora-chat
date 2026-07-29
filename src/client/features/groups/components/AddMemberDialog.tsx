@@ -19,13 +19,13 @@ import { useSearchUsers } from '@/features/discovery/queries/index';
 import { useAddMember } from '../queries/index';
 
 const C = {
-  bg: '#0C1722',
-  panel: '#111D2B',
-  border: 'rgba(134,150,160,0.12)',
-  accent: '#10C4A0',
-  danger: '#ef4444',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  bg: '#060914',
+  panel: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  danger: '#EF4444',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 interface Props {
@@ -186,7 +186,7 @@ export default function AddMemberDialog({ open, onClose, groupId, alreadyMemberI
                         py: 0.5,
                         minWidth: 'auto',
                         flexShrink: 0,
-                        '&:hover': { bgcolor: '#0D9E80' },
+                        '&:hover': { bgcolor: '#6D28D9' },
                       }}
                     >
                       Add

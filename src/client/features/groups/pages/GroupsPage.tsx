@@ -24,14 +24,14 @@ import { useGroupStore } from '@/store/groupStore';
 import type { GroupSummary } from '@shared/types';
 
 const C = {
-  bg: '#07101C',
-  panel: '#0C1722',
-  panelHdr: '#0E1B2A',
-  active: 'linear-gradient(180deg, #10C4A0, #0D9E80)',
-  accent: '#10C4A0',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  border: 'rgba(134,150,160,0.12)',
+  bg: '#060914',
+  panel: '#080C18',
+  panelHdr: '#0B1022',
+  active: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
+  accent: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  border: 'rgba(255,255,255,0.08)',
 } as const;
 
 function GroupItem({
@@ -301,10 +301,10 @@ export default function GroupsPage() {
             <Typography
               sx={{ color: C.txt1, fontSize: 17, fontWeight: 800, letterSpacing: '-0.2px' }}
             >
-              Groups
+              Team Hubs
             </Typography>
           </Box>
-          <Tooltip title="Create group">
+          <Tooltip title="Create team hub">
             <IconButton
               size="small"
               onClick={() => setOpen(true)}
@@ -401,19 +401,17 @@ export default function GroupsPage() {
             >
               <GroupsIcon sx={{ fontSize: 34, color: '#fff' }} />
             </Box>
-            <Typography sx={{ color: C.txt1, fontWeight: 700, fontSize: 18 }}>
-              Linkora Groups
+            <Typography
+              variant="h5"
+              sx={{ color: C.txt1, fontWeight: 700, mb: 1, letterSpacing: '-0.3px' }}
+            >
+              Linkora Team Workspace
             </Typography>
             <Typography
-              sx={{
-                color: C.txt2,
-                textAlign: 'center',
-                maxWidth: 280,
-                lineHeight: 1.6,
-                fontSize: 14,
-              }}
+              variant="body2"
+              sx={{ color: C.txt2, mb: 3, maxWidth: 320, textAlign: 'center' }}
             >
-              Select a group from the sidebar or create a new one.
+              Select a team hub from the directory or launch a new workspace.
             </Typography>
             <Button
               onClick={() => setOpen(true)}
@@ -425,10 +423,10 @@ export default function GroupsPage() {
                 textTransform: 'none',
                 borderRadius: '20px',
                 px: 3,
-                '&:hover': { bgcolor: '#0D9E80' },
+                '&:hover': { bgcolor: '#6D28D9' },
               }}
             >
-              New Group
+              New Team Hub
             </Button>
           </Box>
         )}

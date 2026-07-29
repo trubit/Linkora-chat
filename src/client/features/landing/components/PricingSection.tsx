@@ -75,7 +75,7 @@ export default function PricingSection() {
             sx={{
               fontSize: '0.875rem',
               fontWeight: 700,
-              color: '#10C4A0',
+              color: '#7C3AED',
               letterSpacing: 2,
               textTransform: 'uppercase',
             }}
@@ -111,10 +111,10 @@ export default function PricingSection() {
                   borderRadius: '24px',
                   bgcolor: plan.highlight ? 'rgba(15, 23, 42, 0.95)' : 'rgba(8, 12, 24, 0.7)',
                   border: plan.highlight
-                    ? '2px solid #10C4A0'
+                    ? '2px solid #7C3AED'
                     : '1px solid rgba(255, 255, 255, 0.08)',
                   boxShadow: plan.highlight
-                    ? '0 16px 60px rgba(16,196,160,0.2)'
+                    ? '0 16px 60px rgba(124,58,237,0.25)'
                     : '0 8px 30px rgba(0,0,0,0.3)',
                   position: 'relative',
                 }}
@@ -127,8 +127,8 @@ export default function PricingSection() {
                       top: -14,
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      bgcolor: '#10C4A0',
-                      color: '#05060E',
+                      background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                      color: '#FFFFFF',
                       fontWeight: 800,
                       fontSize: '0.75rem',
                       px: 1.5,
@@ -169,15 +169,17 @@ export default function PricingSection() {
                       fontSize: '0.925rem',
                       ...(plan.highlight
                         ? {
-                            bgcolor: '#10C4A0',
-                            color: '#05060E',
-                            boxShadow: '0 4px 20px rgba(16,196,160,0.4)',
-                            '&:hover': { bgcolor: '#3DD4B8' },
+                            background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                            color: '#FFFFFF',
+                            boxShadow: '0 4px 20px rgba(124,58,237,0.4)',
+                            '&:hover': {
+                              background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)',
+                            },
                           }
                         : {
                             borderColor: 'rgba(255,255,255,0.18)',
                             color: '#F1F5F9',
-                            '&:hover': { borderColor: '#10C4A0', bgcolor: 'rgba(16,196,160,0.1)' },
+                            '&:hover': { borderColor: '#7C3AED', bgcolor: 'rgba(124,58,237,0.1)' },
                           }),
                       mb: 4,
                     }}
@@ -188,7 +190,7 @@ export default function PricingSection() {
                   <Stack spacing={2}>
                     {plan.features.map((feat, fIdx) => (
                       <Stack key={fIdx} direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-                        <CheckIcon sx={{ fontSize: 18, color: '#10C4A0' }} />
+                        <CheckIcon sx={{ fontSize: 18, color: '#7C3AED' }} />
                         <Typography sx={{ fontSize: '0.875rem', color: '#CBD5E1' }}>
                           {feat}
                         </Typography>
@@ -198,9 +200,4 @@ export default function PricingSection() {
                 </Box>
               </Box>
             </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </Box>
-  );
-}
+        

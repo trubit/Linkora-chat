@@ -78,62 +78,64 @@ export default function HeroSection() {
               fontWeight: 600,
               bgcolor: 'rgba(124, 58, 237, 0.12)',
               color: '#A78BFA',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              border: '1px solid rgba(124, 58, 237, 0.3)',
               boxShadow: '0 4px 20px rgba(124,58,237,0.15)',
               transition: 'all 0.3s ease',
               '&:hover': {
                 bgcolor: 'rgba(124, 58, 237, 0.22)',
-                borderColor: '#9B6DFF',
+                borderColor: '#A78BFA',
                 transform: 'translateY(-1px)',
               },
             }}
           />
 
           {/* Main Headline */}
-          <Typography
-            variant="h1"
-            sx={{
-              fontSize: { xs: '2.5rem', sm: '3.75rem', md: '4.75rem' },
-              fontWeight: 900,
-              lineHeight: 1.1,
-              letterSpacing: '-0.03em',
-              maxWidth: 960,
-              color: '#FFFFFF',
-            }}
-          >
-            One messaging platform for{' '}
-            <Box
-              component="span"
+          <Box sx={{ maxWidth: 880 }}>
+            <Typography
+              variant="h1"
               sx={{
-                background: 'linear-gradient(135deg, #10C4A0 0%, #22D3EE 50%, #9B6DFF 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                fontSize: { xs: '2.5rem', sm: '3.75rem', md: '4.75rem' },
+                fontWeight: 900,
+                lineHeight: 1.08,
+                letterSpacing: '-0.03em',
+                color: '#F1F5F9',
+                mb: 2.5,
               }}
             >
-              chats, channels & teams.
-            </Box>
-          </Typography>
+              Enterprise Communication{' '}
+              <Box
+                component="span"
+                sx={{
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 50%, #A78BFA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Reimagined for Scale
+              </Box>
+            </Typography>
 
-          {/* Subtitle */}
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: { xs: '1rem', sm: '1.25rem' },
-              fontWeight: 400,
-              color: '#94A3B8',
-              maxWidth: 720,
-              lineHeight: 1.6,
-            }}
-          >
-            Experience lightning-fast end-to-end encrypted messaging, high-capacity channels, voice
-            rooms, and team collaboration — built with modern real-time WebSockets.
-          </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: { xs: '1rem', sm: '1.25rem' },
+                color: '#94A3B8',
+                fontWeight: 400,
+                lineHeight: 1.6,
+                maxWidth: 720,
+                mx: 'auto',
+              }}
+            >
+              Ultra low-latency messaging, HD voice & video hubs, real-time AI thread engine, and
+              zero-trust encryption standard. Built for teams, communities, and global creators.
+            </Typography>
+          </Box>
 
-          {/* CTA Action Buttons */}
+          {/* Call To Action Button Row */}
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={2}
-            sx={{ width: { xs: '100%', sm: 'auto' }, pt: 1 }}
+            sx={{ pt: 1, width: { xs: '100%', sm: 'auto' } }}
           >
             <Button
               variant="contained"
@@ -146,11 +148,11 @@ export default function HeroSection() {
                 fontSize: '1rem',
                 fontWeight: 700,
                 borderRadius: '14px',
-                background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
-                boxShadow: '0 8px 30px rgba(16,196,160,0.35)',
+                background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                boxShadow: '0 8px 30px rgba(124,58,237,0.35)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #3DD4B8 0%, #10C4A0 100%)',
-                  boxShadow: '0 12px 40px rgba(16,196,160,0.5)',
+                  background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)',
+                  boxShadow: '0 12px 40px rgba(124,58,237,0.5)',
                   transform: 'translateY(-2px)',
                 },
               }}
@@ -191,7 +193,7 @@ export default function HeroSection() {
           >
             {TRUST_BADGES.map(({ icon: IconComponent, label }) => (
               <Stack key={label} direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                <IconComponent sx={{ fontSize: 18, color: '#10C4A0' }} />
+                <IconComponent sx={{ fontSize: 18, color: '#7C3AED' }} />
                 <Typography sx={{ fontSize: '0.875rem', color: '#64748B', fontWeight: 500 }}>
                   {label}
                 </Typography>
@@ -245,8 +247,8 @@ export default function HeroSection() {
                     height: 18,
                     fontSize: '0.65rem',
                     fontWeight: 700,
-                    bgcolor: 'rgba(16,196,160,0.15)',
-                    color: '#10C4A0',
+                    bgcolor: 'rgba(124,58,237,0.15)',
+                    color: '#7C3AED',
                   }}
                 />
               </Stack>
@@ -294,7 +296,7 @@ export default function HeroSection() {
                     badge: 3,
                     active: true,
                     initials: 'DC',
-                    gradient: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
+                    gradient: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
                   },
                   {
                     name: 'Sarah Jenkins',
@@ -389,7 +391,7 @@ export default function HeroSection() {
                       sx={{
                         width: 36,
                         height: 36,
-                        background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
+                        background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
                         color: '#FFFFFF',
                         fontWeight: 700,
                         fontSize: '0.85rem',
@@ -401,20 +403,20 @@ export default function HeroSection() {
                       <Typography sx={{ fontSize: '0.925rem', fontWeight: 700, color: '#F1F5F9' }}>
                         Design Core Team
                       </Typography>
-                      <Typography sx={{ fontSize: '0.725rem', color: '#10C4A0' }}>
+                      <Typography sx={{ fontSize: '0.725rem', color: '#06B6D4' }}>
                         ● 14 Members Online · Signal HD Voice
                       </Typography>
                     </Box>
                   </Stack>
                   <Chip
                     icon={
-                      <LockIcon sx={{ fontSize: '14px !important', color: '#10C4A0 !important' }} />
+                      <LockIcon sx={{ fontSize: '14px !important', color: '#7C3AED !important' }} />
                     }
                     label="E2EE Encrypted"
                     size="small"
                     sx={{
-                      bgcolor: 'rgba(16,196,160,0.1)',
-                      color: '#10C4A0',
+                      bgcolor: 'rgba(124,58,237,0.1)',
+                      color: '#7C3AED',
                       fontWeight: 600,
                       fontSize: '0.7rem',
                     }}
@@ -506,9 +508,4 @@ export default function HeroSection() {
                 </Box>
               </Box>
             </Box>
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
-  );
-}
+          

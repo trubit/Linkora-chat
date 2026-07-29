@@ -44,7 +44,7 @@ export default function LandingPage() {
             <Stack direction="row" spacing={3.5} sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button
                 href="#features"
-                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#10C4A0' } }}
+                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#7C3AED' } }}
               >
                 Features
               </Button>
@@ -62,7 +62,7 @@ export default function LandingPage() {
               </Button>
               <Button
                 href="#pricing"
-                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#10C4A0' } }}
+                sx={{ color: '#94A3B8', fontWeight: 500, '&:hover': { color: '#06B6D4' } }}
               >
                 Pricing
               </Button>
@@ -77,7 +77,7 @@ export default function LandingPage() {
                   color: '#F1F5F9',
                   fontWeight: 600,
                   px: 2,
-                  '&:hover': { color: '#10C4A0', bgcolor: 'rgba(16,196,160,0.08)' },
+                  '&:hover': { color: '#7C3AED', bgcolor: 'rgba(124,58,237,0.08)' },
                 }}
               >
                 Sign In
@@ -92,11 +92,11 @@ export default function LandingPage() {
                   py: 1,
                   fontWeight: 700,
                   fontSize: '0.875rem',
-                  background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
-                  boxShadow: '0 4px 20px rgba(16,196,160,0.3)',
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                  boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #3DD4B8 0%, #10C4A0 100%)',
-                    boxShadow: '0 6px 28px rgba(16,196,160,0.45)',
+                    background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)',
+                    boxShadow: '0 6px 28px rgba(124,58,237,0.5)',
                   },
                 }}
               >

@@ -30,7 +30,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           position: 'sticky',
           top: 0,
           flexShrink: 0,
-          background: 'linear-gradient(155deg, #07101C 0%, #0B1E30 40%, #092019 75%, #071A16 100%)',
+          background: 'linear-gradient(155deg, #060914 0%, #080C18 45%, #0B1022 100%)',
           overflow: 'hidden',
         }}
       >
@@ -129,8 +129,8 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
                 width: 24,
                 height: 24,
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #10C4A0, #0D9E80)',
-                boxShadow: '0 0 0 5px rgba(16,196,160,0.2), 0 0 28px rgba(16,196,160,0.55)',
+                background: 'linear-gradient(135deg, #7C3AED, #06B6D4)',
+                boxShadow: '0 0 0 5px rgba(124,58,237,0.2), 0 0 28px rgba(124,58,237,0.55)',
                 zIndex: 2,
               }}
             />
@@ -151,7 +151,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
             Built for the way
             <br />
             people actually{' '}
-            <Box component="span" sx={{ color: '#10C4A0' }}>
+            <Box component="span" sx={{ color: '#7C3AED' }}>
               connect.
             </Box>
           </Typography>
@@ -178,15 +178,15 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
                     width: 34,
                     height: 34,
                     borderRadius: '9px',
-                    bgcolor: 'rgba(16,196,160,0.1)',
-                    border: '1px solid rgba(16,196,160,0.2)',
+                    bgcolor: 'rgba(124,58,237,0.1)',
+                    border: '1px solid rgba(124,58,237,0.2)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
                   }}
                 >
-                  <Icon sx={{ fontSize: 16, color: '#10C4A0' }} />
+                  <Icon sx={{ fontSize: 16, color: '#7C3AED' }} />
                 </Box>
                 <Typography
                   sx={{
@@ -249,7 +249,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
             py: 2.5,
             position: 'relative',
             zIndex: 1,
-            background: 'linear-gradient(135deg, #07101C 0%, #071A16 100%)',
+            background: 'linear-gradient(135deg, #060914 0%, #080C18 100%)',
           }}
         >
           <LinkoraLogo size={36} showWordmark wordmarkColor="#fff" wordmarkSize="1rem" />

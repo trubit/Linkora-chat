@@ -49,13 +49,13 @@ const FEATURES = [
   },
   {
     icon: PhotoCameraIcon,
-    title: 'Status & Story Feeds',
-    subtitle: 'Real-time Linkora Stories',
-    desc: 'Share short-form status updates, image stories, and status highlights with custom audience visibility and 24-hour expiration settings.',
+    title: 'Linkora Live Pulse',
+    subtitle: 'Real-Time Enterprise Broadcasts',
+    desc: 'Share ephemeral pulse updates, company broadcasts, and multimedia announcements with custom workspace visibility and 24-hour expiration settings.',
     color: '#EC4899',
     bgGlow: 'rgba(236,72,153,0.12)',
-    badgeText: '24h Expiring Status Stories',
-    codeSnippet: 'status.publishStory({ media, expiresAt: +24h })',
+    badgeText: '24h Live Broadcast Stories',
+    codeSnippet: 'pulse.broadcast({ media, visibility: "team" })',
   },
   {
     icon: SyncAltIcon,
@@ -89,7 +89,7 @@ export default function FeaturesSection() {
             sx={{
               fontSize: '0.875rem',
               fontWeight: 700,
-              color: '#10C4A0',
+              color: '#7C3AED',
               letterSpacing: 2,
               textTransform: 'uppercase',
             }}

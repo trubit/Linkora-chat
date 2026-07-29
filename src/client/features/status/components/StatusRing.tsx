@@ -21,7 +21,7 @@ export function StatusRing({
   size = 56,
   label,
 }: StatusRingProps) {
-  const ringColor = hasUnseen ? '#25D366' : '#ccc';
+  const ringColor = hasUnseen ? '#7C3AED' : 'rgba(255,255,255,0.2)';
   const ringWidth = hasUnseen ? 2.5 : 1.5;
 
   return (

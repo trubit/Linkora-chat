@@ -12,19 +12,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGroupMembers } from '../queries/index';
 
 const C = {
-  panel: '#0C1722',
-  border: 'rgba(134,150,160,0.1)',
-  accent: '#10C4A0',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  panel: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 const ROLE_COLORS: Record<string, string> = {
-  owner: '#E87830',
-  admin: '#10C4A0',
+  owner: '#F59E0B',
+  admin: '#06B6D4',
   moderator: '#7C3AED',
-  member: '#8696A0',
-  guest: '#455A64',
+  member: '#94A3B8',
+  guest: '#64748B',
 };
 
 interface Props {

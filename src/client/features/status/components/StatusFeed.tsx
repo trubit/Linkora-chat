@@ -90,7 +90,7 @@ export function StatusFeed() {
           }
           isOwn
           hasUnseen={false}
-          label="My Status"
+          label="My Pulse"
           onAddClick={() => setCreatorOpen(true)}
           onClick={() => {
             if (validMyStatuses.length > 0) {
@@ -99,7 +99,7 @@ export function StatusFeed() {
                 author: {
                   userId: user?._id ?? '',
                   username: user?.username ?? 'Me',
-                  displayName: user?.username ?? 'My Status',
+                  displayName: user?.username ?? 'My Pulse',
                 },
                 statuses: validMyStatuses,
                 latestAt: validMyStatuses[0]!.createdAt,
@@ -124,7 +124,7 @@ export function StatusFeed() {
 
         {contactFeed.length === 0 && myStatuses.length === 0 && (
           <Typography variant="caption" color="text.secondary" sx={{ py: 1, px: 1 }}>
-            No status updates
+            No live pulse broadcasts
           </Typography>
         )}
       </Stack>

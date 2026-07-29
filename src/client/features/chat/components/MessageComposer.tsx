@@ -16,13 +16,13 @@ import type { StickerItem } from '@/store/stickerStore';
 import type { GifItem } from '@/store/gifStore';
 
 const C = {
-  panel: '#1F2C34',
-  border: 'rgba(134,150,160,0.15)',
-  accent: '#10C4A0',
-  accentDark: '#0D9E80',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  txt3: '#567390',
+  panel: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  accentDark: '#6D28D9',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  txt3: '#64748B',
 } as const;
 
 function formatDuration(secs: number): string {
@@ -491,7 +491,7 @@ export default function MessageComposer({
         <Box
           sx={{
             flex: 1,
-            bgcolor: '#2A3942',
+            bgcolor: '#0F172A',
             borderRadius: '16px',
             border: `1px solid ${C.border}`,
             px: 1.75,
@@ -499,7 +499,7 @@ export default function MessageComposer({
             transition: 'all 0.2s',
             '&:focus-within': {
               borderColor: alpha(C.accent, 0.5),
-              boxShadow: `0 0 0 3px rgba(16,196,160,0.1)`,
+              boxShadow: `0 0 0 3px rgba(124,58,237,0.18)`,
             },
           }}
         >
@@ -569,7 +569,7 @@ export default function MessageComposer({
               transition: 'all 0.2s',
               '&:hover': {
                 background: canSend
-                  ? `linear-gradient(135deg, ${C.accent} 0%, #3DD4B8 100%)`
+                  ? `linear-gradient(135deg, ${C.accent} 0%, #06B6D4 100%)`
                   : 'rgba(255,255,255,0.08)',
                 transform: canSend ? 'scale(1.05)' : 'none',
               },

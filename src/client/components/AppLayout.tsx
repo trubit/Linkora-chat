@@ -77,16 +77,16 @@ const C = {
 // ─── Nav items ─────────────────────────────────────────────────────────────────
 
 const PRIMARY_NAV = [
-  { label: 'Chats', icon: <ChatBubbleIcon sx={{ fontSize: 21 }} />, path: ROUTES.CHAT },
-  { label: 'Groups', icon: <GroupsIcon sx={{ fontSize: 21 }} />, path: ROUTES.GROUPS },
+  { label: 'Messages', icon: <ChatBubbleIcon sx={{ fontSize: 21 }} />, path: ROUTES.CHAT },
+  { label: 'Team Hubs', icon: <GroupsIcon sx={{ fontSize: 21 }} />, path: ROUTES.GROUPS },
   {
-    label: 'Communities',
+    label: 'Enterprise Networks',
     icon: <Diversity3Icon sx={{ fontSize: 21 }} />,
     path: ROUTES.COMMUNITIES,
   },
-  { label: 'Contacts', icon: <PeopleAltIcon sx={{ fontSize: 21 }} />, path: ROUTES.CONTACTS },
-  { label: 'Friends', icon: <PersonAddAlt1Icon sx={{ fontSize: 21 }} />, path: ROUTES.FRIENDS },
-  { label: 'Discover', icon: <ExploreIcon sx={{ fontSize: 21 }} />, path: ROUTES.DISCOVERY },
+  { label: 'Directory', icon: <PeopleAltIcon sx={{ fontSize: 21 }} />, path: ROUTES.CONTACTS },
+  { label: 'Network', icon: <PersonAddAlt1Icon sx={{ fontSize: 21 }} />, path: ROUTES.FRIENDS },
+  { label: 'Explore', icon: <ExploreIcon sx={{ fontSize: 21 }} />, path: ROUTES.DISCOVERY },
 ];
 
 const SECONDARY_NAV = [

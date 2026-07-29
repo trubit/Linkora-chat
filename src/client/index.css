@@ -98,7 +98,7 @@ a {
 }
 
 a:hover {
-  color: #3dd4b8;
+  color: #a78bfa;
 }
 
 button {
@@ -149,21 +149,21 @@ img {
 }
 
 .glass-card:hover {
-  border-color: rgba(16, 196, 160, 0.35);
+  border-color: rgba(124, 58, 237, 0.4);
   box-shadow:
-    0 12px 40px rgba(16, 196, 160, 0.12),
-    0 0 0 1px rgba(16, 196, 160, 0.15);
+    0 12px 40px rgba(124, 58, 237, 0.18),
+    0 0 0 1px rgba(124, 58, 237, 0.2);
   transform: translateY(-2px);
 }
 
 .gradient-text-teal {
-  background: linear-gradient(135deg, #f1f5f9 0%, #10c4a0 60%, #22d3ee 100%);
+  background: linear-gradient(135deg, #f1f5f9 0%, #7c3aed 60%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-text-violet {
-  background: linear-gradient(135deg, #ffffff 0%, #9b6dff 50%, #22d3ee 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -210,7 +210,7 @@ img {
 
 /* Focus ring — visible keyboard navigation */
 :focus-visible {
-  outline: 2px solid #10c4a0;
+  outline: 2px solid #7c3aed;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -220,7 +220,7 @@ img {
 .MuiIconButton-root:focus-visible,
 .MuiTab-root:focus-visible,
 .MuiListItemButton-root:focus-visible {
-  outline: 2px solid #10c4a0 !important;
+  outline: 2px solid #7c3aed !important;
   outline-offset: 2px !important;
 }
 

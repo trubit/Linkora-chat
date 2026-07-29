@@ -56,7 +56,7 @@ const CATEGORY_ICONS: Record<NotificationCategory, React.ReactNode> = {
 };
 
 const CATEGORY_COLORS: Record<NotificationCategory, string> = {
-  messages: '#25D366',
+  messages: '#7C3AED',
   calls: '#34B7F1',
   social: '#FF9800',
   groups: '#9C27B0',

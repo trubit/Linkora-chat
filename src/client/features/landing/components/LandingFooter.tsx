@@ -61,17 +61,17 @@ export default function LandingFooter() {
             <Stack spacing={1.5}>
               <Link
                 onClick={() => navigate(ROUTES.REGISTER)}
-                sx={{ color: '#94A3B8', cursor: 'pointer', '&:hover': { color: '#10C4A0' } }}
+                sx={{ color: '#94A3B8', cursor: 'pointer', '&:hover': { color: '#7C3AED' } }}
               >
                 Web App
               </Link>
-              <Link href="#features" sx={{ color: '#94A3B8', '&:hover': { color: '#10C4A0' } }}>
+              <Link href="#features" sx={{ color: '#94A3B8', '&:hover': { color: '#7C3AED' } }}>
                 Features
               </Link>
-              <Link href="#live-demo" sx={{ color: '#94A3B8', '&:hover': { color: '#10C4A0' } }}>
+              <Link href="#live-demo" sx={{ color: '#94A3B8', '&:hover': { color: '#7C3AED' } }}>
                 Live Demo
               </Link>
-              <Link href="#pricing" sx={{ color: '#94A3B8', '&:hover': { color: '#10C4A0' } }}>
+              <Link href="#pricing" sx={{ color: '#94A3B8', '&:hover': { color: '#7C3AED' } }}>
                 Pricing
               </Link>
             </Stack>
@@ -128,13 +128,13 @@ export default function LandingFooter() {
                 clickable
                 onClick={() => navigate(ROUTES.LOGIN)}
                 sx={{
-                  bgcolor: '#10C4A0',
-                  color: '#05060E',
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                  color: '#FFFFFF',
                   fontWeight: 700,
                   fontSize: '0.85rem',
                   py: 2,
                   borderRadius: '10px',
-                  '&:hover': { bgcolor: '#3DD4B8' },
+                  '&:hover': { background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)' },
                 }}
               />
             </Stack>

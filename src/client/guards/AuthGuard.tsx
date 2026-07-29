@@ -91,12 +91,12 @@ function VerificationBanner() {
                 px: 2,
                 py: 0.75,
                 borderRadius: 10,
-                bgcolor: 'rgba(37,211,102,0.12)',
-                border: '1px solid rgba(37,211,102,0.25)',
+                bgcolor: 'rgba(16,185,129,0.12)',
+                border: '1px solid rgba(16,185,129,0.25)',
               }}
             >
-              <CheckCircleIcon sx={{ fontSize: 15, color: '#25D366' }} />
-              <Typography variant="caption" sx={{ color: '#25D366', fontWeight: 700 }}>
+              <CheckCircleIcon sx={{ fontSize: 15, color: '#10B981' }} />
+              <Typography variant="caption" sx={{ color: '#10B981', fontWeight: 700 }}>
                 Sent!
               </Typography>
             </Box>

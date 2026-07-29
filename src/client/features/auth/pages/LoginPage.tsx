@@ -200,11 +200,11 @@ export default function LoginPage() {
               letterSpacing: '0.02em',
               background: isLoading
                 ? undefined
-                : 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
-              boxShadow: '0 4px 20px rgba(16,196,160,0.35)',
+                : 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+              boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #0D9E80 0%, #0A8068 100%)',
-                boxShadow: '0 6px 28px rgba(16,196,160,0.45)',
+                background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)',
+                boxShadow: '0 6px 28px rgba(124,58,237,0.45)',
                 transform: 'translateY(-1px)',
               },
               '&:active': { transform: 'translateY(0)' },

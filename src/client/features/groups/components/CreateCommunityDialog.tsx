@@ -17,11 +17,11 @@ import {
 import { useCreateCommunity } from '../queries/index';
 
 const C = {
-  bg: '#0C1722',
-  border: 'rgba(134,150,160,0.15)',
-  accent: '#10C4A0',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
+  bg: '#080C18',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
 } as const;
 
 interface Props {
@@ -77,13 +77,13 @@ export default function CreateCommunityDialog({ open, onClose }: Props) {
       }}
     >
       <DialogTitle sx={{ color: C.txt1, fontWeight: 700, fontSize: 18 }}>
-        Create Community
+        Create Network
       </DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: 2.5, pt: '16px !important' }}
       >
         <TextField
-          label="Community name"
+          label="Network name"
           fullWidth
           required
           value={name}
@@ -131,10 +131,10 @@ export default function CreateCommunityDialog({ open, onClose }: Props) {
             textTransform: 'none',
             borderRadius: '10px',
             px: 3,
-            '&:hover': { bgcolor: '#0D9E80' },
+            '&:hover': { bgcolor: '#6D28D9' },
           }}
         >
-          {isPending ? 'Creating…' : 'Create Community'}
+          {isPending ? 'Creating…' : 'Create Network'}
         </Button>
       </DialogActions>
     </Dialog>

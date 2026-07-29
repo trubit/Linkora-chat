@@ -28,15 +28,15 @@ import type { ConversationWithMeta } from '@/store/conversationStore';
 import type { GroupSummary } from '@shared/types';
 
 const C = {
-  panel: '#0C1722',
-  panelHdr: '#0E1B2A',
-  border: 'rgba(134,150,160,0.12)',
-  accent: '#10C4A0',
-  accentGlow: 'rgba(16,196,160,0.12)',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  txt3: '#567390',
-  searchBg: 'rgba(16,196,160,0.05)',
+  panel: '#080C18',
+  panelHdr: '#0B1022',
+  border: 'rgba(255,255,255,0.08)',
+  accent: '#7C3AED',
+  accentGlow: 'rgba(124,58,237,0.18)',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  txt3: '#64748B',
+  searchBg: 'rgba(124,58,237,0.08)',
 } as const;
 
 // ─── Unified list item ────────────────────────────────────────────────────────
@@ -91,8 +91,8 @@ function GroupRow({
             height: '70%',
             width: 3,
             borderRadius: '0 4px 4px 0',
-            background: 'linear-gradient(180deg, #10C4A0 0%, #0D9E80 100%)',
-            boxShadow: '2px 0 8px rgba(16,196,160,0.4)',
+            background: 'linear-gradient(180deg, #7C3AED 0%, #06B6D4 100%)',
+            boxShadow: '2px 0 8px rgba(124,58,237,0.4)',
           },
         }),
       }}
@@ -106,7 +106,7 @@ function GroupRow({
             height: 46,
             fontSize: 17,
             fontWeight: 700,
-            background: 'linear-gradient(135deg, #0D9E80 0%, #10C4A0 100%)',
+            background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
           }}
         >
           {group.name[0]?.toUpperCase()}
@@ -120,7 +120,7 @@ function GroupRow({
             width: 16,
             height: 16,
             borderRadius: '50%',
-            bgcolor: '#0D9E80',
+            bgcolor: '#7C3AED',
             border: `1.5px solid ${C.panel}`,
             display: 'flex',
             alignItems: 'center',
@@ -313,11 +313,11 @@ export default function ConversationList({
                 width: 30,
                 height: 30,
                 borderRadius: '8px',
-                background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
+                background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 2px 8px rgba(16,196,160,0.35)',
+                boxShadow: '0 2px 8px rgba(124,58,237,0.35)',
               }}
             >
               <ChatBubbleIcon sx={{ fontSize: 14, color: '#fff' }} />

@@ -8,7 +8,7 @@ export default function GroupChatPage() {
   if (!groupId) {
     return (
       <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <CircularProgress sx={{ color: '#10C4A0' }} />
+        <CircularProgress sx={{ color: '#7C3AED' }} />
       </Box>
     );
   }

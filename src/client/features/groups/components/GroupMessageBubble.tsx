@@ -1,16 +1,16 @@
 import { Box, Typography, Avatar, alpha } from '@mui/material';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
 import type { GroupMessage } from '@shared/types';
 
 const C = {
-  sentBg: '#0D3D2E',
-  sentBorder: 'rgba(16,196,160,0.14)',
-  rcvdBg: '#12202D',
-  rcvdBorder: 'rgba(134,150,160,0.1)',
-  txt1: '#E9EDEF',
-  txt2: '#8696A0',
-  accent: '#10C4A0',
-  system: 'rgba(16,196,160,0.08)',
+  sentBg: 'linear-gradient(135deg, rgba(124,58,237,0.22) 0%, rgba(99,102,241,0.18) 100%)',
+  sentBorder: 'rgba(124,58,237,0.35)',
+  rcvdBg: 'rgba(15,23,42,0.85)',
+  rcvdBorder: 'rgba(255,255,255,0.08)',
+  txt1: '#F1F5F9',
+  txt2: '#94A3B8',
+  accent: '#A78BFA',
+  cyan: '#06B6D4',
+  system: 'rgba(124,58,237,0.12)',
 } as const;
 
 interface Props {
@@ -33,6 +33,7 @@ export default function GroupMessageBubble({ message, isMine }: Props) {
             borderRadius: '12px',
             color: C.txt2,
             fontSize: 12,
+            border: '1px solid rgba(124,58,237,0.2)',
           }}
         >
           {message.content}
@@ -72,12 +73,10 @@ export default function GroupMessageBubble({ message, isMine }: Props) {
           sx={{
             px: 1.5,
             py: 1,
-            bgcolor: isMine ? C.sentBg : C.rcvdBg,
+            background: isMine ? C.sentBg : C.rcvdBg,
             border: `1px solid ${isMine ? C.sentBorder : C.rcvdBorder}`,
-            borderRadius: isMine ? '8px 2px 8px 8px' : '2px 8px 8px 8px',
-            boxShadow: isMine
-              ? `0 2px 10px rgba(16,196,160,0.12), 0 1px 3px rgba(0,0,0,0.25)`
-              : `0 1px 4px rgba(0,0,0,0.2)`,
+            borderRadius: isMine ? '14px 4px 14px 14px' : '4px 14px 14px 14px',
+            boxShadow: isMine ? `0 4px 14px rgba(124,58,237,0.18)` : `0 2px 8px rgba(0,0,0,0.3)`,
           }}
         >
           {deleted ? (
@@ -112,7 +111,18 @@ export default function GroupMessageBubble({ message, isMine }: Props) {
                 minute: '2-digit',
               })}
             </Typography>
-            {isMine && <DoneAllIcon sx={{ fontSize: 14, color: C.accent }} />}
+            {isMine && (
+              <Typography
+                sx={{
+                  fontSize: '0.625rem',
+                  fontWeight: 700,
+                  color: C.cyan,
+                  letterSpacing: '0.04em',
+                }}
+              >
+                READ
+              </Typography>
+            )}
           </Box>
         </Box>
         {/* Reactions */}

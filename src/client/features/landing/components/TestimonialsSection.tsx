@@ -50,7 +50,7 @@ export default function TestimonialsSection() {
             sx={{
               fontSize: '0.875rem',
               fontWeight: 700,
-              color: '#10C4A0',
+              color: '#7C3AED',
               letterSpacing: 2,
               textTransform: 'uppercase',
             }}

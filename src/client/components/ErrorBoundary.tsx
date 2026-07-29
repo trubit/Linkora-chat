@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component<Props, State> {
           px: 3,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 700, color: '#10C4A0' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, color: '#7C3AED' }}>
           Something went wrong
         </Typography>
         <Typography variant="body2" sx={{ color: '#94A3B8', maxWidth: 400, textAlign: 'center' }}>
@@ -47,7 +47,11 @@ export class ErrorBoundary extends Component<Props, State> {
           variant="contained"
           startIcon={<RefreshIcon />}
           onClick={() => window.location.reload()}
-          sx={{ bgcolor: '#10C4A0', '&:hover': { bgcolor: '#0D9E80' } }}
+          sx={{
+            background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+            color: '#FFFFFF',
+            '&:hover': { background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)' },
+          }}
         >
           Reload page
         </Button>

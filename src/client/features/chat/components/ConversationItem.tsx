@@ -124,8 +124,8 @@ export default function ConversationItem({
             height: '70%',
             width: 3,
             borderRadius: '0 4px 4px 0',
-            background: 'linear-gradient(180deg, #10C4A0 0%, #0D9E80 100%)',
-            boxShadow: '2px 0 8px rgba(16,196,160,0.4)',
+            background: 'linear-gradient(180deg, #7C3AED 0%, #06B6D4 100%)',
+            boxShadow: '2px 0 8px rgba(124,58,237,0.4)',
           },
         }),
       }}

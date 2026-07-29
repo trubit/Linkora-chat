@@ -119,8 +119,8 @@ export default function LiveDemoSection() {
             label="INTERACTIVE SANDBOX"
             sx={{
               fontWeight: 700,
-              bgcolor: 'rgba(16,196,160,0.15)',
-              color: '#10C4A0',
+              bgcolor: 'rgba(124,58,237,0.15)',
+              color: '#7C3AED',
               fontSize: '0.75rem',
             }}
           />
@@ -163,14 +163,21 @@ export default function LiveDemoSection() {
             }}
           >
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-              <Avatar sx={{ bgcolor: '#10C4A0', width: 36, height: 36, color: '#05060E' }}>
+              <Avatar
+                sx={{
+                  background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                  width: 36,
+                  height: 36,
+                  color: '#FFFFFF',
+                }}
+              >
                 <SmartToyIcon sx={{ fontSize: 20 }} />
               </Avatar>
               <Box>
                 <Typography sx={{ fontSize: '0.925rem', fontWeight: 700, color: '#F1F5F9' }}>
                   Linkora Assistant
                 </Typography>
-                <Typography sx={{ fontSize: '0.725rem', color: '#10C4A0' }}>
+                <Typography sx={{ fontSize: '0.725rem', color: '#06B6D4' }}>
                   ● Active Sandbox Server
                 </Typography>
               </Box>
@@ -179,13 +186,13 @@ export default function LiveDemoSection() {
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <Chip
                 icon={
-                  <LockIcon sx={{ fontSize: '13px !important', color: '#10C4A0 !important' }} />
+                  <LockIcon sx={{ fontSize: '13px !important', color: '#7C3AED !important' }} />
                 }
                 label="Encrypted"
                 size="small"
                 sx={{
-                  bgcolor: 'rgba(16,196,160,0.12)',
-                  color: '#10C4A0',
+                  bgcolor: 'rgba(124,58,237,0.12)',
+                  color: '#7C3AED',
                   fontSize: '0.7rem',
                   fontWeight: 600,
                 }}
@@ -275,7 +282,7 @@ export default function LiveDemoSection() {
                     gap: 0.75,
                   }}
                 >
-                  <Typography sx={{ fontSize: '0.8rem', color: '#10C4A0', fontWeight: 600 }}>
+                  <Typography sx={{ fontSize: '0.8rem', color: '#7C3AED', fontWeight: 600 }}>
                     Linkora typing...
                   </Typography>
                 </Box>
@@ -340,7 +347,7 @@ export default function LiveDemoSection() {
                   borderRadius: '12px',
                   color: '#F1F5F9',
                   '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
-                  '&:hover fieldset': { borderColor: '#10C4A0' },
+                  '&:hover fieldset': { borderColor: '#7C3AED' },
                 },
               }}
             />
@@ -351,17 +358,10 @@ export default function LiveDemoSection() {
               sx={{
                 borderRadius: '12px',
                 px: 2.5,
-                bgcolor: '#10C4A0',
-                color: '#05060E',
+                background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
+                color: '#FFFFFF',
                 fontWeight: 700,
-                '&:hover': { bgcolor: '#3DD4B8' },
+                '&:hover': { background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)' },
               }}
             >
-              <SendIcon sx={{ fontSize: 20 }} />
-            </Button>
-          </Box>
-        </Paper>
-      </Container>
-    </Box>
-  );
-}
+              <SendIco

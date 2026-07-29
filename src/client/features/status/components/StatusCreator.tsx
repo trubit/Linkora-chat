@@ -30,10 +30,10 @@ interface StatusCreatorProps {
 }
 
 const BG_COLORS = [
-  '#075E54',
-  '#128C7E',
-  '#25D366',
+  '#060914',
   '#7C3AED',
+  '#06B6D4',
+  '#6D28D9',
   '#9B6DFF',
   '#1D4ED8',
   '#DC2626',
@@ -144,15 +144,15 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
       >
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
           <Typography sx={{ fontWeight: 700, fontSize: 17, color: '#FFF' }}>
-            Add Status Update
+            Broadcast Pulse Update
           </Typography>
           <Chip
-            icon={<AccessTimeIcon sx={{ fontSize: '14px !important', color: '#10C4A0' }} />}
+            icon={<AccessTimeIcon sx={{ fontSize: '14px !important', color: '#7C3AED' }} />}
             label="24 Hours"
             size="small"
             sx={{
-              bgcolor: 'rgba(16,196,160,0.12)',
-              color: '#10C4A0',
+              bgcolor: 'rgba(124,58,237,0.12)',
+              color: '#7C3AED',
               fontWeight: 600,
               fontSize: '0.72rem',
             }}
@@ -302,8 +302,8 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
                 position: 'relative',
                 mb: 2,
                 '&:hover': {
-                  borderColor: '#10C4A0',
-                  bgcolor: 'rgba(16,196,160,0.04)',
+                  borderColor: '#7C3AED',
+                  bgcolor: 'rgba(124,58,237,0.04)',
                 },
               }}
             >
@@ -328,7 +328,7 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
                 )
               ) : (
                 <Stack spacing={1} sx={{ alignItems: 'center' }}>
-                  <CloudUploadIcon sx={{ fontSize: 44, color: '#10C4A0' }} />
+                  <CloudUploadIcon sx={{ fontSize: 44, color: '#7C3AED' }} />
                   <Typography variant="body2" sx={{ fontWeight: 600, color: '#FFF' }}>
                     Click to select Photo or Short Video
                   </Typography>
@@ -401,11 +401,11 @@ export function StatusCreator({ open, onClose }: StatusCreatorProps) {
           startIcon={isPending ? <CircularProgress size={16} color="inherit" /> : undefined}
           sx={{
             minWidth: 100,
-            background: 'linear-gradient(135deg, #10C4A0 0%, #0D9E80 100%)',
+            background: 'linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)',
             fontWeight: 700,
           }}
         >
-          {isPending ? 'Posting…' : 'Share Status'}
+          {isPending ? 'Posting…' : 'Share Pulse'}
         </Button>
       </DialogActions>
     </Dialog>

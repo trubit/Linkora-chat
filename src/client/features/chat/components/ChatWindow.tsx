@@ -326,8 +326,8 @@ export default function ChatWindow({
             flexShrink: 0,
             p: '2px',
             borderRadius: '50%',
-            background: isOnline ? 'linear-gradient(135deg, #10C4A0, #0D9E80)' : 'transparent',
-            boxShadow: isOnline ? '0 0 12px rgba(16,196,160,0.4)' : 'none',
+            background: isOnline ? 'linear-gradient(135deg, #10B981, #06B6D4)' : 'transparent',
+            boxShadow: isOnline ? '0 0 12px rgba(16,185,129,0.4)' : 'none',
           }}
         >
           <Avatar
