@@ -48,7 +48,7 @@ function CommunityCard({ community, onView }: { community: CommunitySummary; onV
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1.5 }}>
           <Avatar
             src={community.avatar?.url}
-            sx={{ width: 52, height: 52, bgcolor: C.copper, fontWeight: 700, fontSize: 22 }}
+            sx={{ width: 52, height: 52, bgcolor: C.cyan, fontWeight: 700, fontSize: 22 }}
           >
             {community.name[0]?.toUpperCase()}
           </Avatar>
@@ -64,11 +64,11 @@ function CommunityCard({ community, onView }: { community: CommunitySummary; onV
             label={community.type}
             size="small"
             sx={{
-              bgcolor: alpha(community.type === 'public' ? C.accent : C.copper, 0.15),
-              color: community.type === 'public' ? C.accent : C.copper,
+              bgcolor: alpha(community.type === 'public' ? C.accent : C.cyan, 0.15),
+              color: community.type === 'public' ? C.accent : C.cyan,
               fontSize: 11,
               fontWeight: 700,
-              border: `1px solid ${alpha(community.type === 'public' ? C.accent : C.copper, 0.3)}`,
+              border: `1px solid ${alpha(community.type === 'public' ? C.accent : C.cyan, 0.3)}`,
             }}
           />
         </Box>
@@ -224,4 +224,7 @@ export default function CommunitiesPage() {
         </Box>
       )}
 
-      <CreateCommunityDialog open={open} onClose={() => setOpen(false)} /
+      <CreateCommunityDialog open={open} onClose={() => setOpen(false)} />
+    </Box>
+  );
+}

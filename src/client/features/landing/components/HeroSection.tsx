@@ -508,4 +508,9 @@ export default function HeroSection() {
                 </Box>
               </Box>
             </Box>
-          
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}

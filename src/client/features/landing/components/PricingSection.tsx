@@ -200,4 +200,9 @@ export default function PricingSection() {
                 </Box>
               </Box>
             </Grid>
-        
+          ))}
+        </Grid>
+      </Container>
+    </Box>
+  );
+}

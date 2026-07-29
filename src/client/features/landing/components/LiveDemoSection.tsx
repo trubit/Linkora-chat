@@ -364,4 +364,11 @@ export default function LiveDemoSection() {
                 '&:hover': { background: 'linear-gradient(135deg, #6D28D9 0%, #0891B2 100%)' },
               }}
             >
-              <SendIco
+              <SendIcon sx={{ fontSize: 20 }} />
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
+  );
+}

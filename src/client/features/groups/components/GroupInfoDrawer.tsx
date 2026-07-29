@@ -267,7 +267,7 @@ export default function GroupInfoDrawer({ open, onClose, groupId, myId }: Props)
                       {label}
                     </Typography>
                     {roleLabel ? (
-                      <Typography sx={{ color: C.copper, fontSize: 12, fontWeight: 600 }}>
+                      <Typography sx={{ color: C.cyan, fontSize: 12, fontWeight: 600 }}>
                         {roleLabel}
                       </Typography>
                     ) : m.customTitle ? (
